@@ -12,8 +12,6 @@ interface ApiInterface {
 
     @GET("/api/mobiles/")
     fun getMobileList(): Call<List<Mobiles>>
-//    @GET("/api/mobiles/{mobile_id}/images/")
-//    fun getPokemonImg(@Path("mobile_id") mobileID: String): Call<Mobile>
 
     companion object Factory {
         private val BASE_URL = "https://scb-test-mobile.herokuapp.com/"
