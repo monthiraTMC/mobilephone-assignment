@@ -3,6 +3,7 @@ package com.scb.mobilephone.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,22 +14,24 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.activity.DetailActivity
 import com.scb.mobilephone.extensions.*
 
-import com.scb.mobilephone.fragment.ListFragment.Companion.mDataArray
-import com.scb.mobilephone.fragment.ListFragment.Companion.mFillterArray
-
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
-    private var mFavoriteDataArray:ArrayList<Mobiles> = ArrayList()
+    private var mFillterArray: ArrayList<Mobiles> = ArrayList()
+    private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+    val mobileList: List<Mobiles>
+        get() = _mobiles
+
+    private var _mobiles: List<Mobiles> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
         return ListHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return mDataArray.size
+        return mobileList.size
     }
 
     override fun onBindViewHolder(holder: ListHolder, position: Int) {
@@ -45,7 +48,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
             val item_positon = holder.adapterPosition
             if (item_positon != RecyclerView.NO_POSITION) {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra(MOBILE_LIST, mDataArray[position])
+                intent.putExtra(MOBILE_LIST, mobileList[position])
                 context.startActivity(intent)
             }
         }
@@ -64,6 +67,29 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
                 sendBroadcastMessage(mFavoriteDataArray)
             }
         }
+
+    }
+
+    fun submitList(list: List<Mobiles>, sortType:String) {
+        _mobiles = list
+        mFillterArray.clear()
+        when (sortType) {
+            "Price low to high" -> {
+                mFillterArray.addAll(_mobiles.sortedBy { it.price })
+            }
+            "Price high to low" -> {
+                mFillterArray.addAll(_mobiles.sortedByDescending { it.price })
+            }
+            "Rating 5-1" -> {
+                mFillterArray.addAll(_mobiles.sortedByDescending { it.rating })
+            }
+            else -> {
+                mFillterArray.addAll(_mobiles)
+            }
+        }
+        Log.d("sort", sortType)
+        Log.d("sort", mFillterArray.toString())
+        notifyDataSetChanged()
 
     }
 

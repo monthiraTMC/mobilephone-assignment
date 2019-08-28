@@ -1,7 +1,6 @@
 package com.scb.mobilephone.fragment
 
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
@@ -10,9 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.ListAdapter
+import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.Mobiles
 import com.scb.mobilephone.network.ApiInterface
 import kotlinx.android.synthetic.main.fragment_list.view.*
@@ -22,11 +25,10 @@ import retrofit2.Response
 
 
 class ListFragment : Fragment() {
+
+    private lateinit var rvMobileList: RecyclerView
     companion object{
-        var mFillterArray: ArrayList<Mobiles> = ArrayList<Mobiles>()
-        var mDataArray: ArrayList<Mobiles> = ArrayList<Mobiles>()
-        @SuppressLint("StaticFieldLeak")
-        lateinit var mAdapter: ListAdapter
+        lateinit var mobileListAdapter: ListAdapter
     }
     private var mFeedType = "none"
 
@@ -41,67 +43,42 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mAdapter = ListAdapter(context!!)
-        view.recyclerViewList?.let {
-            it.adapter = mAdapter
-            it.layoutManager = LinearLayoutManager(activity)
-        }
-        feedData(mFeedType )
+        rvMobileList = view.findViewById(R.id.recyclerViewList)
+        mobileListAdapter = ListAdapter(context!!)
+        rvMobileList.adapter = mobileListAdapter
+        rvMobileList.layoutManager = LinearLayoutManager(context)
+        rvMobileList.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
+        rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+        rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
+
+        loadMobileList(mFeedType)
         view.swipeRefresh.setOnRefreshListener {
-            feedData(mFeedType)
+            loadMobileList(mFeedType)
         }
+
     }
 
-
-    fun feedData(sortType: String) {
-        //template connect to network
+    fun loadMobileList(sortType: String) {
+        mFeedType = sortType
         val call = ApiInterface.getClient().getMobileList()
-        //check request
-        Log.d("SCB_NETWORK", call.request().url().toString())
-        call.enqueue(object : Callback<List<Mobiles>>{
+        call.enqueue(object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
-                Log.d("SCB_NETWORK", t.message.toString())
-                view?.swipeRefresh?.isRefreshing = false
+                context?.showToast("Can not call mobile list $t")
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
-                Log.d("SCB_NETWORK", response.body().toString())
+                Log.d("mobile-feed", response.toString())
                 if (response.isSuccessful) {
-                    mDataArray.clear()
-                    mFillterArray.clear()
-                    mDataArray.addAll(response.body()!!)
-
-                    when (sortType) {
-                        "Price low to high" ->  {
-                            mFillterArray.addAll(mDataArray.sortedBy { it.price })
-                        }
-                        "Price high to low" ->  {
-                            mFillterArray.addAll( mDataArray.sortedByDescending { it.price })
-                        }
-                        "Rating 5-1" -> {
-                            mFillterArray.addAll( mDataArray.sortedByDescending { it.rating })
-                        }
-                        else -> {
-                            mFillterArray.addAll(mDataArray)
-                        }
-                    }
-                    Log.d("sort", sortType)
-                    Log.d("sort", mFillterArray.toString())
-                    //important
-                    mAdapter.notifyDataSetChanged()
-
+                    val mobileList = response.body() ?: return
+                    mobileListAdapter.submitList(mobileList, sortType)
                     Handler().postDelayed({
                         view?.swipeRefresh?.isRefreshing = false
                     }, 2000)
+                    Log.d("mobile-feed", response.body().toString())
                 }
 
             }
 
         })
     }
-
-
-
-
 }
-

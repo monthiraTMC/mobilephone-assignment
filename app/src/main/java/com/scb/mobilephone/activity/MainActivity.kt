@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
             toast(listItems[i].toString())
             var sortType = listItems[i]
 
-            ListFragment().feedData(sortType)
+            ListFragment().loadMobileList(sortType)
             dialogInterface.dismiss()
         }
 
