@@ -1,15 +1,19 @@
+
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
     defaultConfig {
         applicationId "com.scb.mobilephone"
-        minSdkVersion 23
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -43,3 +47,4 @@ dependencies {
     implementation 'com.ouattararomuald:slider-glide:2.0.0' // If you use Glide
     implementation 'com.ouattararomuald:slider-picasso:2.0.0' // If you use Picasso
 }
+

@@ -34,4 +34,6 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : 
         // Show 2 total pages.
         return TAB_TITLES.size
     }
+
+
 }

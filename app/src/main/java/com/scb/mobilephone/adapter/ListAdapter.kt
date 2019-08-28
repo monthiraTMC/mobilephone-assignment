@@ -6,13 +6,13 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.activity.DetailActivity
-import com.scb.mobilephone.activity.MainActivity
+import com.scb.mobilephone.extensions.*
 
-import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.fragment.ListFragment.Companion.mDataArray
 import com.scb.mobilephone.fragment.ListFragment.Companion.mFillterArray
 
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
-
+    private var mFavoriteDataArray:ArrayList<Mobiles> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
         return ListHolder(view)
@@ -54,13 +54,25 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
             if (count_click == 0 ){
                 holder.mFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
                 count_click = 1
+                mFavoriteDataArray.add(mFillterArray[position])
+                sendBroadcastMessage(mFavoriteDataArray)
             }
             else {
                 holder.mFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
                 count_click = 0
+                mFavoriteDataArray.remove(mFillterArray[position])
+                sendBroadcastMessage(mFavoriteDataArray)
             }
         }
 
+    }
+
+
+    private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
+        Intent(RECEIVED_NEW_MESSAGE).let {
+            it.putExtra(RECEIVED_FAVORITE, mFavoriteArray)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
+        }
     }
 }
 
