@@ -52,17 +52,14 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
                 context.startActivity(intent)
             }
         }
-
-        holder.mFavorite.setOnClickListener {
-            if (count_click == 0 ){
-                holder.mFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
-                count_click = 1
+        holder.mFavoriteToggle.text = null
+        holder.mFavoriteToggle.textOn = null
+        holder.mFavoriteToggle.textOff = null
+        holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
                 mFavoriteDataArray.add(mFillterArray[position])
                 sendBroadcastMessage(mFavoriteDataArray)
-            }
-            else {
-                holder.mFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
-                count_click = 0
+            } else {
                 mFavoriteDataArray.remove(mFillterArray[position])
                 sendBroadcastMessage(mFavoriteDataArray)
             }
@@ -110,6 +107,6 @@ class ListHolder(view: View) : RecyclerView.ViewHolder(view) {
     val mDescription = view.descriptionTextView
     val mPrice = view.pricetextView
     val mRating = view.ratingtextView
-    val mFavorite = view.favolistImageView
+    val mFavoriteToggle = view.btnFavorite
 
 }

@@ -37,10 +37,8 @@ class FavoriteFragment : Fragment() {
 
 
     private var mReciveArray: ArrayList<Mobiles> = ArrayList()
-
-
     lateinit var mFavoriteAdapter: FavoriteAdapter
-    //    private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

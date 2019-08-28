@@ -30,7 +30,7 @@ class ListFragment : Fragment() {
     companion object{
         lateinit var mobileListAdapter: ListAdapter
     }
-    private var mFeedType = "none"
+    private var mType = "none"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,15 +51,15 @@ class ListFragment : Fragment() {
         rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
 
-        loadMobileList(mFeedType)
+        loadMobileList(mType)
         view.swipeRefresh.setOnRefreshListener {
-            loadMobileList(mFeedType)
+            loadMobileList(mType)
         }
 
     }
 
     fun loadMobileList(sortType: String) {
-        mFeedType = sortType
+        mType = sortType
         val call = ApiInterface.getClient().getMobileList()
         call.enqueue(object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
