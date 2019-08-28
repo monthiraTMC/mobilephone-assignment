@@ -2,6 +2,7 @@ package com.scb.mobilephone.fragment
 
 
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -22,33 +23,37 @@ import retrofit2.Response
 
 class ListFragment : Fragment() {
     companion object{
+        var mFillterArray: ArrayList<Mobiles> = ArrayList<Mobiles>()
         var mDataArray: ArrayList<Mobiles> = ArrayList<Mobiles>()
+        @SuppressLint("StaticFieldLeak")
+        lateinit var mAdapter: ListAdapter
     }
+    private var mFeedType = "none"
 
-    private lateinit var mAdapter: ListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val _view = inflater.inflate(R.layout.fragment_list, container, false)
-        mAdapter = ListAdapter(context!!)
-        _view.recyclerViewList?.let {
-            it.adapter = mAdapter
-            it.layoutManager = LinearLayoutManager(activity)
-        }
-
-        feedData()
-        _view.swipeRefresh.setOnRefreshListener {
-            feedData()
-        }
-
-
         return _view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mAdapter = ListAdapter(context!!)
+        view.recyclerViewList?.let {
+            it.adapter = mAdapter
+            it.layoutManager = LinearLayoutManager(activity)
+        }
+        feedData(mFeedType )
+        view.swipeRefresh.setOnRefreshListener {
+            feedData(mFeedType)
+        }
+    }
 
-    fun feedData() {
+
+    fun feedData(sortType: String) {
         //template connect to network
         val call = ApiInterface.getClient().getMobileList()
         //check request
@@ -63,8 +68,25 @@ class ListFragment : Fragment() {
                 Log.d("SCB_NETWORK", response.body().toString())
                 if (response.isSuccessful) {
                     mDataArray.clear()
+                    mFillterArray.clear()
                     mDataArray.addAll(response.body()!!)
 
+                    when (sortType) {
+                        "Price low to high" ->  {
+                            mFillterArray.addAll(mDataArray.sortedBy { it.price })
+                        }
+                        "Price high to low" ->  {
+                            mFillterArray.addAll( mDataArray.sortedByDescending { it.price })
+                        }
+                        "Rating 5-1" -> {
+                            mFillterArray.addAll( mDataArray.sortedByDescending { it.rating })
+                        }
+                        else -> {
+                            mFillterArray.addAll(mDataArray)
+                        }
+                    }
+                    Log.d("sort", sortType)
+                    Log.d("sort", mFillterArray.toString())
                     //important
                     mAdapter.notifyDataSetChanged()
 
@@ -77,6 +99,7 @@ class ListFragment : Fragment() {
 
         })
     }
+
 
 
 

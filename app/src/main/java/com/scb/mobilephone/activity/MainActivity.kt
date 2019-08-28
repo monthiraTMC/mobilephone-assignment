@@ -12,14 +12,14 @@ import com.google.android.material.tabs.TabLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.appcompat.app.AppCompatActivity
 import com.scb.mobilephone.R
-import com.scb.mobilephone.fragment.ListFragment.Companion.mDataArray
+import com.scb.mobilephone.fragment.ListFragment
+
+import com.scb.mobilephone.model.Mobiles
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private var sortType:String? = null
-    private var ascending = true
-    private val array: ArrayList<Int> = arrayListOf(3,1,2,5,4)
+    lateinit var mListFragment:ListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,22 +28,10 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
-
         btnSort.setOnClickListener {
             showDialog()
-
-                sortData(ascending)
-                ascending != ascending
-
         }
-    }
 
-    private fun sortData(asc: Boolean) {
-        if (asc) {
-            mDataArray.price
-            array.sort()
-            Log.d("sort", array.toString())
-        }
     }
 
     private fun showDialog() {
@@ -52,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
             //                mResult.setText(listItems[i])
             toast(listItems[i].toString())
-            sortType = listItems[i]
+            var sortType = listItems[i]
+
+            ListFragment().feedData(sortType)
             dialogInterface.dismiss()
         }
 
