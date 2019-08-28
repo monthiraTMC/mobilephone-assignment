@@ -12,16 +12,34 @@
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:minHeight="?actionBarSize"
-                android:padding="@dimen/appbar_padding"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+        <RelativeLayout
 
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <TextView
+
+                    android:layout_alignParentLeft="true"
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?actionBarSize"
+                    android:padding="@dimen/appbar_padding"
+                    android:text="@string/app_name"
+                    android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+            <ImageView
+                    android:id="@+id/btnSort"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitEnd"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_sort"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    />
+
+        </RelativeLayout>
         <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"

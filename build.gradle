@@ -12,6 +12,7 @@ buildscript {
         glideVersion = '4.9.0'
         retrofitVersion = '2.5.0'
         gsonVersion = '2.5.0'
+
     }
     repositories {
         google()
@@ -30,7 +31,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+
     }
 }
 

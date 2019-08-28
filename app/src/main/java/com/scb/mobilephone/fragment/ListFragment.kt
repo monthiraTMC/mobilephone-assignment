@@ -1,6 +1,7 @@
 package com.scb.mobilephone.fragment
 
 
+
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.ListAdapter
 import com.scb.mobilephone.model.Mobiles
-
 import com.scb.mobilephone.network.ApiInterface
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import retrofit2.Call
@@ -24,6 +24,7 @@ class ListFragment : Fragment() {
     companion object{
         var mDataArray: ArrayList<Mobiles> = ArrayList<Mobiles>()
     }
+
     private lateinit var mAdapter: ListAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,7 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         val _view = inflater.inflate(R.layout.fragment_list, container, false)
         mAdapter = ListAdapter(context!!)
-        _view.recyclerViewList.let {
+        _view.recyclerViewList?.let {
             it.adapter = mAdapter
             it.layoutManager = LinearLayoutManager(activity)
         }
@@ -41,6 +42,8 @@ class ListFragment : Fragment() {
         _view.swipeRefresh.setOnRefreshListener {
             feedData()
         }
+
+
         return _view
     }
 
@@ -74,6 +77,7 @@ class ListFragment : Fragment() {
 
         })
     }
+
 
 
 }
