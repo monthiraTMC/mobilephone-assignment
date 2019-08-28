@@ -46,5 +46,6 @@ dependencies {
     // Image loading framework
     implementation 'com.ouattararomuald:slider-glide:2.0.0' // If you use Glide
     implementation 'com.ouattararomuald:slider-picasso:2.0.0' // If you use Picasso
+
 }
 

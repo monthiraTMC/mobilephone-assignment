@@ -4,20 +4,19 @@ package com.scb.mobilephone.fragment
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.ListAdapter
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.Mobiles
 import com.scb.mobilephone.network.ApiInterface
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,6 +26,7 @@ import retrofit2.Response
 class ListFragment : Fragment() {
 
     private lateinit var rvMobileList: RecyclerView
+
     companion object{
         lateinit var mobileListAdapter: ListAdapter
     }
@@ -58,6 +58,7 @@ class ListFragment : Fragment() {
 
     }
 
+
     fun loadMobileList(sortType: String) {
         mType = sortType
         val call = ApiInterface.getClient().getMobileList()
@@ -81,4 +82,7 @@ class ListFragment : Fragment() {
 
         })
     }
+
+
+
 }
