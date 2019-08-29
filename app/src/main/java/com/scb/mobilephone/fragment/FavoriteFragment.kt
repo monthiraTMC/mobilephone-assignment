@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,17 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.FavoriteAdapter
-import com.scb.mobilephone.adapter.ListAdapter
 import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
-import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.network.ApiInterface
-import kotlinx.android.synthetic.main.fragment_favorites.view.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class FavoriteFragment : Fragment() {
@@ -64,7 +55,6 @@ class FavoriteFragment : Fragment() {
         initBroadcast()
         getType(type)
 
-
     }
 
     fun getType(srortType: String){
@@ -93,63 +83,4 @@ class FavoriteFragment : Fragment() {
         }
     }
 }
-
-
-
-
-
-
-
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        mFavoriteAdapter = FavoriteAdapter(context!!)
-//        view.recyclerViewFavorite?.let {
-//            it.adapter = mFavoriteAdapter
-//            it.layoutManager = LinearLayoutManager(activity)
-//        }
-//        initBroadcast()
-//    }
-//
-//    private fun feedData() {
-//        initBroadcast()
-//        mFavoriteAdapter.notifyDataSetChanged()
-//        Log.d("recived", mReciveArray.toString())
-//
-//    }
-//
-////    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-////        super.onViewCreated(view, savedInstanceState)
-////
-////
-////    }
-//
-//
-//    private fun initBroadcast() {
-//        mReciveArray.clear()
-//        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-//            object : BroadcastReceiver() {
-//                override fun onReceive(context: Context, intent: Intent) {
-//                    mReciveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
-//                    mFavoriteAdapter.notifyDataSetChanged()
-//                    Log.d("recived", mReciveArray.toString())
-////                    txtView.setText(mReciveArray.toString())
-//                }
-//            },
-//            IntentFilter(RECEIVED_NEW_MESSAGE)
-//        )
-//
-//
-//        LocalBroadcastManager.getInstance(this).registerReceiver(
-//            object : BroadcastReceiver() {
-//                override fun onReceive(context: Context, intent: Intent) {
-//                    newText.text = intent.getStringExtra(NEW_MESSAGE)
-//                }
-//            },
-//            IntentFilter(RECEIVED_NEW_MESSAGE2)
-//        )
-
-
-
-
 
