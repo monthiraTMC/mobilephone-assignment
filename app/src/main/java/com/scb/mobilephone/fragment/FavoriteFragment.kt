@@ -17,9 +17,6 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.FavoriteAdapter
 import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
-import com.scb.mobilephone.fragment.FavoriteFragment.Companion.mFavoriteAdapter
-import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
-import com.scb.mobilephone.helper.CustomItemTouchHelperListener
 import com.scb.mobilephone.model.Mobiles
 
 
@@ -27,9 +24,11 @@ class FavoriteFragment : Fragment() {
     private lateinit var rvFavoriteList: RecyclerView
 
     private var mReciveArray: ArrayList<Mobiles> = ArrayList()
-    companion object{
+
+    companion object {
         lateinit var mFavoriteAdapter: FavoriteAdapter
     }
+
     private var type = "none"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,32 +43,26 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rvFavoriteList = view.findViewById(R.id.recyclerViewFavorite)
         mFavoriteAdapter = FavoriteAdapter(context!!)
-        rvFavoriteList.adapter = mFavoriteAdapter
-        rvFavoriteList.layoutManager = LinearLayoutManager(context!!)
-        rvFavoriteList.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-        rvFavoriteList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-        rvFavoriteList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
+
+        rvFavoriteList.let {
+            it.adapter = mFavoriteAdapter
+            it.layoutManager = LinearLayoutManager(context)
+            it.itemAnimator = DefaultItemAnimator()
+            it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
+        }
+
 
         initBroadcast()
         getType(type)
 
-        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDirection: Int) {
-                mFavoriteAdapter.removeItem(viewHolder.adapterPosition, viewHolder)
-            }
-
-        }
-
-        val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
+        val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
 
-}
+    }
 
-    fun getType(srortType: String){
+    fun getType(srortType: String) {
         type = srortType
         Log.d("fillter", type)
         mFavoriteAdapter.sort(type)
@@ -90,10 +83,35 @@ class FavoriteFragment : Fragment() {
                 },
                 IntentFilter(RECEIVED_NEW_MESSAGE)
             )
-        }
-        catch (e : NullPointerException) {
+        } catch (e: NullPointerException) {
             e.printStackTrace()
         }
     }
 }
 
+
+class CustomItemTouchHelperCallback(private var listener: com.scb.mobilephone.adapter.CustomItemTouchHelperListener) :
+    ItemTouchHelper.Callback() {
+
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+
+        val dragFlags = 0
+        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+        return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
+    }
+
+    override fun onMove(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
+        return true
+    }
+
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        viewHolder?.let {
+            listener.onItemDismiss(viewHolder.adapterPosition)
+        }
+    }
+
+}

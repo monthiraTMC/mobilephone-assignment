@@ -1,8 +1,10 @@
 package com.scb.mobilephone.adapter
 
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,12 +15,14 @@ import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.activity.DetailActivity
 import com.scb.mobilephone.extensions.*
+import com.scb.mobilephone.fragment.FavoriteFragment
 
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
+
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
     val mobileList: List<Mobiles>
@@ -52,9 +56,14 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
                 context.startActivity(intent)
             }
         }
+
         holder.mFavoriteToggle.text = null
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
+
+
+        holder.mFavoriteToggle.isChecked = item in mFavoriteDataArray
+
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 mFavoriteDataArray.add(mFillterArray[position])
@@ -67,7 +76,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
 
     }
 
-    fun submitList(list: List<Mobiles>, sortType:String) {
+    fun submitList(list: List<Mobiles>, sortType: String) {
         _mobiles = list
         mFillterArray.clear()
         when (sortType) {
@@ -90,6 +99,13 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
 
     }
 
+    fun reciveFavoriteList(list: ArrayList<Mobiles>) {
+        mFavoriteDataArray.clear()
+        mFavoriteDataArray.addAll(list)
+        notifyDataSetChanged()
+        Log.d("reciveFav", mFavoriteDataArray.toString())
+
+    }
 
     private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
         Intent(RECEIVED_NEW_MESSAGE).let {
@@ -97,6 +113,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
             LocalBroadcastManager.getInstance(context).sendBroadcast(it)
         }
     }
+
 }
 
 

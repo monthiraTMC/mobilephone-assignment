@@ -1,21 +1,29 @@
 package com.scb.mobilephone.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.scb.mobilephone.R
+import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
+import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
+import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
+import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolder>() {
-    val favoriteMobileList: List<Mobiles>
-        get() = _favoriteMobiles
-    private var _favoriteMobiles: List<Mobiles> = listOf()
+class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolder>(), CustomItemTouchHelperListener {
+
+    private var _favoriteMobiles: ArrayList<Mobiles> = ArrayList()
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
@@ -35,26 +43,30 @@ class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolde
         holder.itemView.setTag(R.id.view_pager, item.id)
 
     }
-    fun removeItem(position: Int, viewHolder: RecyclerView.ViewHolder) {
-        var removedItem = mFillterArray[position]
-        var removedPosition = position
 
-        mFillterArray.removeAt(position)
-        notifyItemRemoved(position)
 
-        Snackbar.make(viewHolder.itemView, "$removedItem removed", Snackbar.LENGTH_LONG).setAction("UNDO") {
-            mFillterArray.add(removedPosition, removedItem)
-            notifyItemInserted(removedPosition)
-
-        }.show()
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        Collections.swap(mFillterArray, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
-    fun submitList(list: List<Mobiles>) {
+
+    override fun onItemDismiss(position: Int) {
+        _favoriteMobiles?.removeAt(position)
+        mFillterArray.removeAt(position)
+        Log.d("remove", mFillterArray.toString())
+        sendBroadcastMessage(mFillterArray)
+        notifyItemRemoved(position)
+    }
+
+    fun submitList(list: ArrayList<Mobiles>) {
         _favoriteMobiles = list
         mFillterArray.clear()
         mFillterArray.addAll(_favoriteMobiles)
         notifyDataSetChanged()
 
     }
+
 
     fun sort(sortType:String) {
         mFillterArray.clear()
@@ -79,6 +91,14 @@ class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolde
 
     }
 
+    private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
+        Intent(RECEIVED_NEW_FAVORITE).let {
+            it.putExtra(RECEIVED_NEW_FAVORITE_LIST, mFavoriteArray)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
+            Log.d("favorite", mFavoriteArray.toString())
+        }
+    }
+
 }
 
 
@@ -89,3 +109,11 @@ class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
     val mRating = view.ratingtextView
 
 }
+
+
+interface CustomItemTouchHelperListener {
+    fun onItemMove(fromPosition: Int, toPosition: Int) : Boolean
+
+    fun onItemDismiss(position: Int)
+}
+
