@@ -1,10 +1,8 @@
 package com.scb.mobilephone.adapter
 
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.activity.DetailActivity
-import com.scb.mobilephone.extensions.*
-import com.scb.mobilephone.fragment.FavoriteFragment
-
+import com.scb.mobilephone.extensions.MOBILE_LIST
+import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
+import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
@@ -113,7 +111,6 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
             LocalBroadcastManager.getInstance(context).sendBroadcast(it)
         }
     }
-
 }
 
 

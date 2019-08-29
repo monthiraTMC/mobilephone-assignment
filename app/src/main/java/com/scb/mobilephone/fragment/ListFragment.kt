@@ -54,11 +54,13 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
         mobileListAdapter = ListAdapter(context!!)
-        rvMobileList.adapter = mobileListAdapter
-        rvMobileList.layoutManager = LinearLayoutManager(context)
-        rvMobileList.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
-        rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-        rvMobileList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
+        rvMobileList.let{
+            it.adapter = mobileListAdapter
+            it.layoutManager = LinearLayoutManager(context)
+            it.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
+            it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+            it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
+        }
 
         loadMobileList(mType)
         view.swipeRefresh.setOnRefreshListener {
