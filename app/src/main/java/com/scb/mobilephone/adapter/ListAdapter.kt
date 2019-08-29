@@ -31,7 +31,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return mobileList.size
+        return mFillterArray.size
     }
 
     override fun onBindViewHolder(holder: ListHolder, position: Int) {

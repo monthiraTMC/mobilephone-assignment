@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.scb.mobilephone.R
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
@@ -22,7 +23,7 @@ class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolde
     }
 
     override fun getItemCount(): Int {
-        return favoriteMobileList.size
+        return mFillterArray.size
     }
 
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
@@ -34,7 +35,19 @@ class FavoriteAdapter(val context: Context) : RecyclerView.Adapter<FavoriteHolde
         holder.itemView.setTag(R.id.view_pager, item.id)
 
     }
+    fun removeItem(position: Int, viewHolder: RecyclerView.ViewHolder) {
+        var removedItem = mFillterArray[position]
+        var removedPosition = position
 
+        mFillterArray.removeAt(position)
+        notifyItemRemoved(position)
+
+        Snackbar.make(viewHolder.itemView, "$removedItem removed", Snackbar.LENGTH_LONG).setAction("UNDO") {
+            mFillterArray.add(removedPosition, removedItem)
+            notifyItemInserted(removedPosition)
+
+        }.show()
+    }
     fun submitList(list: List<Mobiles>) {
         _favoriteMobiles = list
         mFillterArray.clear()

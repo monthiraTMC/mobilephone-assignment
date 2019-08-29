@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import com.custom.sliderimage.logic.SliderImage
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
@@ -104,5 +102,6 @@ class DetailActivity : AppCompatActivity() {
         })
 
     }
+
 
 }
