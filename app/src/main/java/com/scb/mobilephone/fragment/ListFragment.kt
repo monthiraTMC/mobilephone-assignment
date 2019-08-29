@@ -28,6 +28,7 @@ class ListFragment : Fragment() {
     private lateinit var rvMobileList: RecyclerView
 
     companion object{
+        @SuppressLint("StaticFieldLeak")
         lateinit var mobileListAdapter: ListAdapter
     }
     private var mType = "none"

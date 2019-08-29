@@ -37,8 +37,11 @@ class FavoriteFragment : Fragment() {
 
 
     private var mReciveArray: ArrayList<Mobiles> = ArrayList()
-    lateinit var mFavoriteAdapter: FavoriteAdapter
-
+    private var mFillterArray: ArrayList<Mobiles> = ArrayList()
+    companion object{
+        lateinit var mFavoriteAdapter: FavoriteAdapter
+    }
+    private var type = "none"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,22 +62,35 @@ class FavoriteFragment : Fragment() {
         rvFavoriteList.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
 
         initBroadcast()
+        getType(type)
+
 
     }
 
+    fun getType(srortType: String){
+        type = srortType
+        Log.d("fillter", type)
+        mFavoriteAdapter.sort(type)
+    }
 
-    private fun initBroadcast() {
+
+    fun initBroadcast() {
         mReciveArray.clear()
-        LocalBroadcastManager.getInstance(context!!).registerReceiver(
-            object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    mReciveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
-                    mFavoriteAdapter.submitList(mReciveArray)
-                    Log.d("recived", mReciveArray.toString())
-                }
-            },
-            IntentFilter(RECEIVED_NEW_MESSAGE)
-        )
+        try {
+            LocalBroadcastManager.getInstance(context!!).registerReceiver(
+                object : BroadcastReceiver() {
+                    override fun onReceive(context: Context, intent: Intent) {
+                        mReciveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
+                        mFavoriteAdapter.submitList(mReciveArray)
+
+                    }
+                },
+                IntentFilter(RECEIVED_NEW_MESSAGE)
+            )
+        }
+        catch (e: NullPointerException) {
+            e.printStackTrace()
+        }
     }
 }
 

@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.item_list.*
 
 class MainActivity : AppCompatActivity() {
     private var positionTab = 0
-    private var mListFragment : ListFragment = ListFragment()
+    private var mListFragment: ListFragment = ListFragment()
     private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         btnSort.setOnClickListener {
             showDialog()
         }
-        viewPager.addOnPageChangeListener(object: ViewPager.OnPageChangeListener{
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                if(position == 0){
+                if (position == 0) {
                     positionTab = 0
-                }else{
+                } else {
                     positionTab = 1
                 }
             }
@@ -66,9 +66,13 @@ class MainActivity : AppCompatActivity() {
             //                mResult.setText(listItems[i])
 
             var sortType = listItems[i]
-            if (positionTab == 0){
-                showToast(listItems[i].toString())
+
+            showToast(listItems[i].toString())
+            if(positionTab == 0) {
                 mListFragment.loadMobileList(sortType)
+            }
+            else {
+                mFavoriteFragment.getType(sortType)
             }
 
             dialogInterface.dismiss()

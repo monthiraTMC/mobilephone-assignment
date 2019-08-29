@@ -1,8 +1,11 @@
 package com.scb.mobilephone.activity
 
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
+import com.custom.sliderimage.logic.SliderImage
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
@@ -18,19 +21,36 @@ import retrofit2.Response
 
 class DetailActivity : AppCompatActivity() {
     private val mDetailArray : ArrayList<MobileDetail> = ArrayList()
-    private var mImageArray: ArrayList<String> = arrayListOf()
+    companion object{
+        var mImageArray: ArrayList<String> = arrayListOf()
+    }
+    private var width:Int = 0
+    private var height:Int = 0
+
+
     private var url:String? = null
     private lateinit var mMobileList:Mobiles
     private lateinit var imageSlider: ImageSlider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        mMobileList = intent.extras?.getSerializable(MOBILE_LIST) as Mobiles
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        width = displayMetrics.widthPixels
+        height = displayMetrics.heightPixels
 
+        mMobileList = intent.extras?.getSerializable(MOBILE_LIST) as Mobiles
         setDetailText()
         feedImage(mMobileList.id)
 
+
+
+
     }
+
+
+
+
 
 
     private fun setDetailText() {
@@ -84,10 +104,5 @@ class DetailActivity : AppCompatActivity() {
         })
 
     }
-
-    fun callDialog() {
-
-    }
-
 
 }
