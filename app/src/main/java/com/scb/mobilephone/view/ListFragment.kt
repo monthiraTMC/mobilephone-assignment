@@ -75,7 +75,6 @@ class ListFragment : Fragment(), ListInterface.ListView {
         presenter = ListPresenter(this)
         presenter.getMobileList(mType)
 
-
         swipeRefresh.setOnRefreshListener {
             presenter.getMobileList(mType)
         }

@@ -29,10 +29,6 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
                 if (response.isSuccessful) {
                     view.showAllMobiles(response.body()!!, sortType)
                     view.hideLoading()
-
-//                    val mobileList = response.body() ?: return
-//                    ListFragment.mobileListAdapter.submitList(mobileList, sortType)
-
                     Log.d("mobile-feed", response.body().toString())
                 }
 
