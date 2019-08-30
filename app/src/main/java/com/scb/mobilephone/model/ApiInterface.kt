@@ -1,9 +1,7 @@
-package com.scb.mobilephone.network
+package com.scb.mobilephone.model
 
 
 
-import com.scb.mobilephone.model.MobileDetail
-import com.scb.mobilephone.model.Mobiles
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

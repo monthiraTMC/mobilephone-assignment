@@ -1,4 +1,4 @@
-package com.scb.mobilephone.fragment
+package com.scb.mobilephone.view
 
 
 import android.content.BroadcastReceiver
