@@ -15,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter {
+class FavoritePresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter {
 
     private var view: ListInterface.ListView = _view
     private var mReciveArray:ArrayList<Mobiles> = ArrayList()
@@ -26,6 +26,7 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
         call.enqueue(object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
                 Log.d("getApi", t.message.toString())
+//                view.hideLoading()
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {

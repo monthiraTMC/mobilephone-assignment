@@ -1,52 +1,33 @@
 package com.scb.mobilephone.view
 
-
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.*
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephone.R
 import com.scb.mobilephone.adapter.ListAdapter
-import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.presenter.ListInterface
 import com.scb.mobilephone.presenter.ListPresenter
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class ListFragment : Fragment(), ListInterface.ListView {
-    override fun showLoading() {
-        swipeRefresh.setRefreshing(true)
-    }
-
-    override fun hideLoading() {
-        swipeRefresh.setRefreshing(false)    }
-
-    override fun showAllMobiles(mobileList: List<Mobiles>, sortType:String) {
-        mobileListAdapter.submitList(mobileList, sortType)
-    }
-
 
     private lateinit var rvMobileList: RecyclerView
 
-    private lateinit var viewToInterface:ListInterface.ListView
-
-    companion object{
+    companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var mobileListAdapter: ListAdapter
         lateinit var presenter: ListInterface.ListPresenter
     }
+
     private var mType = "none"
 
     override fun onCreateView(
@@ -64,7 +45,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
         mobileListAdapter = ListAdapter(context!!)
 
-        rvMobileList.let{
+        rvMobileList.let {
             it.adapter = mobileListAdapter
             it.layoutManager = LinearLayoutManager(context)
             it.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
@@ -74,11 +55,24 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
         presenter = ListPresenter(this)
         presenter.getMobileList(mType)
+        presenter.recieveBroadcast(context!!)
 
         swipeRefresh.setOnRefreshListener {
             presenter.getMobileList(mType)
         }
-        }
-
     }
+
+    override fun showLoading() {
+        swipeRefresh.setRefreshing(true)
+    }
+
+    override fun hideLoading() {
+        swipeRefresh.setRefreshing(false)
+    }
+
+    override fun showAllMobiles(mobileList: List<Mobiles>, sortType: String) {
+        mobileListAdapter.submitList(mobileList, sortType)
+    }
+
+}
 

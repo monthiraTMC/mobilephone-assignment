@@ -3,17 +3,17 @@ package com.scb.mobilephone.presenter
 import android.content.Context
 import com.scb.mobilephone.model.Mobiles
 
-interface ListInterface {
-    interface ListView {
+interface FavoriteInterface {
+    interface FavoriteView {
         fun showLoading()
 
         fun hideLoading()
 
-        fun showAllMobiles(mobileList: List<Mobiles>, sortType:String)
+        fun showAllFavorite(mobileList: List<Mobiles>)
 
     }
 
-    interface ListPresenter {
+    interface FavoritePresenter {
         fun getMobileList(sortType: String)
         fun recieveBroadcast(context: Context)
     }

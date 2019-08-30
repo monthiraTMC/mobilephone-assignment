@@ -1,7 +1,5 @@
 package com.scb.mobilephone.presenter;
 
-import com.scb.mobilephone.model.Mobiles
-
 interface DetailInterface {
     interface DetailView {
         fun showImageDetail(mobileList: ArrayList<String>)

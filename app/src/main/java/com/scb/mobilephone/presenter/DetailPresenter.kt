@@ -42,8 +42,6 @@ class DetailPresenter(_view : DetailInterface.DetailView): DetailInterface.Detai
                     view.showImageDetail(mImageArray)
                     Log.d("StringImg", mImageArray.toString())
 
-
-
                 }
 
             }
