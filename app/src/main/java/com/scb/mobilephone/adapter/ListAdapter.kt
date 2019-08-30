@@ -11,7 +11,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.activity.DetailActivity
+import com.scb.mobilephone.view.DetailActivity
 import com.scb.mobilephone.extensions.*
 
 import com.scb.mobilephone.model.Mobiles

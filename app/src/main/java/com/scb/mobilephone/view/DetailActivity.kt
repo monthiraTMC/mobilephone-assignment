@@ -1,11 +1,9 @@
-package com.scb.mobilephone.activity
+package com.scb.mobilephone.view
 
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
-import com.custom.sliderimage.logic.SliderImage
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
@@ -13,7 +11,7 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.model.MobileDetail
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.network.ApiInterface
+import com.scb.mobilephone.model.ApiInterface
 import kotlinx.android.synthetic.main.activity_detail.*
 import retrofit2.Call
 import retrofit2.Callback
