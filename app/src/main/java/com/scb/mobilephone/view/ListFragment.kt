@@ -2,6 +2,7 @@ package com.scb.mobilephone.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,14 +22,13 @@ import kotlinx.android.synthetic.main.fragment_list.*
 class ListFragment : Fragment(), ListInterface.ListView {
 
     private lateinit var rvMobileList: RecyclerView
+    private var mFillterArray: ArrayList<Mobiles> = ArrayList()
 
     companion object {
         @SuppressLint("StaticFieldLeak")
         lateinit var mobileListAdapter: ListAdapter
         lateinit var presenter: ListInterface.ListPresenter
     }
-
-    private var mType = "none"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,11 +54,11 @@ class ListFragment : Fragment(), ListInterface.ListView {
         }
 
         presenter = ListPresenter(this)
-        presenter.getMobileList(mType)
+        presenter.getMobileList()
         presenter.recieveBroadcast(context!!)
 
         swipeRefresh.setOnRefreshListener {
-            presenter.getMobileList(mType)
+            presenter.getMobileList()
         }
     }
 
@@ -70,8 +70,18 @@ class ListFragment : Fragment(), ListInterface.ListView {
         swipeRefresh.setRefreshing(false)
     }
 
-    override fun showAllMobiles(mobileList: List<Mobiles>, sortType: String) {
-        mobileListAdapter.submitList(mobileList, sortType)
+    override fun showAllMobiles(mobileList: List<Mobiles>) {
+        mobileListAdapter.submitList(mobileList)
+        Log.d("sortMMM", mFillterArray.toString())
+    }
+
+    //    override fun submitList() {
+//        mobileListAdapter.notifyDataSetChanged()
+//    }
+    override fun getSortType(sortType: String) {
+        presenter.getType(sortType)
+        mobileListAdapter.getType(sortType)
+        Log.d("sortMMM", sortType)
     }
 
 }

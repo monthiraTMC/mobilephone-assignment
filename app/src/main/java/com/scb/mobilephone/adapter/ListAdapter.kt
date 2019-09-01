@@ -23,6 +23,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
 
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+    private var mSortType:String = "none"
     val mobileList: List<Mobiles>
         get() = _mobiles
 
@@ -37,7 +38,7 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
     }
 
     override fun onBindViewHolder(holder: ListHolder, position: Int) {
-        var count_click: Int = 0
+
         var item = mFillterArray[position]
         holder.mTitle.text = item.name
         holder.mDescription.text = item.description
@@ -59,7 +60,6 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
 
-
         holder.mFavoriteToggle.isChecked = item in mFavoriteDataArray
 
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
@@ -74,10 +74,23 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
 
     }
 
-    fun submitList(list: List<Mobiles>, sortType: String) {
+    fun submitList(list: List<Mobiles>) {
         _mobiles = list
         mFillterArray.clear()
-        when (sortType) {
+        mFillterArray.addAll(_mobiles)
+        sortList()
+        notifyDataSetChanged()
+
+    }
+
+    fun getType(sortType:String) {
+        mSortType = sortType
+        Log.d("sortList", mSortType)
+    }
+
+    fun sortList() {
+        mFillterArray.clear()
+        when (mSortType) {
             "Price low to high" -> {
                 mFillterArray.addAll(_mobiles.sortedBy { it.price })
             }
@@ -91,10 +104,10 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
                 mFillterArray.addAll(_mobiles)
             }
         }
-        Log.d("sort", sortType)
-        Log.d("sort", mFillterArray.toString())
-        notifyDataSetChanged()
+        Log.d("sortListM", mSortType)
+        Log.d("sortListM", mFillterArray.toString())
 
+        notifyDataSetChanged()
     }
 
     fun reciveFavoriteList(list: ArrayList<Mobiles>) {

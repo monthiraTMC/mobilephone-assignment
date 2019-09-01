@@ -1,6 +1,5 @@
 package com.scb.mobilephone.view
 
-
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -19,8 +18,8 @@ import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
 
-
 class FavoriteFragment : Fragment() {
+
     private lateinit var rvFavoriteList: RecyclerView
 
     private var mReciveArray: ArrayList<Mobiles> = ArrayList()
@@ -113,5 +112,6 @@ class CustomItemTouchHelperCallback(private var listener: com.scb.mobilephone.ad
             listener.onItemDismiss(viewHolder.adapterPosition)
         }
     }
+
 
 }

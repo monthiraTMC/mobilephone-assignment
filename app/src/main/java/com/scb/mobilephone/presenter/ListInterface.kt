@@ -9,13 +9,19 @@ interface ListInterface {
 
         fun hideLoading()
 
-        fun showAllMobiles(mobileList: List<Mobiles>, sortType:String)
+        fun showAllMobiles(mobileList: List<Mobiles>)
+
+        fun getSortType(sortType:String)
+
+//        fun submitList()
 
     }
 
     interface ListPresenter {
-        fun getMobileList(sortType: String)
+        fun getMobileList()
         fun recieveBroadcast(context: Context)
+//        fun submitList(list: List<Mobiles>)
+        fun getType(sortType: String)
     }
 
 }
