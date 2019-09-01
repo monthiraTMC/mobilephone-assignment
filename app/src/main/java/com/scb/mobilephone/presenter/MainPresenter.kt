@@ -28,9 +28,7 @@ class MainPresenter(_view : MainInterface.MainView, _context: Context, position:
 
             context.showToast(listItems[i].toString())
             if(positionTab == 0) {
-                ListFragment.presenter.getMobileList()
                 view.getSortType(sortType)
-                Log.d("presenter", sortType)
             }
             else {
 //                mFavoriteFragment.getType(sortType)

@@ -15,6 +15,7 @@ interface ListInterface {
 
         fun submitList(list: ArrayList<Mobiles>)
 
+        fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>)
     }
 
     interface ListPresenter {
@@ -22,6 +23,7 @@ interface ListInterface {
         fun recieveBroadcast(context: Context)
         fun submitList(list: List<Mobiles>)
         fun getType(sortType: String)
+        fun sendBroadcast(favoriteList: ArrayList<Mobiles>, context: Context)
     }
 
 }

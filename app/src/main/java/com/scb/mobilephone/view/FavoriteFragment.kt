@@ -17,12 +17,15 @@ import com.scb.mobilephone.adapter.FavoriteAdapter
 import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
+import com.scb.mobilephone.presenter.FavoriteInterface
+import com.scb.mobilephone.presenter.FavoritePresenter
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
 
     private lateinit var rvFavoriteList: RecyclerView
+    private lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
 
-    private var mReciveArray: ArrayList<Mobiles> = ArrayList()
+//    private var mReciveArray: ArrayList<Mobiles> = ArrayList()
 
     companion object {
         lateinit var mFavoriteAdapter: FavoriteAdapter
@@ -50,9 +53,8 @@ class FavoriteFragment : Fragment() {
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
-
-
-        initBroadcast()
+        favoritePresenter = FavoritePresenter(this)
+        favoritePresenter.recieveBroadcast(context!!)
         getType(type)
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
@@ -69,23 +71,6 @@ class FavoriteFragment : Fragment() {
     }
 
 
-    fun initBroadcast() {
-        mReciveArray.clear()
-        try {
-            LocalBroadcastManager.getInstance(context!!).registerReceiver(
-                object : BroadcastReceiver() {
-                    override fun onReceive(context: Context, intent: Intent) {
-                        mReciveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
-                        mFavoriteAdapter.submitList(mReciveArray)
-
-                    }
-                },
-                IntentFilter(RECEIVED_NEW_MESSAGE)
-            )
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        }
-    }
 }
 
 

@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
-import android.widget.Adapter
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
+import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.view.ListFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,10 +20,11 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
 
     private var view: ListInterface.ListView = _view
     private var mSortType: String = "none"
-    private var mReciveArray:ArrayList<Mobiles> = ArrayList()
+    private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
-
-//    private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+    private var mRecieveFillterArray: ArrayList<Mobiles> = ArrayList()
+    private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+    private var mSortPresenter: SortPresenter = SortPresenter()
     private var _mobiles: List<Mobiles> = listOf()
 
     override fun getMobileList() {
@@ -32,6 +33,7 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
                 Log.d("getApi", t.message.toString())
             }
+
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
                 Log.d("mobile-feed", response.toString())
                 if (response.isSuccessful) {
@@ -47,53 +49,44 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
     }
 
     override fun recieveBroadcast(context: Context) {
-        mReciveArray.clear()
+        mReceiveArray.clear()
         LocalBroadcastManager.getInstance(context).registerReceiver(
             object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
-                    mReciveArray = intent.extras?.getSerializable(RECEIVED_NEW_FAVORITE_LIST) as ArrayList<Mobiles>
-                    ListFragment.mobileListAdapter.reciveFavoriteList(mReciveArray)
-                    Log.d("reciveFav", mReciveArray.toString())
+                    mReceiveArray = intent.extras?.getSerializable(RECEIVED_NEW_FAVORITE_LIST) as ArrayList<Mobiles>
+//                    ListFragment.mobileListAdapter.reciveFavoriteList(mReciveArray)
+                    mFavoriteDataArray.clear()
+                    mFavoriteDataArray.addAll(mReceiveArray)
+                    view.reciveFavoriteList(mFavoriteDataArray)
+                    Log.d("reciveFav", mReceiveArray.toString())
                 }
             },
             IntentFilter(RECEIVED_NEW_FAVORITE)
         )
 
+    }
 
+    override fun sendBroadcast(favoriteList: ArrayList<Mobiles>, context: Context) {
+
+        Intent(RECEIVED_NEW_MESSAGE).let {
+            it.putExtra(RECEIVED_FAVORITE, favoriteList)
+            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
+
+        }
     }
 
     override fun submitList(list: List<Mobiles>) {
         _mobiles = list
         mFillterArray.clear()
         mFillterArray.addAll(_mobiles)
-        sortList()
-        view.submitList(mFillterArray)
+        mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
+        view.submitList(mRecieveFillterArray)
 
 
     }
-    override fun getType(sortType:String) {
+
+    override fun getType(sortType: String) {
         mSortType = sortType
-        Log.d("sortList", mSortType)
     }
 
-    fun sortList() {
-        mFillterArray.clear()
-        when (mSortType) {
-            "Price low to high" -> {
-                mFillterArray.addAll(_mobiles.sortedBy { it.price })
-            }
-            "Price high to low" -> {
-                mFillterArray.addAll(_mobiles.sortedByDescending { it.price })
-            }
-            "Rating 5-1" -> {
-                mFillterArray.addAll(_mobiles.sortedByDescending { it.rating })
-            }
-            else -> {
-                mFillterArray.addAll(_mobiles)
-            }
-        }
-        Log.d("sortListM", mSortType)
-        Log.d("sortListM", mFillterArray.toString())
-
-    }
 }

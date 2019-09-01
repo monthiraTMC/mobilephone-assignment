@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListFragment : Fragment(), ListInterface.ListView {
+
     override fun submitList(list: ArrayList<Mobiles>) {
         this.mDataArray = list
         mobileListAdapter.notifyDataSetChanged()
@@ -34,6 +35,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
     private lateinit var rvMobileList: RecyclerView
     var mDataArray: ArrayList<Mobiles> = ArrayList()
+    var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
 
     companion object {
         @SuppressLint("StaticFieldLeak")
@@ -83,18 +85,20 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
     override fun showAllMobiles(mobileList: List<Mobiles>) {
         presenter.submitList(mobileList)
-        Log.d("sortMMM", mDataArray.toString())
     }
 
-
     override fun getSortType(sortType: String) {
+        presenter.getMobileList()
         presenter.getType(sortType)
 
-        Log.d("sortMMM", sortType)
+    }
+
+    override fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>) {
+        mFavoriteDataArray = favoriteList
+        mobileListAdapter.notifyDataSetChanged()
     }
 
     inner class ListAdapter : RecyclerView.Adapter<ListHolder>() {
-        private var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
             val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
@@ -133,34 +137,17 @@ class ListFragment : Fragment(), ListInterface.ListView {
             holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     mFavoriteDataArray.add(item)
-                    sendBroadcastMessage(mFavoriteDataArray)
+                    presenter.sendBroadcast(mFavoriteDataArray, context!!)
                 } else {
                     mFavoriteDataArray.remove(item)
-                    sendBroadcastMessage(mFavoriteDataArray)
+                    presenter.sendBroadcast(mFavoriteDataArray, context!!)
                 }
-            }
-
-        }
-
-        fun reciveFavoriteList(list: ArrayList<Mobiles>) {
-            mFavoriteDataArray.clear()
-            mFavoriteDataArray.addAll(list)
-            notifyDataSetChanged()
-            Log.d("reciveFav", mFavoriteDataArray.toString())
-
-        }
-
-        private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
-            Intent(RECEIVED_NEW_MESSAGE).let {
-                it.putExtra(RECEIVED_FAVORITE, mFavoriteArray)
-                LocalBroadcastManager.getInstance(context!!).sendBroadcast(it)
             }
         }
     }
 
 
     inner class ListHolder(view: View): RecyclerView.ViewHolder(view) {
-
         val mImage = view.imageView
         val mTitle = view.titleTextView
         val mDescription = view.descriptionTextView
