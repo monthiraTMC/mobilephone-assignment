@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.util.Log
 import android.widget.Adapter
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.scb.mobilephone.adapter.ListAdapter
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
 import com.scb.mobilephone.model.ApiInterface
