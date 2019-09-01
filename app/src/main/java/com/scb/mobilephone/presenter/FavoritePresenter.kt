@@ -19,6 +19,11 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterface.FavoritePresenter {
+    private var mSortType: String = "none"
+    override fun getType(sortType: String) {
+        mSortType = sortType
+    }
+
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     override fun recieveBroadcast(context: Context) {
         mReceiveArray.clear()

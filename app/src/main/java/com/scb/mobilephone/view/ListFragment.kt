@@ -43,6 +43,8 @@ class ListFragment : Fragment(), ListInterface.ListView {
         lateinit var presenter: ListInterface.ListPresenter
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -76,11 +78,11 @@ class ListFragment : Fragment(), ListInterface.ListView {
     }
 
     override fun showLoading() {
-        swipeRefresh.setRefreshing(true)
+        swipeRefresh?.setRefreshing(true)
     }
 
     override fun hideLoading() {
-        swipeRefresh.setRefreshing(false)
+        swipeRefresh?.setRefreshing(false)
     }
 
     override fun showAllMobiles(mobileList: List<Mobiles>) {
@@ -112,6 +114,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
         override fun onBindViewHolder(holder: ListHolder, position: Int) {
 
             var item = mDataArray[position]
+            var id = 0
             holder.mTitle.text = item.name
             holder.mDescription.text = item.description
             holder.mPrice.text = "Price: " + item.price.toString()
