@@ -63,10 +63,12 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
 
     }
 
-    fun submitList(list: List<Mobiles>) {
+    override fun submitList(list: List<Mobiles>) {
         _mobiles = list
         mFillterArray.clear()
         mFillterArray.addAll(_mobiles)
+        sortList()
+        view.submitList(mFillterArray)
 
 
     }

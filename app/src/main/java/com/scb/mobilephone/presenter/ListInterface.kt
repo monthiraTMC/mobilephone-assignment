@@ -13,14 +13,14 @@ interface ListInterface {
 
         fun getSortType(sortType:String)
 
-//        fun submitList()
+        fun submitList(list: ArrayList<Mobiles>)
 
     }
 
     interface ListPresenter {
         fun getMobileList()
         fun recieveBroadcast(context: Context)
-//        fun submitList(list: List<Mobiles>)
+        fun submitList(list: List<Mobiles>)
         fun getType(sortType: String)
     }
 
