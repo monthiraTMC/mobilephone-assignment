@@ -18,8 +18,6 @@ class ListPresenter(_view: ListInterface.ListView, _context:Context) :
     ListInterface.ListPresenter {
     override fun addToMobileList(mobiles: ArrayList<Mobiles>) {
         mFillterArray = mobiles
-        sort()
-        Log.d("mDataArray", mobiles.toString())
     }
 
     private var view: ListInterface.ListView = _view
