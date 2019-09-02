@@ -1,12 +1,9 @@
-package com.scb.mobilephone.presenter;
+package com.scb.mobilephone.datails;
 
 interface DetailInterface {
     interface DetailView {
         fun showImageDetail(mobileList: ArrayList<String>)
 
-        fun showLoading()
-
-        fun hideLoading()
     }
 
     interface DetailPresenter {

@@ -1,8 +1,7 @@
-package com.scb.mobilephone.view
+package com.scb.mobilephone.datails
 
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ouattararomuald.slider.ImageSlider
@@ -10,15 +9,10 @@ import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.MOBILE_LIST
-import com.scb.mobilephone.model.MobileDetail
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.model.ApiInterface
-import com.scb.mobilephone.presenter.DetailInterface
-import com.scb.mobilephone.presenter.DetailPresenter
+import com.scb.mobilephone.datails.DetailInterface
+import com.scb.mobilephone.datails.DetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
 
@@ -36,8 +30,6 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
         height = displayMetrics.heightPixels
-
-        swipeRefreshLayout = findViewById(R.id.srf)
 
         mPresenterDetail = DetailPresenter(this, applicationContext!!)
         mMobileList = intent.extras?.getSerializable(MOBILE_LIST) as Mobiles
@@ -57,13 +49,7 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
         )
     }
 
-    override fun showLoading() {
-        swipeRefreshLayout.setRefreshing(true)
-    }
 
-    override fun hideLoading() {
-        swipeRefreshLayout.setRefreshing(false)
-    }
 
 
 }

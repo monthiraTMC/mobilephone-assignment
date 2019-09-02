@@ -1,23 +1,17 @@
-package com.scb.mobilephone.view
+package com.scb.mobilephone.favorites
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
-import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
 import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
 import com.scb.mobilephone.helper.CustomItemTouchHelperListener
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.presenter.FavoriteInterface
-import com.scb.mobilephone.presenter.FavoritePresenter
 import kotlinx.android.synthetic.main.item_list.view.*
 import java.util.*
 import kotlin.collections.ArrayList

@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.scb.mobilephone.view.FavoriteFragment
-import com.scb.mobilephone.view.ListFragment
+import com.scb.mobilephone.favorites.FavoriteFragment
+import com.scb.mobilephone.lists.ListFragment
 
 private val TAB_TITLES = arrayOf("Mobile list", "Favolite list")
 

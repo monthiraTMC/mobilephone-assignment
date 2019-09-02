@@ -1,16 +1,8 @@
-package com.scb.mobilephone.presenter
+package com.scb.mobilephone.helper
 
 import android.util.Log
-import android.view.View
 import com.scb.mobilephone.model.Mobiles
 
-//interface SortInterface {
-//
-//    interface SortPresenter {
-//        fun sortMobileList(mFillterArray:ArrayList<Mobiles>,sortType: String)
-//
-//    }
-//}
 
 
 

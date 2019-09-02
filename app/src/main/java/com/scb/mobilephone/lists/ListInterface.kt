@@ -1,4 +1,4 @@
-package com.scb.mobilephone.presenter
+package com.scb.mobilephone.lists
 
 import android.content.Context
 import com.scb.mobilephone.model.Mobiles

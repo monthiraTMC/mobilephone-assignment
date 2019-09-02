@@ -1,4 +1,4 @@
-package com.scb.mobilephone.presenter
+package com.scb.mobilephone.favorites
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,16 +10,12 @@ import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
-import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.view.FavoriteFragment
-import com.scb.mobilephone.view.ListFragment
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.scb.mobilephone.helper.SortPresenter
 import kotlin.NullPointerException as NullPointerException1
 
-class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterface.FavoritePresenter {
+class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
+    FavoriteInterface.FavoritePresenter {
 
     private lateinit var  mReceiveFillterArray: ArrayList<Mobiles>
     var _favoriteItem: ArrayList<Mobiles> = ArrayList()
@@ -52,6 +48,7 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterfa
                 object : BroadcastReceiver() {
                     override fun onReceive(context: Context, intent: Intent) {
                         mReceiveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
+                        Log.d("favArrayReceive", mReceiveArray.toString())
                         view.showAllFavorite(mReceiveArray)
                     }
                 },
@@ -65,8 +62,8 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterfa
     override fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>, context: Context) {
         Intent(RECEIVED_NEW_FAVORITE).let {
             it.putExtra(RECEIVED_NEW_FAVORITE_LIST, mFavoriteArray)
-            LocalBroadcastManager.getInstance(context!!).sendBroadcast(it)
-            Log.d("favorite", mFavoriteArray.toString())
+            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
+            Log.d("favArray", mFavoriteArray.toString())
         }
 
     }

@@ -1,7 +1,5 @@
-package com.scb.mobilephone.view
+package com.scb.mobilephone.lists
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
+import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
-import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
-import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.presenter.ListInterface
-import com.scb.mobilephone.presenter.ListPresenter
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.item_list.view.*
 
@@ -37,12 +31,13 @@ class ListFragment : Fragment(), ListInterface.ListView {
     private lateinit var rvMobileList: RecyclerView
     var mDataArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+
     private lateinit var mobileListAdapter: ListAdapter
-    private lateinit var swipeRefreshLayout : SwipeRefreshLayout
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
     companion object {
         lateinit var presenter: ListInterface.ListPresenter
     }
-
 
 
     override fun onCreateView(
@@ -69,12 +64,12 @@ class ListFragment : Fragment(), ListInterface.ListView {
         }
 
         presenter = ListPresenter(this, context!!)
-
         presenter.recieveBroadcast(context!!)
         swipeRefresh.setOnRefreshListener {
             presenter.getMobileList()
         }
         presenter.getMobileList()
+
     }
 
     override fun showLoading() {
@@ -138,25 +133,23 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
             holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    if (item in mFavoriteDataArray) {
-                        mFavoriteDataArray = mFavoriteDataArray
-                    }
-                    else {
-                        mFavoriteDataArray.add(item)
+                   if (item in mFavoriteDataArray) {
 
-                    }
-                    Log.d("favArrayCheck", mFavoriteDataArray.toString())
-                    presenter.sendBroadcast(mFavoriteDataArray, context!!)
+                   } else {
+                       mFavoriteDataArray.add(item)
+                       presenter.sendBroadcast(mFavoriteDataArray, context!!)
+                   }
+
                 } else {
                     mFavoriteDataArray.remove(item)
-                    presenter.sendBroadcast(mFavoriteDataArray, context!!)
                 }
+                Log.d("favArrayListSend", mFavoriteDataArray.toString())
             }
         }
     }
 
 
-    inner class ListHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class ListHolder(view: View) : RecyclerView.ViewHolder(view) {
         val mImage = view.imageView
         val mTitle = view.titleTextView
         val mDescription = view.descriptionTextView
