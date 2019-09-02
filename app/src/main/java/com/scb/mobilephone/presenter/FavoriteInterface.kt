@@ -9,7 +9,7 @@ interface FavoriteInterface {
 //
 //        fun hideLoading()
 
-        //        fun showAllFavorite(mobileList: List<Mobiles>)
+        fun showAllFavorite(mobileList: ArrayList<Mobiles>)
         fun getSortType(sortType: String)
     }
 
@@ -18,6 +18,8 @@ interface FavoriteInterface {
         fun recieveBroadcast(context: Context)
 
         fun getType(sortType: String)
+
+        fun submitList(list: ArrayList<Mobiles>)
     }
 
 }

@@ -19,6 +19,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterface.FavoritePresenter {
+    var _favoriteItem: ArrayList<Mobiles> = ArrayList()
+    var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
+    var view = _view
+
     private var mSortType: String = "none"
     override fun getType(sortType: String) {
         mSortType = sortType
@@ -43,5 +47,11 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterfa
         }
     }
 
+    override fun submitList(list: ArrayList<Mobiles>) {
+        _favoriteItem = list
+        mFavoriteDataArray.clear()
+        mFavoriteDataArray.addAll(_favoriteItem)
+        view.showAllFavorite(mFavoriteDataArray)
+    }
 
 }
