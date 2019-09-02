@@ -24,8 +24,15 @@ import kotlin.collections.ArrayList
 
 class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
 
+
+    override fun submitList(list: ArrayList<Mobiles>) {
+        mFavoriteArray = list
+        Log.d("favArray", mFavoriteArray.toString())
+        mFavoriteAdapter.notifyDataSetChanged()
+    }
+
     private lateinit var rvFavoriteList: RecyclerView
-    private var mSortType = "none"
+
 
     var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
 
@@ -57,9 +64,9 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
+
         favoritePresenter = FavoritePresenter(this)
         favoritePresenter.recieveBroadcast(context!!)
-
 
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
@@ -68,24 +75,22 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
 
     }
 
-
     override fun getSortType(sortType: String) {
-        mSortType = sortType
-        favoritePresenter.getType(mSortType)
-        mFavoriteAdapter.sort(mSortType)
-        Log.d("favsort", mSortType)
+        favoritePresenter.getMobileList()
+        favoritePresenter.getType(sortType)
+        Log.d("favdort", sortType)
 
     }
 
     override fun showAllFavorite(mobileList: ArrayList<Mobiles>) {
-        mFavoriteArray = mobileList
-        mFavoriteAdapter.notifyDataSetChanged()
+        favoritePresenter.submitList(mobileList)
     }
+
+
 
 
     inner class FavoriteAdapter : RecyclerView.Adapter<FavoriteHolder>(), CustomItemTouchHelperListener {
 
-        private var _favoriteMobiles: ArrayList<Mobiles> = ArrayList()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
             val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
@@ -114,43 +119,11 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
         }
 
         override fun onItemDismiss(position: Int) {
-            _favoriteMobiles?.removeAt(position)
+//            _favoriteMobiles?.removeAt(position)
             mFavoriteArray.removeAt(position)
             Log.d("remove", mFavoriteArray.toString())
             sendBroadcastMessage(mFavoriteArray)
             notifyItemRemoved(position)
-        }
-
-        fun submitList(list: ArrayList<Mobiles>) {
-            _favoriteMobiles = list
-            mFavoriteArray.clear()
-            mFavoriteArray.addAll(_favoriteMobiles)
-            notifyDataSetChanged()
-
-        }
-
-
-        fun sort(sortType: String) {
-            mFavoriteArray.clear()
-            when (sortType) {
-                "Price low to high" -> {
-                    mFavoriteArray.addAll(_favoriteMobiles.sortedBy { it.price })
-                }
-                "Price high to low" -> {
-                    mFavoriteArray.addAll(_favoriteMobiles.sortedByDescending { it.price })
-                }
-                "Rating 5-1" -> {
-                    mFavoriteArray.addAll(_favoriteMobiles.sortedByDescending { it.rating })
-                }
-                else -> {
-                    mFavoriteArray.addAll(_favoriteMobiles)
-                }
-            }
-            Log.d("sortType", sortType)
-            Log.d("sortType", mFavoriteArray.toString())
-            notifyDataSetChanged()
-
-
         }
 
         private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
