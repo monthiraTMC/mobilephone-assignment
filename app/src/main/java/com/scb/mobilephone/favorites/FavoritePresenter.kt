@@ -27,18 +27,18 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
 
     override fun getType(sortType: String) {
         mSortType = sortType
+        sort()
     }
 
-    override fun getMobileList() {
-        view.showAllFavorite(mReceiveFillterArray)
-    }
+//    override fun getMobileList() {
+//        view.showAllFavorite(mReceiveFillterArray)
+//    }
 
     override fun submitList(list: ArrayList<Mobiles>) {
         _favoriteItem = list
         mFavoriteDataArray.clear()
         mFavoriteDataArray.addAll(_favoriteItem)
-        mReceiveFillterArray = mSortPresenter.sortMobileList(mFavoriteDataArray, mSortType)
-        view.submitList(mReceiveFillterArray)
+        sort()
     }
 
     override fun recieveBroadcast(context: Context) {
@@ -66,6 +66,11 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
             Log.d("favArray", mFavoriteArray.toString())
         }
 
+    }
+
+    fun sort() {
+        mReceiveFillterArray = mSortPresenter.sortMobileList(mFavoriteDataArray, mSortType)
+        view.submitList(mReceiveFillterArray)
     }
 
 }

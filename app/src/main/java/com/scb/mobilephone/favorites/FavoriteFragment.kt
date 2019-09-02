@@ -71,7 +71,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
 
     override fun getSortType(sortType: String) {
         favoritePresenter.getType(sortType)
-        favoritePresenter.getMobileList()
 
     }
 

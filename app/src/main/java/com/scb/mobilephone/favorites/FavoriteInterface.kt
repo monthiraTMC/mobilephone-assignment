@@ -19,7 +19,7 @@ interface FavoriteInterface {
     }
 
     interface FavoritePresenter {
-        fun getMobileList()
+//        fun getMobileList()
 
         fun recieveBroadcast(context: Context)
 
