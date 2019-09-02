@@ -12,11 +12,10 @@ import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
-import com.scb.mobilephone.lists.ListFragment.Companion.presenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
+class ListAdapter(val context: Context, private val listener: MobileListListener) : RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
@@ -37,36 +36,30 @@ class ListAdapter(val context: Context) : RecyclerView.Adapter<ListHolder>() {
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
-
-        holder.itemView.setOnClickListener {
-            val item_positon = holder.adapterPosition
-            if (item_positon != RecyclerView.NO_POSITION) {
-                val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra(MOBILE_LIST, item)
-                context.startActivity(intent)
-            }
-        }
-
+        holder.itemView.setOnClickListener { listener.gotoDetailPage(item) }
         holder.mFavoriteToggle.text = null
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
 
         holder.mFavoriteToggle.isChecked = item in mFavoriteArray
-
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                if (item in mFavoriteArray) {
-
-                } else {
-                    mFavoriteArray.add(item)
-                    presenter.sendBroadcast(mFavoriteArray, context!!)
-                }
-
+            if (isChecked && item !in mFavoriteArray) {
+                mFavoriteArray.add(item)
+//                listener.addToFavorite(item)
             } else {
                 mFavoriteArray.remove(item)
+//                listener.removeFavorite(item)
             }
+            ListFragment.listPresenter.sendBroadcast(mFavoriteArray, context!!)
+
             Log.d("favArrayListSend", mFavoriteArray.toString())
         }
+    }
+
+    interface MobileListListener {
+        fun gotoDetailPage(item: Mobiles)
+        fun addToFavorite(item: Mobiles)
+        fun removeFavorite(item: Mobiles)
     }
 }
 

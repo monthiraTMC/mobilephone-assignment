@@ -2,7 +2,7 @@ package com.scb.mobilephone.helper
 
 //interface SortInterface {
 //
-//    interface SortPresenter {
+//    interface DataPresenter {
 //        fun sortMobileList(mFillterArray:ArrayList<Mobiles>,sortType: String)
 //
 //    }

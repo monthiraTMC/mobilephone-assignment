@@ -25,6 +25,7 @@ interface ListInterface {
         fun submitList(list: List<Mobiles>)
         fun getType(sortType: String)
         fun sendBroadcast(favoriteList: ArrayList<Mobiles>, context: Context)
+        fun gotoDetailPage(item: Mobiles)
     }
 
 }

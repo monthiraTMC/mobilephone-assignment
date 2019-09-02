@@ -1,6 +1,5 @@
 package com.scb.mobilephone.lists
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,13 +11,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.datails.DetailActivity
-import com.scb.mobilephone.extensions.MOBILE_LIST
+import com.scb.mobilephone.helper.DataPresenter
+import com.scb.mobilephone.helper.FavoriteDataArray
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.item_list.view.*
 
 
 class ListFragment : Fragment(), ListInterface.ListView {
@@ -33,9 +30,9 @@ class ListFragment : Fragment(), ListInterface.ListView {
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     companion object {
-        lateinit var presenter: ListInterface.ListPresenter
+        lateinit var listPresenter: ListInterface.ListPresenter
     }
-
+    private lateinit var dataPresenter: FavoriteDataArray
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +47,21 @@ class ListFragment : Fragment(), ListInterface.ListView {
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
-        mobileListAdapter = ListAdapter(context!!)
+        listPresenter = ListPresenter(this, context!!)
+        mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener{
+            override fun gotoDetailPage(item: Mobiles) {
+                listPresenter.gotoDetailPage(item)
+            }
+
+            override fun addToFavorite(item: Mobiles) {
+                dataPresenter.addToFavorite(item)
+            }
+
+            override fun removeFavorite(item: Mobiles) {
+                dataPresenter.removeFavorite(item)
+            }
+
+        })
 
         rvMobileList.let {
             it.adapter = mobileListAdapter
@@ -60,32 +71,31 @@ class ListFragment : Fragment(), ListInterface.ListView {
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
 
-        presenter = ListPresenter(this, context!!)
-        presenter.recieveBroadcast(context!!)
+        dataPresenter = DataPresenter(object : DataPresenter.FavoriteDataListener{
+            override fun getFavorite(list : ArrayList<Mobiles>) {
+                mobileListAdapter.mFavoriteArray = list
+//                Log.d("mFavoriteList", list.toString())
+            }
+
+        })
+        listPresenter.recieveBroadcast(context!!)
         swipeRefresh.setOnRefreshListener {
-            presenter.getApiMobileList()
+            listPresenter.getApiMobileList()
         }
-        presenter.getApiMobileList()
-
+        listPresenter.getApiMobileList()
     }
 
-    override fun showLoading() {
-        swipeRefreshLayout.setRefreshing(true)
-    }
+    override fun showLoading() { swipeRefreshLayout.setRefreshing(true) }
 
-    override fun hideLoading() {
-        swipeRefreshLayout.setRefreshing(false)
-    }
+    override fun hideLoading() { swipeRefreshLayout.setRefreshing(false) }
 
     override fun showAllMobiles(mobileList: ArrayList<Mobiles>) {
-        presenter.submitList(mobileList)
-        presenter.addToMobileList(mobileList)
-
+        listPresenter.submitList(mobileList)
+        listPresenter.addToMobileList(mobileList)
     }
 
     override fun getSortType(sortType: String) {
-        presenter.getType(sortType)
-
+        listPresenter.getType(sortType)
     }
 
     override fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>) {

@@ -11,7 +11,7 @@ import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.helper.SortPresenter
+import com.scb.mobilephone.helper.DataPresenter
 import kotlin.NullPointerException as NullPointerException1
 
 class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
@@ -20,7 +20,12 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
     private lateinit var  mReceiveFillterArray: ArrayList<Mobiles>
     var _favoriteItem: ArrayList<Mobiles> = ArrayList()
     var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
-    private var mSortPresenter: SortPresenter = SortPresenter()
+    private var mDataPresenter: DataPresenter = DataPresenter(object : DataPresenter.FavoriteDataListener{
+        override fun getFavorite(list: ArrayList<Mobiles>) {
+            Log.d("mFavoriteArray2", list.toString())
+        }
+
+    })
     var view = _view
     private var mSortType: String = "none"
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
@@ -29,10 +34,6 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
         mSortType = sortType
         sort()
     }
-
-//    override fun getMobileList() {
-//        view.showAllFavorite(mReceiveFillterArray)
-//    }
 
     override fun submitList(list: ArrayList<Mobiles>) {
         _favoriteItem = list
@@ -43,20 +44,16 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
 
     override fun recieveBroadcast(context: Context) {
         mReceiveArray.clear()
-        try {
-            LocalBroadcastManager.getInstance(context!!).registerReceiver(
-                object : BroadcastReceiver() {
-                    override fun onReceive(context: Context, intent: Intent) {
-                        mReceiveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
-                        Log.d("favArrayReceive", mReceiveArray.toString())
-                        view.showAllFavorite(mReceiveArray)
-                    }
-                },
-                IntentFilter(RECEIVED_NEW_MESSAGE)
-            )
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
-        }
+        LocalBroadcastManager.getInstance(context).registerReceiver(
+            object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
+                    mReceiveArray = intent.extras?.getSerializable(RECEIVED_FAVORITE) as ArrayList<Mobiles>
+                    view.showAllFavorite(mReceiveArray)
+                    Log.d("receiveFav", mReceiveArray.toString())
+                }
+            },
+            IntentFilter(RECEIVED_NEW_MESSAGE)
+        )
     }
 
     override fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>, context: Context) {
@@ -69,7 +66,7 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
     }
 
     fun sort() {
-        mReceiveFillterArray = mSortPresenter.sortMobileList(mFavoriteDataArray, mSortType)
+        mReceiveFillterArray = mDataPresenter.sortMobileList(mFavoriteDataArray, mSortType)
         view.submitList(mReceiveFillterArray)
     }
 

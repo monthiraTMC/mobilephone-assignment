@@ -6,28 +6,26 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.*
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.helper.SortPresenter
+import com.scb.mobilephone.helper.DataPresenter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(_view: ListInterface.ListView, _context:Context) :
+class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     ListInterface.ListPresenter {
+    override fun gotoDetailPage(item: Mobiles) {
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra(MOBILE_LIST, item)
+        context.startActivity(intent)
+    }
+
     override fun addToMobileList(mobiles: ArrayList<Mobiles>) {
         mFillterArray = mobiles
     }
-
-    private var view: ListInterface.ListView = _view
-    private var context = _context
-    private var mSortType: String = "none"
-    private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
-    private var mFillterArray: ArrayList<Mobiles> = ArrayList()
-    private var mRecieveFillterArray: ArrayList<Mobiles> = ArrayList()
-    private var mSortPresenter: SortPresenter = SortPresenter()
-    private var _mobiles: List<Mobiles> = listOf()
 
     override fun getApiMobileList() {
         view.showLoading()
@@ -90,10 +88,26 @@ class ListPresenter(_view: ListInterface.ListView, _context:Context) :
         sort()
     }
 
-
-    fun sort(){
-        mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
+    fun sort() {
+        mRecieveFillterArray = mDataPresenter.sortMobileList(mFillterArray, mSortType)
         view.submitList(mRecieveFillterArray)
     }
+
+    private var view: ListInterface.ListView = _view
+    private var context = _context
+    private var mSortType: String = "none"
+    private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
+    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
+    private var mFillterArray: ArrayList<Mobiles> = ArrayList()
+    private var mRecieveFillterArray: ArrayList<Mobiles> = ArrayList()
+    private var mDataPresenter: DataPresenter = DataPresenter(object : DataPresenter.FavoriteDataListener{
+        override fun getFavorite(list : ArrayList<Mobiles>) {
+            mFavoriteArray = list
+            Log.d("mFavoriteArray", list.toString())
+        }
+
+    })
+    private var _mobiles: List<Mobiles> = listOf()
+
 
 }
