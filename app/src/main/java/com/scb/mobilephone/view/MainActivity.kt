@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
-        mMainPresenter = MainPresenter(this, this@MainActivity)
+        mMainPresenter = MainPresenter( this@MainActivity)
         btnSort.setOnClickListener { mMainPresenter.showDialog() }
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

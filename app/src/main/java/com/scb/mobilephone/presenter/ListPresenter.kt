@@ -6,19 +6,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.scb.mobilephone.extensions.RECEIVED_FAVORITE
-import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
-import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
-import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
+import com.scb.mobilephone.extensions.*
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter {
+class ListPresenter(_view: ListInterface.ListView, _context:Context) : ListInterface.ListPresenter {
 
     private var view: ListInterface.ListView = _view
+    private var context = _context
     private var mSortType: String = "none"
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
@@ -28,18 +26,21 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
     private var _mobiles: List<Mobiles> = listOf()
 
     override fun getMobileList() {
+        view.showLoading()
         val call = ApiInterface.getClient().getMobileList()
         call.enqueue(object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
                 Log.d("getApi", t.message.toString())
+                view.hideLoading()
+                context.showToast("Cannot load api " + t.message.toString())
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
                 Log.d("mobile-feed", response.toString())
                 if (response.isSuccessful) {
+                    context.showToast("Successfully")
                     view.showAllMobiles(response.body()!!)
                     view.hideLoading()
-                    Log.d("mobile-feed", response.body().toString())
                 }
 
             }
@@ -79,7 +80,6 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
         mFillterArray.addAll(_mobiles)
         mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
         view.submitList(mRecieveFillterArray)
-
 
     }
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.MOBILE_LIST
@@ -36,10 +37,9 @@ class ListFragment : Fragment(), ListInterface.ListView {
     private lateinit var rvMobileList: RecyclerView
     var mDataArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
-
+    private lateinit var mobileListAdapter: ListAdapter
+    private lateinit var swipeRefreshLayout : SwipeRefreshLayout
     companion object {
-        @SuppressLint("StaticFieldLeak")
-        lateinit var mobileListAdapter: ListAdapter
         lateinit var presenter: ListInterface.ListPresenter
     }
 
@@ -57,7 +57,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
-
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
         mobileListAdapter = ListAdapter()
 
         rvMobileList.let {
@@ -68,21 +68,21 @@ class ListFragment : Fragment(), ListInterface.ListView {
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
 
-        presenter = ListPresenter(this)
-        presenter.getMobileList()
-        presenter.recieveBroadcast(context!!)
+        presenter = ListPresenter(this, context!!)
 
+        presenter.recieveBroadcast(context!!)
         swipeRefresh.setOnRefreshListener {
             presenter.getMobileList()
         }
+        presenter.getMobileList()
     }
 
     override fun showLoading() {
-        swipeRefresh?.setRefreshing(true)
+        swipeRefreshLayout.setRefreshing(true)
     }
 
     override fun hideLoading() {
-        swipeRefresh?.setRefreshing(false)
+        swipeRefreshLayout.setRefreshing(false)
     }
 
     override fun showAllMobiles(mobileList: List<Mobiles>) {
@@ -114,7 +114,6 @@ class ListFragment : Fragment(), ListInterface.ListView {
         override fun onBindViewHolder(holder: ListHolder, position: Int) {
 
             var item = mDataArray[position]
-            var id = 0
             holder.mTitle.text = item.name
             holder.mDescription.text = item.description
             holder.mPrice.text = "Price: " + item.price.toString()
