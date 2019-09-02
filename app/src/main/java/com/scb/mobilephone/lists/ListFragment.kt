@@ -66,9 +66,9 @@ class ListFragment : Fragment(), ListInterface.ListView {
         presenter = ListPresenter(this, context!!)
         presenter.recieveBroadcast(context!!)
         swipeRefresh.setOnRefreshListener {
-            presenter.getMobileList()
+            presenter.getApiMobileList()
         }
-        presenter.getMobileList()
+        presenter.getApiMobileList()
 
     }
 
@@ -80,12 +80,13 @@ class ListFragment : Fragment(), ListInterface.ListView {
         swipeRefreshLayout.setRefreshing(false)
     }
 
-    override fun showAllMobiles(mobileList: List<Mobiles>) {
+    override fun showAllMobiles(mobileList: ArrayList<Mobiles>) {
         presenter.submitList(mobileList)
+        presenter.addToMobileList(mobileList)
+
     }
 
     override fun getSortType(sortType: String) {
-        presenter.getMobileList()
         presenter.getType(sortType)
 
     }

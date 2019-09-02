@@ -16,6 +16,11 @@ import retrofit2.Response
 
 class ListPresenter(_view: ListInterface.ListView, _context:Context) :
     ListInterface.ListPresenter {
+    override fun addToMobileList(mobiles: ArrayList<Mobiles>) {
+        mFillterArray = mobiles
+        sort()
+        Log.d("mDataArray", mobiles.toString())
+    }
 
     private var view: ListInterface.ListView = _view
     private var context = _context
@@ -26,7 +31,7 @@ class ListPresenter(_view: ListInterface.ListView, _context:Context) :
     private var mSortPresenter: SortPresenter = SortPresenter()
     private var _mobiles: List<Mobiles> = listOf()
 
-    override fun getMobileList() {
+    override fun getApiMobileList() {
         view.showLoading()
         mReceiveArray.clear()
         val call = ApiInterface.getClient().getMobileList()
@@ -42,7 +47,7 @@ class ListPresenter(_view: ListInterface.ListView, _context:Context) :
                 if (response.isSuccessful) {
                     context.showToast("Successfully")
                     mReceiveArray.addAll(response.body()!!)
-                    view.showAllMobiles(response.body()!!)
+                    view.showAllMobiles(mReceiveArray)
                     view.hideLoading()
                 }
 
@@ -79,13 +84,18 @@ class ListPresenter(_view: ListInterface.ListView, _context:Context) :
         _mobiles = list
         mFillterArray.clear()
         mFillterArray.addAll(_mobiles)
-        mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
-        view.submitList(mRecieveFillterArray)
-
+        sort()
     }
 
     override fun getType(sortType: String) {
         mSortType = sortType
+        sort()
+    }
+
+
+    fun sort(){
+        mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
+        view.submitList(mRecieveFillterArray)
     }
 
 }
