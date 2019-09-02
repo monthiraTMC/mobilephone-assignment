@@ -54,7 +54,6 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
             object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
                     mReceiveArray = intent.extras?.getSerializable(RECEIVED_NEW_FAVORITE_LIST) as ArrayList<Mobiles>
-//                    ListFragment.mobileListAdapter.reciveFavoriteList(mReciveArray)
                     mFavoriteDataArray.clear()
                     mFavoriteDataArray.addAll(mReceiveArray)
                     view.reciveFavoriteList(mFavoriteDataArray)
@@ -67,7 +66,6 @@ class ListPresenter(_view: ListInterface.ListView) : ListInterface.ListPresenter
     }
 
     override fun sendBroadcast(favoriteList: ArrayList<Mobiles>, context: Context) {
-
         Intent(RECEIVED_NEW_MESSAGE).let {
             it.putExtra(RECEIVED_FAVORITE, favoriteList)
             LocalBroadcastManager.getInstance(context).sendBroadcast(it)

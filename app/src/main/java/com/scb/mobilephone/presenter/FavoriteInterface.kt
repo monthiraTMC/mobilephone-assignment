@@ -15,7 +15,6 @@ interface FavoriteInterface {
 
         fun getSortType(sortType: String)
 
-//        fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>)
 
     }
 
@@ -27,6 +26,8 @@ interface FavoriteInterface {
         fun getType(sortType: String)
 
         fun submitList(list: ArrayList<Mobiles>)
+
+        fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>, context: Context)
     }
 
 }

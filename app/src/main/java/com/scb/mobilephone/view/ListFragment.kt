@@ -126,7 +126,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
                 val item_positon = holder.adapterPosition
                 if (item_positon != RecyclerView.NO_POSITION) {
                     val intent = Intent(context, DetailActivity::class.java)
-                    intent.putExtra(MOBILE_LIST, mDataArray[position])
+                    intent.putExtra(MOBILE_LIST, item)
                     startActivity(intent)
                 }
             }
@@ -139,7 +139,14 @@ class ListFragment : Fragment(), ListInterface.ListView {
 
             holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    mFavoriteDataArray.add(item)
+                    if (item in mFavoriteDataArray) {
+                        mFavoriteDataArray = mFavoriteDataArray
+                    }
+                    else {
+                        mFavoriteDataArray.add(item)
+
+                    }
+                    Log.d("favArrayCheck", mFavoriteDataArray.toString())
                     presenter.sendBroadcast(mFavoriteDataArray, context!!)
                 } else {
                     mFavoriteDataArray.remove(item)

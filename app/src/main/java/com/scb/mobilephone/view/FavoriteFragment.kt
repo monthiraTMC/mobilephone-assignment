@@ -76,9 +76,8 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
     }
 
     override fun getSortType(sortType: String) {
-        favoritePresenter.getMobileList()
         favoritePresenter.getType(sortType)
-        Log.d("favdort", sortType)
+        favoritePresenter.getMobileList()
 
     }
 
@@ -87,10 +86,7 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
     }
 
 
-
-
     inner class FavoriteAdapter : RecyclerView.Adapter<FavoriteHolder>(), CustomItemTouchHelperListener {
-
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
             val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
@@ -108,7 +104,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
             holder.mRating.text = "Rating: " + item.rating.toString()
             Glide.with(this@FavoriteFragment).load(item.thumbImageURL).into(holder.mImage)
             holder.itemView.setTag(R.id.view_pager, item.id)
-
         }
 
 
@@ -119,21 +114,11 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
         }
 
         override fun onItemDismiss(position: Int) {
-//            _favoriteMobiles?.removeAt(position)
             mFavoriteArray.removeAt(position)
             Log.d("remove", mFavoriteArray.toString())
-            sendBroadcastMessage(mFavoriteArray)
+            favoritePresenter.sendBroadcastMessage(mFavoriteArray, context!!)
             notifyItemRemoved(position)
         }
-
-        private fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>) {
-            Intent(RECEIVED_NEW_FAVORITE).let {
-                it.putExtra(RECEIVED_NEW_FAVORITE_LIST, mFavoriteArray)
-                LocalBroadcastManager.getInstance(context!!).sendBroadcast(it)
-                Log.d("favorite", mFavoriteArray.toString())
-            }
-        }
-
     }
 
 

@@ -42,7 +42,6 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterfa
         mFavoriteDataArray.clear()
         mFavoriteDataArray.addAll(_favoriteItem)
         mReceiveFillterArray = mSortPresenter.sortMobileList(mFavoriteDataArray, mSortType)
-        Log.d("favFillter", mReceiveFillterArray.toString())
         view.submitList(mReceiveFillterArray)
     }
 
@@ -61,6 +60,15 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) : FavoriteInterfa
         } catch (e: NullPointerException) {
             e.printStackTrace()
         }
+    }
+
+    override fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>, context: Context) {
+        Intent(RECEIVED_NEW_FAVORITE).let {
+            it.putExtra(RECEIVED_NEW_FAVORITE_LIST, mFavoriteArray)
+            LocalBroadcastManager.getInstance(context!!).sendBroadcast(it)
+            Log.d("favorite", mFavoriteArray.toString())
+        }
+
     }
 
 }
