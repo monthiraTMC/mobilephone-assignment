@@ -54,8 +54,10 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
         Log.d("removeFavorite", item.toString())
         val task = Runnable {
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-            context.showToast("Remove Favorite Successfully")
+            if (result != null) {
+                mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
+                context.showToast("Remove Favorite Successfully")
+            }
         }
         mThread.postTask(task)
     }
@@ -125,7 +127,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     private var mSortArray: ArrayList<Mobiles> = ArrayList()
     private var mSortPresenter: SortList = SortList()
     private var _mobiles: List<Mobiles> = listOf()
-    var mThread: CMWorkerThread = CMWorkerThread(THREAD_NAME).also { it.start()}
+    var mThread: CMWorkerThread = CMWorkerThread(THREAD_NAME).also {it.start()}
 
 
 }

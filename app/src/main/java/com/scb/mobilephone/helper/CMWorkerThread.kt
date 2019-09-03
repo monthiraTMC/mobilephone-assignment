@@ -11,7 +11,6 @@ class CMWorkerThread(threadName: String) : HandlerThread(threadName) {
 
     override fun onLooperPrepared() {
         super.onLooperPrepared()
-
         mWorkerHandler = Handler(looper)
     }
 
