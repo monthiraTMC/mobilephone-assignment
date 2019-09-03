@@ -9,16 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
-import com.scb.mobilephone.helper.CustomItemTouchHelperListener
-import com.scb.mobilephone.helper.DataPresenter
-import com.scb.mobilephone.helper.FavoriteDataArray
+import com.scb.mobilephone.helper.*
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDataArrayInterface.PresentToFavoriteView {
+    override fun getFavorite(list: ArrayList<Mobiles>) {
+        Log.d("meen2", list.toString())
+    }
 
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -27,14 +27,14 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
         mFavoriteAdapter.notifyDataSetChanged()
     }
 
-    private lateinit var dataPresenter: FavoriteDataArray
+//    private lateinit var dataPresenter: FavoriteDataArray
     private lateinit var rvFavoriteList: RecyclerView
 
     companion object {
         lateinit var mFavoriteAdapter: FavoriteAdapter
         lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
     }
-
+    lateinit var getFavoritePresenter: FavoriteDataArrayInterface.GetFavoritePresenter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,6 +58,7 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView {
 
         favoritePresenter = FavoritePresenter(this)
         favoritePresenter.recieveBroadcast(context!!)
+
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)

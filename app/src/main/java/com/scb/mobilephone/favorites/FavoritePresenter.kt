@@ -11,7 +11,7 @@ import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE
 import com.scb.mobilephone.extensions.RECEIVED_NEW_FAVORITE_LIST
 import com.scb.mobilephone.extensions.RECEIVED_NEW_MESSAGE
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.helper.DataPresenter
+import com.scb.mobilephone.helper.SortList
 import kotlin.NullPointerException as NullPointerException1
 
 class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
@@ -20,12 +20,7 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
     private lateinit var  mReceiveFillterArray: ArrayList<Mobiles>
     var _favoriteItem: ArrayList<Mobiles> = ArrayList()
     var mFavoriteDataArray: ArrayList<Mobiles> = ArrayList()
-    private var mDataPresenter: DataPresenter = DataPresenter(object : DataPresenter.FavoriteDataListener{
-        override fun getFavorite(list: ArrayList<Mobiles>) {
-            Log.d("mFavoriteArray2", list.toString())
-        }
-
-    })
+    private var mSortPresenter: SortList = SortList()
     var view = _view
     private var mSortType: String = "none"
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
@@ -66,7 +61,7 @@ class FavoritePresenter(_view: FavoriteInterface.FavoriteView) :
     }
 
     fun sort() {
-        mReceiveFillterArray = mDataPresenter.sortMobileList(mFavoriteDataArray, mSortType)
+        mReceiveFillterArray = mSortPresenter.sortMobileList(mFavoriteDataArray, mSortType)
         view.submitList(mReceiveFillterArray)
     }
 

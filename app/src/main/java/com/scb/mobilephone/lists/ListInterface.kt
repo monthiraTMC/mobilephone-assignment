@@ -28,4 +28,8 @@ interface ListInterface {
         fun gotoDetailPage(item: Mobiles)
     }
 
+    interface FavoriteList{
+        fun getFavorite(list: ArrayList<Mobiles>)
+    }
+
 }

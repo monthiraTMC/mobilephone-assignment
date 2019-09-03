@@ -15,13 +15,14 @@ private val TAB_TITLES = arrayOf("Mobile list", "Favolite list")
  */
 
 class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
-
+    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
+    private var mListFragment: ListFragment = ListFragment()
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         return when (position) {
-            0-> ListFragment()
-            else-> FavoriteFragment()
+            0-> mListFragment
+            else-> mFavoriteFragment
         }
     }
 

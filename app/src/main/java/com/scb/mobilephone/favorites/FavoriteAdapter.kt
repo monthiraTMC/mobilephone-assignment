@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.favorites.FavoriteFragment.Companion.favoritePresenter
 import com.scb.mobilephone.helper.CustomItemTouchHelperListener
-import com.scb.mobilephone.helper.DataPresenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import java.util.*

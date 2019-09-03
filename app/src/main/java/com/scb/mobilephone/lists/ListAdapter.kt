@@ -45,10 +45,10 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && item !in mFavoriteArray) {
                 mFavoriteArray.add(item)
-//                listener.addToFavorite(item)
+                listener.addToFavorite(item)
             } else {
                 mFavoriteArray.remove(item)
-//                listener.removeFavorite(item)
+                listener.removeFavorite(item)
             }
             ListFragment.listPresenter.sendBroadcast(mFavoriteArray, context!!)
 

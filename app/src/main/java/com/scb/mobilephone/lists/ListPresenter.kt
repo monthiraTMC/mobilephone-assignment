@@ -10,7 +10,7 @@ import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.*
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
-import com.scb.mobilephone.helper.DataPresenter
+import com.scb.mobilephone.helper.SortList
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -89,7 +89,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     }
 
     fun sort() {
-        mRecieveFillterArray = mDataPresenter.sortMobileList(mFillterArray, mSortType)
+        mRecieveFillterArray = mSortPresenter.sortMobileList(mFillterArray, mSortType)
         view.submitList(mRecieveFillterArray)
     }
 
@@ -100,13 +100,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
     private var mRecieveFillterArray: ArrayList<Mobiles> = ArrayList()
-    private var mDataPresenter: DataPresenter = DataPresenter(object : DataPresenter.FavoriteDataListener{
-        override fun getFavorite(list : ArrayList<Mobiles>) {
-            mFavoriteArray = list
-            Log.d("mFavoriteArray", list.toString())
-        }
-
-    })
+    private var mSortPresenter: SortList = SortList()
     private var _mobiles: List<Mobiles> = listOf()
 
 

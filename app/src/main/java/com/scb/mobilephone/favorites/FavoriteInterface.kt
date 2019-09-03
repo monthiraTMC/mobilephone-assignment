@@ -8,6 +8,7 @@ interface FavoriteInterface {
 //        fun showLoading()
 //
 //        fun hideLoading()
+//        fun getFavorite(mobileList: ArrayList<Mobiles>)
 
         fun showAllFavorite(mobileList: ArrayList<Mobiles>)
 
@@ -29,5 +30,6 @@ interface FavoriteInterface {
 
         fun sendBroadcastMessage(mFavoriteArray: ArrayList<Mobiles>, context: Context)
     }
+
 
 }
