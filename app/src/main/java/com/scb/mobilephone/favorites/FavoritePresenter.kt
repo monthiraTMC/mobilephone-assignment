@@ -1,7 +1,6 @@
 package com.scb.mobilephone.favorites
 
 import com.scb.mobilephone.helper.CustomItemTouchHelperListener
-import com.scb.mobilephone.helper.FavoriteDataArrayInterface
 import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.model.Mobiles
 import kotlin.NullPointerException as NullPointerException1

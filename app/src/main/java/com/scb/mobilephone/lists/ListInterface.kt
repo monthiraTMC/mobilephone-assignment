@@ -15,17 +15,19 @@ interface ListInterface {
 
         fun submitList(list: ArrayList<Mobiles>)
 
-//        fun getFavoriteItem(list: ArrayList<Mobiles>)
+        fun getAllFavorite(list: List<Mobiles>)
 
     }
 
     interface ListPresenter {
-//        fun getFavoriteItem(list: ArrayList<Mobiles>)
         fun getApiMobileList()
         fun addToMobileList(mobiles: ArrayList<Mobiles>)
-        fun submitList(list: List<Mobiles>)
         fun getType(sortType: String)
         fun gotoDetailPage(item: Mobiles)
+        fun addToFavorite(item: Mobiles)
+        fun removeFavorite(item: Mobiles)
+        fun getAllFavorite()
+        fun setupDatabase()
 
     }
 

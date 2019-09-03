@@ -12,34 +12,29 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
-import com.scb.mobilephone.favorites.FavoriteFragment
-import com.scb.mobilephone.helper.AddFavorite
-import com.scb.mobilephone.helper.FavoriteDataArrayInterface
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-
-class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterface.PresentToView {
-    override fun getFavorite(list: ArrayList<Mobiles>) {
+class ListFragment : Fragment(), ListInterface.ListView {
+    override fun getAllFavorite(list: List<Mobiles>) {
         mobileListAdapter.mFavoriteArray = list
-        Log.d("favInterface0", list.toString())
+        mobileListAdapter.notifyDataSetChanged()
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
-        mobileListAdapter.mMobileArray = list
+        mobileListAdapter.mMobileArray.clear()
+        mobileListAdapter.mMobileArray.addAll(list)
         mobileListAdapter.notifyDataSetChanged()
     }
 
     private lateinit var rvMobileList: RecyclerView
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
 
     companion object {
         lateinit var listPresenter: ListInterface.ListPresenter
     }
-    private lateinit var addFavoritePresenter: FavoriteDataArrayInterface.AddFavoritePresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,18 +49,17 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
-
-        mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener{
+        mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
                 listPresenter.gotoDetailPage(item)
             }
 
             override fun addToFavorite(item: Mobiles) {
-                addFavoritePresenter.addToFavorite(item)
+                listPresenter.addToFavorite(item)
             }
 
             override fun removeFavorite(item: Mobiles) {
-                addFavoritePresenter.removeFavorite(item)
+                listPresenter.removeFavorite(item)
             }
 
         })
@@ -78,8 +72,8 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
         listPresenter = ListPresenter(this, context!!)
-
-        addFavoritePresenter = AddFavorite(this, mFavoriteFragment)
+        listPresenter.setupDatabase()
+        listPresenter.getAllFavorite()
 
         swipeRefresh.setOnRefreshListener {
             listPresenter.getApiMobileList()
@@ -88,9 +82,13 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
 
     }
 
-    override fun showLoading() { swipeRefreshLayout.setRefreshing(true) }
+    override fun showLoading() {
+        swipeRefreshLayout.setRefreshing(true)
+    }
 
-    override fun hideLoading() { swipeRefreshLayout.setRefreshing(false) }
+    override fun hideLoading() {
+        swipeRefreshLayout.setRefreshing(false)
+    }
 
     override fun showAllMobiles(mobileList: ArrayList<Mobiles>) {
         listPresenter.addToMobileList(mobileList)

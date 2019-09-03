@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_list.view.*
 
 class ListAdapter(val context: Context, private val listener: MobileListListener) : RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
+    var mFavoriteArray: List<Mobiles> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
         return ListHolder(view)
@@ -40,8 +40,10 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         holder.mFavoriteToggle.text = null
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
-        Log.d("mfavListReceive", mFavoriteArray.toString())
+        Log.d("mfavListReceive0", mFavoriteArray.toString())
+
         holder.mFavoriteToggle.isChecked = item in mFavoriteArray
+
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && item !in mFavoriteArray) {
                 listener.addToFavorite(item)

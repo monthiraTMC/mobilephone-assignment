@@ -9,15 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
 import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
-import com.scb.mobilephone.helper.FavoriteDataArrayInterface
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDataArrayInterface.PresentToView{
-    override fun getFavorite(list: ArrayList<Mobiles>) {
-        favoritePresenter.submitList(list)
-        Log.d("favInterface1", list.toString())
-    }
-
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView{
 
     override fun submitList(list: ArrayList<Mobiles>) {
         mFavoriteAdapter.mFavoriteArray = list
