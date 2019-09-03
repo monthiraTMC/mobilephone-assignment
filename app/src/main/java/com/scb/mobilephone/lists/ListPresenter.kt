@@ -17,10 +17,6 @@ import retrofit2.Response
 
 class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     ListInterface.ListPresenter {
-//    override fun getFavoriteItem(list: ArrayList<Mobiles>) {
-//        mFavoriteArray = list
-//        view.getFavoriteItem(mFillterArray)
-//    }
 
     override fun gotoDetailPage(item: Mobiles) {
         val intent = Intent(context, DetailActivity::class.java)
@@ -30,6 +26,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
 
     override fun addToMobileList(mobiles: ArrayList<Mobiles>) {
         mFillterArray = mobiles
+        sort()
     }
 
     override fun getApiMobileList() {
@@ -48,6 +45,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
                 if (response.isSuccessful) {
                     context.showToast("Successfully")
                     mReceiveArray.addAll(response.body()!!)
+                    Log.d("mobile-feed", mReceiveArray.toString())
                     view.showAllMobiles(mReceiveArray)
                     view.hideLoading()
                 }
@@ -80,7 +78,6 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     private var context = _context
     private var mSortType: String = "none"
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
-    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private var mFillterArray: ArrayList<Mobiles> = ArrayList()
     private var mRecieveFillterArray: ArrayList<Mobiles> = ArrayList()
     private var mSortPresenter: SortList = SortList()

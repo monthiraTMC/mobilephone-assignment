@@ -30,9 +30,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDat
         lateinit var mFavoriteAdapter: FavoriteAdapter
         lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
     }
-    private lateinit var getFavoritePresenter: FavoriteDataArrayInterface.AddFavoritePresenter
-//    private var mListFragment: ListFragment = ListFragment()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

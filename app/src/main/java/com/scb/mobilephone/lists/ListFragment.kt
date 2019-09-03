@@ -54,7 +54,7 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
-        listPresenter = ListPresenter(this, context!!)
+
         mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener{
             override fun gotoDetailPage(item: Mobiles) {
                 listPresenter.gotoDetailPage(item)
@@ -77,6 +77,7 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
+        listPresenter = ListPresenter(this, context!!)
 
         addFavoritePresenter = AddFavorite(this, mFavoriteFragment)
 
@@ -84,6 +85,7 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
             listPresenter.getApiMobileList()
         }
         listPresenter.getApiMobileList()
+
     }
 
     override fun showLoading() { swipeRefreshLayout.setRefreshing(true) }
@@ -91,18 +93,12 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
     override fun hideLoading() { swipeRefreshLayout.setRefreshing(false) }
 
     override fun showAllMobiles(mobileList: ArrayList<Mobiles>) {
-        listPresenter.submitList(mobileList)
         listPresenter.addToMobileList(mobileList)
     }
 
     override fun getSortType(sortType: String) {
         listPresenter.getType(sortType)
     }
-
-//    override fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>) {
-//        mobileListAdapter.mFavoriteArray = favoriteList
-//        mobileListAdapter.notifyDataSetChanged()
-//    }
 
 
 }
