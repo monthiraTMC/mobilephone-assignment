@@ -17,6 +17,11 @@ import retrofit2.Response
 
 class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     ListInterface.ListPresenter {
+//    override fun getFavoriteItem(list: ArrayList<Mobiles>) {
+//        mFavoriteArray = list
+//        view.getFavoriteItem(mFillterArray)
+//    }
+
     override fun gotoDetailPage(item: Mobiles) {
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra(MOBILE_LIST, item)
@@ -53,28 +58,6 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
 
     }
 
-    override fun recieveBroadcast(context: Context) {
-        mReceiveArray.clear()
-        LocalBroadcastManager.getInstance(context).registerReceiver(
-            object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    mReceiveArray = intent.extras?.getSerializable(RECEIVED_NEW_FAVORITE_LIST) as ArrayList<Mobiles>
-                    view.reciveFavoriteList(mReceiveArray)
-                    Log.d("receiveFav", mReceiveArray.toString())
-                }
-            },
-            IntentFilter(RECEIVED_NEW_FAVORITE)
-        )
-
-    }
-
-    override fun sendBroadcast(favoriteList: ArrayList<Mobiles>, context: Context) {
-        Intent(RECEIVED_NEW_MESSAGE).let {
-            it.putExtra(RECEIVED_FAVORITE, favoriteList)
-            LocalBroadcastManager.getInstance(context).sendBroadcast(it)
-
-        }
-    }
 
     override fun submitList(list: List<Mobiles>) {
         _mobiles = list

@@ -8,61 +8,44 @@ import com.scb.mobilephone.lists.ListInterface
 import com.scb.mobilephone.model.Mobiles
 
 interface FavoriteDataArrayInterface {
-    interface PresentToFavoriteView{
+    interface PresentToView {
         fun getFavorite(list: ArrayList<Mobiles>)
     }
-    interface PresentToListView{
-        fun getFavorite(list: ArrayList<Mobiles>)
-    }
-    interface GetFavoritePresenter{
+
+    interface AddFavoritePresenter {
         fun addToFavorite(item: Mobiles)
         fun removeFavorite(item: Mobiles)
     }
+
 }
 
 
-class AddFavorite(_listview: FavoriteDataArrayInterface.PresentToListView,
-                  _favoriteView : FavoriteDataArrayInterface.PresentToFavoriteView) : FavoriteDataArrayInterface.GetFavoritePresenter {
+class AddFavorite(
+    _listView: FavoriteDataArrayInterface.PresentToView,
+    _favoriteView: FavoriteDataArrayInterface.PresentToView
+) : FavoriteDataArrayInterface.AddFavoritePresenter {
     override fun addToFavorite(item: Mobiles) {
         mFavoriteArray.add(item)
-        listview.getFavorite(mFavoriteArray)
-        favoritelistview.getFavorite(mFavoriteArray)
+        listView.getFavorite(mFavoriteArray)
+        favoriteView.getFavorite(mFavoriteArray)
         Log.d("mFavorite", mFavoriteArray.toString())
     }
 
     override fun removeFavorite(item: Mobiles) {
         mFavoriteArray.remove(item)
-        listview.getFavorite(mFavoriteArray)
-        favoritelistview.getFavorite(mFavoriteArray)
+        listView.getFavorite(mFavoriteArray)
+        favoriteView.getFavorite(mFavoriteArray)
         Log.d("mFavorite", mFavoriteArray.toString())
 
     }
-    private val listview = _listview
-    private val favoritelistview = _favoriteView
+
+    private val listView = _listView
+    private val favoriteView = _favoriteView
     private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
 
 }
 
-//class GetFavorite(_view : FavoriteDataArrayInterface.PresentToFavoriteView) : FavoriteDataArrayInterface.GetFavoritePresenter {
-//    override fun addToFavorite(item: Mobiles) {
-//        mFavoriteArray.add(item)
-//        view.getFavorite(mFavoriteArray)
-//        Log.d("mFavorite", mFavoriteArray.toString())
-//    }
-//
-//    override fun removeFavorite(item: Mobiles) {
-//        mFavoriteArray.remove(item)
-//        view.getFavorite(mFavoriteArray)
-//        Log.d("mFavorite", mFavoriteArray.toString())
-//
-//    }
-//    private val view = _view
-//    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
-//
-//}
-
-
-class SortList{
+class SortList {
     private var mSortArray: ArrayList<Mobiles> = ArrayList()
     private var _mobiles: List<Mobiles> = listOf()
     fun sortMobileList(list: ArrayList<Mobiles>, sortType: String): ArrayList<Mobiles> {

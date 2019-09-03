@@ -48,7 +48,6 @@ class FavoriteAdapter(val context: Context) :
         override fun onItemDismiss(position: Int) {
             mFavoriteArray.removeAt(position)
             Log.d("remove", mFavoriteArray.toString())
-            favoritePresenter.sendBroadcastMessage(mFavoriteArray, context!!)
             notifyItemRemoved(position)
         }
     }

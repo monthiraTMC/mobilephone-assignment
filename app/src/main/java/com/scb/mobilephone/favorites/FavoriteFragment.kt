@@ -7,17 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
-import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.helper.*
+import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
+import com.scb.mobilephone.helper.FavoriteDataArrayInterface
 import com.scb.mobilephone.model.Mobiles
-import kotlinx.android.synthetic.main.item_list.view.*
-import java.util.*
-import kotlin.collections.ArrayList
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDataArrayInterface.PresentToFavoriteView {
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDataArrayInterface.PresentToView{
     override fun getFavorite(list: ArrayList<Mobiles>) {
-        Log.d("meen2", list.toString())
+        favoritePresenter.submitList(list)
+        Log.d("favInterface1", list.toString())
     }
 
 
@@ -27,14 +25,14 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDat
         mFavoriteAdapter.notifyDataSetChanged()
     }
 
-//    private lateinit var dataPresenter: FavoriteDataArray
     private lateinit var rvFavoriteList: RecyclerView
-
     companion object {
         lateinit var mFavoriteAdapter: FavoriteAdapter
         lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
     }
-    lateinit var getFavoritePresenter: FavoriteDataArrayInterface.GetFavoritePresenter
+    private lateinit var getFavoritePresenter: FavoriteDataArrayInterface.AddFavoritePresenter
+//    private var mListFragment: ListFragment = ListFragment()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,8 +55,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, FavoriteDat
         }
 
         favoritePresenter = FavoritePresenter(this)
-        favoritePresenter.recieveBroadcast(context!!)
-
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)

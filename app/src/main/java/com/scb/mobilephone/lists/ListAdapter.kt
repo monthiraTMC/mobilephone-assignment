@@ -40,19 +40,14 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         holder.mFavoriteToggle.text = null
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
-
+        Log.d("mfavListReceive", mFavoriteArray.toString())
         holder.mFavoriteToggle.isChecked = item in mFavoriteArray
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && item !in mFavoriteArray) {
-                mFavoriteArray.add(item)
                 listener.addToFavorite(item)
             } else {
-                mFavoriteArray.remove(item)
                 listener.removeFavorite(item)
             }
-            ListFragment.listPresenter.sendBroadcast(mFavoriteArray, context!!)
-
-            Log.d("favArrayListSend", mFavoriteArray.toString())
         }
     }
 

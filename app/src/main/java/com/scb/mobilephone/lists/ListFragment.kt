@@ -12,19 +12,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
-import com.scb.mobilephone.favorites.FavoriteAdapter
 import com.scb.mobilephone.favorites.FavoriteFragment
-import com.scb.mobilephone.favorites.FavoriteInterface
-import com.scb.mobilephone.favorites.FavoritePresenter
 import com.scb.mobilephone.helper.AddFavorite
 import com.scb.mobilephone.helper.FavoriteDataArrayInterface
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterface.PresentToListView {
+
+class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterface.PresentToView {
     override fun getFavorite(list: ArrayList<Mobiles>) {
-        Log.d("meen", list.toString())
+        mobileListAdapter.mFavoriteArray = list
+        Log.d("favInterface0", list.toString())
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -40,7 +39,7 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
     companion object {
         lateinit var listPresenter: ListInterface.ListPresenter
     }
-    private lateinit var addFavoritePresenter: FavoriteDataArrayInterface.GetFavoritePresenter
+    private lateinit var addFavoritePresenter: FavoriteDataArrayInterface.AddFavoritePresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,10 +77,9 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
+
         addFavoritePresenter = AddFavorite(this, mFavoriteFragment)
 
-
-        listPresenter.recieveBroadcast(context!!)
         swipeRefresh.setOnRefreshListener {
             listPresenter.getApiMobileList()
         }
@@ -101,10 +99,10 @@ class ListFragment : Fragment(), ListInterface.ListView, FavoriteDataArrayInterf
         listPresenter.getType(sortType)
     }
 
-    override fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>) {
-        mobileListAdapter.mFavoriteArray = favoriteList
-        mobileListAdapter.notifyDataSetChanged()
-    }
+//    override fun reciveFavoriteList(favoriteList: ArrayList<Mobiles>) {
+//        mobileListAdapter.mFavoriteArray = favoriteList
+//        mobileListAdapter.notifyDataSetChanged()
+//    }
 
 
 }
