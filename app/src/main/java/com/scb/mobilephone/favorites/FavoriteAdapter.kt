@@ -21,42 +21,46 @@ class FavoriteAdapter(val context: Context) :
     var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
-            val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
-            return FavoriteHolder(view)
-        }
+        val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
+        return FavoriteHolder(view)
+    }
 
-        override fun getItemCount(): Int {
-            return mFavoriteArray.size
-        }
+    override fun getItemCount(): Int {
+        return mFavoriteArray.size
+    }
 
-        override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
-            var item = mFavoriteArray[position]
-            holder.mTitle.text = item.name
-            holder.mPrice.text = item.price.toString()
-            holder.mRating.text = "Rating: " + item.rating.toString()
-            Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
-            holder.itemView.setTag(R.id.view_pager, item.id)
-        }
-
-
-        override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-            Collections.swap(mFavoriteArray, fromPosition, toPosition)
-            notifyItemMoved(fromPosition, toPosition)
-            return true
-        }
-
-        override fun onItemDismiss(position: Int) {
-            mFavoriteArray.removeAt(position)
-            Log.d("remove", mFavoriteArray.toString())
-            notifyItemRemoved(position)
-        }
+    override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
+        var item = mFavoriteArray[position]
+        holder.mTitle.text = item.name
+        holder.mPrice.text = item.price.toString()
+        holder.mRating.text = "Rating: " + item.rating.toString()
+        Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
+        holder.itemView.setTag(R.id.view_pager, item.id)
     }
 
 
-    class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val mImage = view.imageView
-        val mTitle = view.titleTextView
-        val mPrice = view.pricetextView
-        val mRating = view.ratingtextView
-
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        Collections.swap(mFavoriteArray, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
+
+    override fun onItemDismiss(position: Int) {
+        mFavoriteArray.removeAt(position)
+        Log.d("remove", mFavoriteArray.toString())
+        notifyItemRemoved(position)
+    }
+
+    interface RemoveListener {
+        fun removeFavorite(item: Mobiles)
+    }
+}
+
+
+class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val mImage = view.imageView
+    val mTitle = view.titleTextView
+    val mPrice = view.pricetextView
+    val mRating = view.ratingtextView
+
+}

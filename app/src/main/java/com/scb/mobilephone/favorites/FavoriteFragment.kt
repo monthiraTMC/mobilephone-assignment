@@ -15,11 +15,11 @@ import com.scb.mobilephone.model.Mobiles
 
 class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresenter.ViewListener{
     override fun getSortType(sortType: String) {
-        Log.d("favArray", sortType.toString())    }
+        Log.d("favArray", sortType.toString())
+    }
 
     override fun submitList(list: ArrayList<Mobiles>) {
         mFavoriteAdapter.mFavoriteArray = list
-        Log.d("favArray", list.toString())
         mFavoriteAdapter.notifyDataSetChanged()
     }
 
@@ -55,12 +55,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresent
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
     }
-
-//    override fun getSortType(sortType: String) {
-//        Log.d("getSortType", sortType)
-//        favoritePresenter.getType(sortType)
-//
-//    }
 
     override fun showAllFavorite(mobileList: ArrayList<Mobiles>) {
         favoritePresenter.submitList(mobileList)

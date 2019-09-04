@@ -26,7 +26,6 @@ interface ListInterface {
         fun removeFavorite(item: Mobiles)
         fun getAllFavorite()
         fun setupDatabase()
-        fun sortList(sortType: String, list: ArrayList<Mobiles>)
 
     }
 

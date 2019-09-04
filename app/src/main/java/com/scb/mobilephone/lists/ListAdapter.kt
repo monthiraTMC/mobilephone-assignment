@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.item_list.view.*
 class ListAdapter(val context: Context, private val listener: MobileListListener): RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteArray: List<Mobiles> = listOf()
+    var click_fav = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
@@ -38,17 +39,26 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
         holder.itemView.setOnClickListener { listener.gotoDetailPage(item) }
-        holder.mFavoriteToggle.text = null
-        holder.mFavoriteToggle.textOn = null
-        holder.mFavoriteToggle.textOff = null
         Log.d("databaseFavReceive", mFavoriteArray.toString())
         Log.d("databaseFavReceive", mFavoriteArray.size.toString())
-        holder.mFavoriteToggle.isChecked = item in mFavoriteArray
-        holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked && item !in mFavoriteArray) {
-                listener.addToFavorite(item)
-            } else {
+
+        if (item in mFavoriteArray){
+            holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
+            click_fav = true
+        }
+        else {
+            holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            click_fav = false
+        }
+
+        holder.mBtnFavorite.setOnClickListener {
+            if (click_fav == true){
                 listener.removeFavorite(item)
+                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            }
+            else {
+                listener.addToFavorite(item)
+                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
             }
         }
     }
@@ -67,6 +77,6 @@ class ListHolder(view: View) : RecyclerView.ViewHolder(view) {
     val mDescription = view.descriptionTextView
     val mPrice = view.pricetextView
     val mRating = view.ratingtextView
-    val mFavoriteToggle = view.btnFavorite
+    val mBtnFavorite = view.btnFavorite
 
 }

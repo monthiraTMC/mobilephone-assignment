@@ -41,7 +41,7 @@
                             android:textSize="20sp"
                             android:textStyle="bold"
                             android:textColor="#DC000000"/>
-                    <ToggleButton
+                    <ImageButton
                             android:id="@+id/btnFavorite"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/ic_favorite_border_black_24dp"

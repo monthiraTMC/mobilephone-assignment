@@ -1,13 +1,11 @@
 package com.scb.mobilephone.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.favorites.FavoriteFragment
-import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*

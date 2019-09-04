@@ -23,11 +23,6 @@ import retrofit2.Response
 class ListPresenter(private val view: ListInterface.ListView, private val context: Context, private val mThread: CMWorkerThread,
                     private val _view: SortListener) :
     ListInterface.ListPresenter {
-    override fun sortList(sortType: String, list: ArrayList<Mobiles>) {
-        mSortArray = mSortPresenter.sortMobileList(list, sortType)
-        view.submitList(mSortArray)
-        Log.d("mSortArray", mSortArray.toString())
-    }
 
     override fun getSortType(sortType: String) {
         mSortType = sortType
@@ -52,7 +47,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
     }
 
     override fun addToFavorite(item: Mobiles) {
-        Log.d("databaseAdd", item.toString())
         val task = Runnable {
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
             if (result == null) {
@@ -61,6 +55,7 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                         item.price, item.rating, item.thumbImageURL)
                 )
                 context.showToast("Add To Favorite Successfully")
+                Log.d("databaseAdd", item.toString())
             }
 
         }
@@ -96,7 +91,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
         mMobileArray.clear()
         mMobileArray.addAll(_mobiles)
         _view.getSortList(mSortType, mMobileArray)
-//        view.submitList(mobiles)
     }
 
     override fun getApiMobileList() {
@@ -133,7 +127,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
     private var mSortArray: ArrayList<Mobiles> = ArrayList()
-    private var mSortPresenter: SortList = SortList()
     private var _mobiles: List<Mobiles> = listOf()
 
     interface SortListener {
