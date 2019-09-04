@@ -33,10 +33,6 @@ class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, privat
         listener.getSortList(mSortType, mFavoriteArray)
     }
 
-    override fun submitList(list: ArrayList<Mobiles>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getAllFavorite() {
         val task = Runnable {
             mFavoriteArray.clear()
@@ -63,16 +59,12 @@ class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, privat
             }
         }
         mThread.postTask(task)
+        this.getAllFavorite()
     }
 
     private var mSortType: String = "none"
     private var mDatabaseAdapter: AppDatabase? = null
-    private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
-    private var mMobileArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
-    private lateinit var mFavoritePresenter: FavoriteInterface.FavoriteView
-    private var _mobiles: List<Mobiles> = listOf()
-
     interface SortListener {
         fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>)
     }

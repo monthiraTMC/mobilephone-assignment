@@ -52,7 +52,7 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         }
 
         holder.mBtnFavorite.setOnClickListener {
-            if (click_fav == false && item !in mFavoriteArray){
+            if (click_fav == false){
                 holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
                 listener.addToFavorite(item)
                 click_fav = true

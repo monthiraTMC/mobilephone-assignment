@@ -65,6 +65,10 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
         super.onViewCreated(view, savedInstanceState)
         rvFavoriteList = view.findViewById(R.id.recyclerViewFavorite)
         mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener{
+            override fun removeFavorite(item: Mobiles) {
+                favoritePresenter.removeFavorite(item)
+            }
+
             override fun updateFavorite(list: ArrayList<Mobiles>) {
                 favoritePresenter.updateFavorite(list)
             }

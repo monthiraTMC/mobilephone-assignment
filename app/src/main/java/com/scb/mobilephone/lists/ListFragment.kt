@@ -115,7 +115,6 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, UpdateIn
 
         swipeRefresh.setOnRefreshListener {
             listPresenter.setupDatabase()
-//            listPresenter.getAllFavorite()
             listPresenter.getApiMobileList()
         }
     }
