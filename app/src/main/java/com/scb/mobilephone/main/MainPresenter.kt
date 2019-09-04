@@ -1,12 +1,9 @@
 package com.scb.mobilephone.main;
 
 import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.showToast
-import com.scb.mobilephone.favorites.FavoriteFragment
-import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 
 class MainPresenter(private val context: Context, private val view: MainInterface.MainView,

@@ -14,8 +14,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.helper.*
-import com.scb.mobilephone.main.MainInterface
-import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -44,8 +42,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, UpdateIn
         rvMobileList.post {
             mobileListAdapter.notifyDataSetChanged()
         }
-        Log.d("databaseGetAll", mobileListAdapter.mFavoriteArray .toString())
-        Log.d("databaseGetAll", mobileListAdapter.mFavoriteArray .size.toString())
+
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -118,7 +115,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, UpdateIn
 
         swipeRefresh.setOnRefreshListener {
             listPresenter.setupDatabase()
-            listPresenter.getAllFavorite()
+//            listPresenter.getAllFavorite()
             listPresenter.getApiMobileList()
         }
     }

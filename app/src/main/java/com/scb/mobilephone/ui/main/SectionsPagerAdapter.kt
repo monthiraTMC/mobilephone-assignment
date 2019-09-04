@@ -42,25 +42,23 @@ class SectionsPagerAdapter(
     }
 
 
-    fun setFavoriteMobile(){
-        val favoriteList = getAllFavorite()
-        val fragments = fragmentManager.fragments
-        fragments.forEach {
-            if (it is FavoriteFragment) {
-                it.getAllFavorite(favoriteList!!)
-            }
-        }
-    }
+//    fun setFavoriteMobile(){
+//        val favoriteList = getAllFavorite()
+//        val fragments = fragmentManager.fragments
+//        fragments.forEach {
+//            if (it is FavoriteFragment) {
+//                it.getAllFavorite(favoriteList!!)
+//            }
+//        }
+//    }
 
     fun setToUpdateFavorite():ArrayList<Mobiles>? {
         val fragments = fragmentManager.fragments
         fragments.forEach {
-            if (it is FavoriteFragment) {
+            if (it is UpdateInterface) {
                 return it.getUpdateFavorite()
             }
-            else if (it is ListFragment) {
-                return it.getUpdateFavorite()
-            }
+
         }
         return null
     }

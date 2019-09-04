@@ -36,6 +36,8 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
+        Log.d("UpdateFavorite02", mFavoriteArray.toString())
+        Log.d("UpdateFavorite02", mFavoriteArray.size.toString())
     }
 
 
