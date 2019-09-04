@@ -24,6 +24,11 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 
 class ListFragment : Fragment(), ListInterface.ListView, SortInterface {
+    override fun getFavoriteList(): ArrayList<Mobiles> {
+        listPresenter.getAllFavorite()
+        return this.mFavoriteArray
+    }
+
     override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
         mDataArray = mobiles
         listPresenter.addToMobileList(mobiles)
@@ -33,9 +38,14 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface {
         listPresenter.getSortType(sortType)
     }
 
-    override fun getAllFavorite(list: List<Mobiles>) {
-        mobileListAdapter.mFavoriteArray = list
-        rvMobileList.post { mobileListAdapter.notifyDataSetChanged() }
+    override fun getAllFavorite(mobiles: ArrayList<Mobiles>) {
+        this.mFavoriteArray = mobiles
+        mobileListAdapter.mFavoriteArray = mobiles
+        rvMobileList.post {
+            mobileListAdapter.notifyDataSetChanged()
+        }
+        Log.d("databaseGetAll", mobileListAdapter.mFavoriteArray .toString())
+        Log.d("databaseGetAll", mobileListAdapter.mFavoriteArray .size.toString())
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -46,6 +56,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface {
 
     private lateinit var rvMobileList: RecyclerView
     private var mDataArray: ArrayList<Mobiles> = ArrayList()
+    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mThread: CMWorkerThread

@@ -13,7 +13,9 @@ interface ListInterface {
 
         fun showAllMobiles(mobiles: ArrayList<Mobiles>)
 
-        fun getAllFavorite(list: List<Mobiles>)
+        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
+
+        fun getFavoriteList(): ArrayList<Mobiles>
 
     }
 

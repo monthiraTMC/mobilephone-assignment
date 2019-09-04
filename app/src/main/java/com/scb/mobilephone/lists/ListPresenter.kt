@@ -40,8 +40,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
             Log.d("getAllFavorite", data.toString())
             mFavoriteArray.addAll(data)
             view.getAllFavorite(mFavoriteArray)
-            Log.d("databaseGetAll", mFavoriteArray.toString())
-            Log.d("databaseGetAll", mFavoriteArray.size.toString())
         }
         mThread.postTask(task)
     }
@@ -56,6 +54,7 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                 )
                 context.showToast("Add To Favorite Successfully")
                 Log.d("databaseAdd", item.toString())
+                this.getAllFavorite()
             }
 
 
@@ -71,6 +70,7 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                 mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
                 context.showToast("Remove Favorite Successfully")
             }
+            this.getAllFavorite()
         }
         mThread.postTask(task)
     }

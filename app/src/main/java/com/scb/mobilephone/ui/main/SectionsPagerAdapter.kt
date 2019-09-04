@@ -30,24 +30,26 @@ class SectionsPagerAdapter(
         }
     }
 
-//    fun getAllFavorite() {
-//        val fragments = fragmentManager.fragments
-//        fragments.forEach {
-//            if (it is ListFragment) {
-//                return it.getAllFavorite()
-//            }
-//        }
-//    }
-////
-//    fun setFavoriteMobile(){
-//        val favoriteMobile = getFavoriteMobile()
-//        val fragments = fragmentManager.fragments
-//        fragments.forEach {
-//            if (it is FavouriteFragment) {
-//                it.sendDataFav(favoriteMobile)
-//            }
-//        }
-//    }
+    fun getAllFavorite():ArrayList<Mobiles>? {
+        val fragments = fragmentManager.fragments
+        fragments.forEach {
+            if (it is ListFragment) {
+                return it.getFavoriteList()
+            }
+        }
+        return null
+    }
+
+
+    fun setFavoriteMobile(){
+        val favoriteList = getAllFavorite()
+        val fragments = fragmentManager.fragments
+        fragments.forEach {
+            if (it is FavoriteFragment) {
+                it.getAllFavorite(favoriteList!!)
+            }
+        }
+    }
 //
 //    fun getUnFavoriteMobile(): ArrayList<MobileListResponse>?{
 //        val fragments = fragmentManager.fragments
