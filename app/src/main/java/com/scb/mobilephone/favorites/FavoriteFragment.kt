@@ -9,9 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
 import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
+import com.scb.mobilephone.main.MainInterface
+import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView{
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresenter.ViewListener{
+    override fun getSortType(sortType: String) {
+        Log.d("favArray", sortType.toString())    }
 
     override fun submitList(list: ArrayList<Mobiles>) {
         mFavoriteAdapter.mFavoriteArray = list
@@ -52,11 +56,11 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView{
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
     }
 
-    override fun getSortType(sortType: String) {
-        Log.d("getSortType", sortType)
-        favoritePresenter.getType(sortType)
-
-    }
+//    override fun getSortType(sortType: String) {
+//        Log.d("getSortType", sortType)
+//        favoritePresenter.getType(sortType)
+//
+//    }
 
     override fun showAllFavorite(mobileList: ArrayList<Mobiles>) {
         favoritePresenter.submitList(mobileList)

@@ -12,14 +12,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
+import com.scb.mobilephone.extensions.THREAD_NAME
+import com.scb.mobilephone.helper.CMWorkerThread
+import com.scb.mobilephone.main.MainInterface
+import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView {
+class ListFragment: Fragment(), ListInterface.ListView, MainPresenter.ViewListener {
+    override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
+        listPresenter.addToMobileList(mobiles)
+    }
+
+    override fun getSortType(sortType: String) {
+        listPresenter.getSortType(sortType)
+    }
+
     override fun getAllFavorite(list: List<Mobiles>) {
         mobileListAdapter.mFavoriteArray = list
         mobileListAdapter.notifyDataSetChanged()
+
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -29,9 +42,11 @@ class ListFragment : Fragment(), ListInterface.ListView {
     }
 
     private lateinit var rvMobileList: RecyclerView
+    private var mDataArray:ArrayList<Mobiles> = ArrayList()
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-
+    private lateinit var mThread: CMWorkerThread
+    private var mSortType: String = "none"
     companion object {
         lateinit var listPresenter: ListInterface.ListPresenter
     }
@@ -49,6 +64,7 @@ class ListFragment : Fragment(), ListInterface.ListView {
         super.onViewCreated(view, savedInstanceState)
         rvMobileList = view.findViewById(R.id.recyclerViewList)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
+
         mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
                 listPresenter.gotoDetailPage(item)
@@ -63,6 +79,9 @@ class ListFragment : Fragment(), ListInterface.ListView {
             }
 
         })
+//        mSortPresenter = MainInterface.MainPresenter(object : MainPresenter.ViewListener{
+//
+//        })
 
         rvMobileList.let {
             it.adapter = mobileListAdapter
@@ -71,15 +90,24 @@ class ListFragment : Fragment(), ListInterface.ListView {
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
-        listPresenter = ListPresenter(this, context!!)
+        mThread = CMWorkerThread(THREAD_NAME).also {it.start()}
+        listPresenter = ListPresenter(this, context!!, mThread, object : ListPresenter.SortListener{
+
+            override fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>) {
+                listPresenter.sortList(sortType, mobiles)
+            }
+
+        })
+
         listPresenter.setupDatabase()
         listPresenter.getAllFavorite()
-
-        swipeRefresh.setOnRefreshListener {
-            listPresenter.getApiMobileList()
-        }
         listPresenter.getApiMobileList()
 
+        swipeRefresh.setOnRefreshListener {
+            listPresenter.setupDatabase()
+            listPresenter.getAllFavorite()
+            listPresenter.getApiMobileList()
+        }
     }
 
     override fun showLoading() {
@@ -89,15 +117,6 @@ class ListFragment : Fragment(), ListInterface.ListView {
     override fun hideLoading() {
         swipeRefreshLayout.setRefreshing(false)
     }
-
-    override fun showAllMobiles(mobileList: ArrayList<Mobiles>) {
-        listPresenter.addToMobileList(mobileList)
-    }
-
-    override fun getSortType(sortType: String) {
-        listPresenter.getType(sortType)
-    }
-
 
 }
 

@@ -9,7 +9,7 @@ interface FavoriteInterface {
 
         fun submitList(list: ArrayList<Mobiles>)
 
-        fun getSortType(sortType: String)
+//        fun getSortType(sortType: String)
 
 
     }

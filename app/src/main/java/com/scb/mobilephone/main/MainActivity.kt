@@ -6,27 +6,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.scb.mobilephone.R
+import com.scb.mobilephone.favorites.FavoriteFragment
+import com.scb.mobilephone.helper.SortInterface
+import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), MainInterface.MainView {
-    override fun getSortType(sortType: String) {
-        this.mSortType = sortType
-        mMainPresenter.getSortType(sortType)
-    }
 
     private lateinit var mMainPresenter: MainInterface.MainPresenter
-    private var mSortType = "none"
+    lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
+    private var mListFragment: ListFragment = ListFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
+        sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
-        mMainPresenter = MainPresenter(this,this@MainActivity)
+        mMainPresenter = MainPresenter(this, mListFragment, mFavoriteFragment)
         btnSort.setOnClickListener { mMainPresenter.showDialog() }
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

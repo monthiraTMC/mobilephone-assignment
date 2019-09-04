@@ -12,12 +12,14 @@ import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
 import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
+import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter(val context: Context, private val listener: MobileListListener) : RecyclerView.Adapter<ListHolder>() {
+class ListAdapter(val context: Context, private val listener: MobileListListener): RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteArray: List<Mobiles> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
         return ListHolder(view)
@@ -28,7 +30,6 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
     }
 
     override fun onBindViewHolder(holder: ListHolder, position: Int) {
-
         var item = mMobileArray[position]
         holder.mTitle.text = item.name
         holder.mDescription.text = item.description
@@ -40,10 +41,9 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         holder.mFavoriteToggle.text = null
         holder.mFavoriteToggle.textOn = null
         holder.mFavoriteToggle.textOff = null
-        Log.d("mfavListReceive0", mFavoriteArray.toString())
-
+        Log.d("databaseFavReceive", mFavoriteArray.toString())
+        Log.d("databaseFavReceive", mFavoriteArray.size.toString())
         holder.mFavoriteToggle.isChecked = item in mFavoriteArray
-
         holder.mFavoriteToggle.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && item !in mFavoriteArray) {
                 listener.addToFavorite(item)

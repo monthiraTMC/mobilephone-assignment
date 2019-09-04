@@ -44,7 +44,7 @@ class DetailPresenter(_view : DetailInterface.DetailView, context: Context):
 
                     }
                     view.showImageDetail(mImageArray)
-                    context.showToast("Successfully")
+                    context.showToast("Load image Successfully")
 
                 }
 

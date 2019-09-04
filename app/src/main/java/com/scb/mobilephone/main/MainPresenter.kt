@@ -8,32 +8,35 @@ import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.favorites.FavoriteFragment
 import com.scb.mobilephone.lists.ListFragment
 
-class MainPresenter(_view: MainInterface.MainView, _context: Context) : MainInterface.MainPresenter {
-
-    override fun getSortType(sortType: String) {
-        this.mSortType = sortType
-        sortMobiles()
-    }
+class MainPresenter(_context: Context,
+    _listView: ListFragment,
+    _favoriteView: FavoriteFragment
+) : MainInterface.MainPresenter{
 
     override fun getPosition(position: Int) {
         this.positionTab = position
-        sortMobiles()
+//        sortMobiles()
         Log.d("mSort4", positionTab.toString())
     }
 
-    private var view = _view
     private val context = _context
     private var mSortType = "none"
     private var positionTab = 0
-    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
-    private var mListFragment: ListFragment = ListFragment()
+    private var listView = _listView
+    private var favoriteView = _favoriteView
+
 
     override fun showDialog() {
         val mBuilder = AlertDialog.Builder(context)
         val listItems = context.getResources().getStringArray(R.array.sort_item)
         mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
             var sortType = listItems[i]
-            view.getSortType(sortType)
+            if (positionTab == 0) {
+                listView.getSortType(sortType)
+
+            } else {
+                favoriteView.getSortType(sortType)
+            }
             context.showToast(listItems[i].toString())
             dialogInterface.dismiss()
         }
@@ -41,14 +44,10 @@ class MainPresenter(_view: MainInterface.MainView, _context: Context) : MainInte
         mDialog.show()
     }
 
-    fun sortMobiles() {
-        if (positionTab == 0) {
-            mListFragment.getSortType(mSortType)
-
-        } else {
-            mFavoriteFragment.getSortType(mSortType)
-        }
+    interface ViewListener{
+        fun getSortType(sortType:String)
     }
 
-
 }
+
+

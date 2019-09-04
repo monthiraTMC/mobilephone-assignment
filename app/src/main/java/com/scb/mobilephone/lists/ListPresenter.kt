@@ -13,29 +13,46 @@ import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.helper.SortList
+import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(_view: ListInterface.ListView, _context: Context) :
+class ListPresenter(private val view: ListInterface.ListView, private val context: Context, private val mThread: CMWorkerThread,
+                    private val _view: SortListener) :
     ListInterface.ListPresenter {
+    override fun sortList(sortType: String, list: ArrayList<Mobiles>) {
+        mSortArray = mSortPresenter.sortMobileList(list, sortType)
+        view.submitList(mSortArray)
+        Log.d("mSortArray", mSortArray.toString())
+    }
+
+    override fun getSortType(sortType: String) {
+        mSortType = sortType
+        _view.getSortList(mSortType, mMobileArray)
+    }
+
     override fun getAllFavorite() {
+
         val task = Runnable {
+            mFavoriteArray.clear()
             val result = mDatabaseAdapter?.favoriteDao()?.queryFavoriteLists()
             val gson = Gson()
             val json = gson.toJson(result)
             val data = gson.fromJson<List<Mobiles>>(json,object : TypeToken<List<Mobiles>>() {}.type)
             Log.d("getAllFavorite", data.toString())
             mFavoriteArray.addAll(data)
+            view.getAllFavorite(mFavoriteArray)
+            Log.d("databaseGetAll", mFavoriteArray.toString())
+            Log.d("databaseGetAll", mFavoriteArray.size.toString())
         }
-        view.getAllFavorite(mFavoriteArray)
         mThread.postTask(task)
     }
 
     override fun addToFavorite(item: Mobiles) {
-        Log.d("addToFavorite", item.toString())
+        Log.d("databaseAdd", item.toString())
         val task = Runnable {
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
             if (result == null) {
@@ -51,7 +68,7 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
     }
 
     override fun removeFavorite(item: Mobiles) {
-        Log.d("removeFavorite", item.toString())
+        Log.d("databaseRemove", item.toString())
         val task = Runnable {
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
             if (result != null) {
@@ -78,7 +95,8 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
         _mobiles = mobiles
         mMobileArray.clear()
         mMobileArray.addAll(_mobiles)
-        sort()
+        _view.getSortList(mSortType, mMobileArray)
+//        view.submitList(mobiles)
     }
 
     override fun getApiMobileList() {
@@ -95,11 +113,12 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
                 Log.d("mobile-feed", response.toString())
                 if (response.isSuccessful) {
+                    view.hideLoading()
                     context.showToast("Successfully")
                     mReceiveArray.addAll(response.body()!!)
                     Log.d("mobile-feed", mReceiveArray.toString())
+//                    view.showAllMobiles(mReceiveArray)
                     view.showAllMobiles(mReceiveArray)
-                    view.hideLoading()
                 }
 
             }
@@ -108,26 +127,17 @@ class ListPresenter(_view: ListInterface.ListView, _context: Context) :
 
     }
 
-    override fun getType(sortType: String) {
-        mSortType = sortType
-        sort()
-    }
-
-    fun sort() {
-        mSortArray = mSortPresenter.sortMobileList(mMobileArray, mSortType)
-        view.submitList(mSortArray)
-    }
-    private var mDatabaseAdapter:AppDatabase? = null
-    private var view: ListInterface.ListView = _view
-    private var context = _context
     private var mSortType: String = "none"
+    private var mDatabaseAdapter:AppDatabase? = null
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
     private var mSortArray: ArrayList<Mobiles> = ArrayList()
     private var mSortPresenter: SortList = SortList()
     private var _mobiles: List<Mobiles> = listOf()
-    var mThread: CMWorkerThread = CMWorkerThread(THREAD_NAME).also {it.start()}
 
-
+    interface SortListener {
+//        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
+        fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>)
+    }
 }
