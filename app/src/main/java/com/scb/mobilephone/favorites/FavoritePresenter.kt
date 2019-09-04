@@ -17,6 +17,11 @@ class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, privat
                         private val mThread: CMWorkerThread,
                         private val listener: SortListener) :
     FavoriteInterface.FavoritePresenter{
+
+    override fun updateFavorite(list: ArrayList<Mobiles>) {
+        view.getAllFavorite(list)
+    }
+
     override fun setupDatabase() {
         mDatabaseAdapter = AppDatabase.getInstance(context).also {
             it.openHelper.readableDatabase

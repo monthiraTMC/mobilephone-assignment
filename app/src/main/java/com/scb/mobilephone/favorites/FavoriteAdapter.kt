@@ -47,14 +47,13 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
 
     override fun onItemDismiss(position: Int) {
         mFavoriteArray.removeAt(position)
-        listener.removeFavorite(mFavoriteArray[position])
+        listener.updateFavorite(mFavoriteArray)
         Log.d("remove", mFavoriteArray.toString())
         notifyItemRemoved(position)
     }
 
     interface FavoriteListener {
-        fun removeFavorite(item: Mobiles)
-//        fun getAllFavorite(list: ArrayList<Mobiles>)
+        fun updateFavorite(list: ArrayList<Mobiles>)
     }
 }
 

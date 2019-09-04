@@ -24,6 +24,8 @@ interface FavoriteInterface {
 
         fun setupDatabase()
 
+        fun updateFavorite(list: ArrayList<Mobiles>)
+
     }
 
 
