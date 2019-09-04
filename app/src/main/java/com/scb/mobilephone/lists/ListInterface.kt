@@ -15,8 +15,6 @@ interface ListInterface {
 
         fun getAllFavorite(mobiles: ArrayList<Mobiles>)
 
-        fun getFavoriteList(): ArrayList<Mobiles>
-
     }
 
     interface ListPresenter {

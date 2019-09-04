@@ -16,9 +16,18 @@ import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface {
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface, UpdateInterface {
+    override fun getUpdateFavorite(): ArrayList<Mobiles> {
+        return this.mFavoriteArray
+    }
+
+    override fun updateToFavorite(list: ArrayList<Mobiles>) {
+        this.getAllFavorite(list)
+    }
+
 
     override fun getAllFavorite(list: ArrayList<Mobiles>) {
+        this.mFavoriteArray = list
         mFavoriteAdapter.mFavoriteArray = list
         rvFavoriteList.post { mFavoriteAdapter.notifyDataSetChanged()
             Log.d("updateFavorite", mFavoriteAdapter.mFavoriteArray.toString())}
@@ -35,6 +44,7 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
     }
 
     private lateinit var rvFavoriteList: RecyclerView
+    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private lateinit var mThread: CMWorkerThread
     private lateinit var sortPresenter: SortPresenter
     companion object {

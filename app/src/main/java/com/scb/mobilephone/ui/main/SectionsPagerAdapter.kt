@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.scb.mobilephone.favorites.FavoriteFragment
 import com.scb.mobilephone.helper.SortInterface
+import com.scb.mobilephone.helper.UpdateInterface
 import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.model.Mobiles
@@ -34,7 +35,7 @@ class SectionsPagerAdapter(
         val fragments = fragmentManager.fragments
         fragments.forEach {
             if (it is ListFragment) {
-                return it.getFavoriteList()
+                return it.getUpdateFavorite()
             }
         }
         return null
@@ -51,14 +52,27 @@ class SectionsPagerAdapter(
         }
     }
 
-    fun updateFavorite(): ArrayList<MobileListResponse>?{
+    fun setToUpdateFavorite():ArrayList<Mobiles>? {
         val fragments = fragmentManager.fragments
         fragments.forEach {
-            if (it is FavouriteFragment) {
-                return it.getUnFav()
+            if (it is FavoriteFragment) {
+                return it.getUpdateFavorite()
+            }
+            else if (it is ListFragment) {
+                return it.getUpdateFavorite()
             }
         }
         return null
+    }
+
+    fun updateFavorite(){
+        val favoriteList = setToUpdateFavorite()
+        val fragments = fragmentManager.fragments
+        fragments.forEach {
+            if (it is UpdateInterface) {
+                it.updateToFavorite(favoriteList!!)
+            }
+        }
     }
 //
 //    fun setUnFavoriteMobile(){

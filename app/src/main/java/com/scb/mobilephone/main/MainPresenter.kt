@@ -15,10 +15,10 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
     override fun getPosition(position: Int) {
         this.positionTab = position
         if (positionTab == 0){
-            fragmentAdapter.getAllFavorite()
+            fragmentAdapter.updateFavorite()
         }
         else {
-            fragmentAdapter.setFavoriteMobile()
+            fragmentAdapter.updateFavorite()
         }
     }
 

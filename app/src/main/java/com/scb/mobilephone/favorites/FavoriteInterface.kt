@@ -9,7 +9,6 @@ interface FavoriteInterface {
 
         fun submitList(list: ArrayList<Mobiles>)
 
-
     }
 
     interface FavoritePresenter {

@@ -13,20 +13,20 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.THREAD_NAME
-import com.scb.mobilephone.helper.CMWorkerThread
-import com.scb.mobilephone.helper.SortInterface
-import com.scb.mobilephone.helper.SortList
-import com.scb.mobilephone.helper.SortPresenter
+import com.scb.mobilephone.helper.*
 import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView, SortInterface {
-    override fun getFavoriteList(): ArrayList<Mobiles> {
-        listPresenter.getAllFavorite()
+class ListFragment : Fragment(), ListInterface.ListView, SortInterface, UpdateInterface {
+    override fun getUpdateFavorite(): ArrayList<Mobiles> {
         return this.mFavoriteArray
+    }
+
+    override fun updateToFavorite(list: ArrayList<Mobiles>) {
+        this.getAllFavorite(list)
     }
 
     override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
