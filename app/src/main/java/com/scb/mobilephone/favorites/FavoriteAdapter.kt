@@ -19,7 +19,6 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
     RecyclerView.Adapter<FavoriteHolder>(), CustomItemTouchHelperListener {
 
     var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
-    private var delete_position = 100
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_favorite, parent, false)
@@ -37,13 +36,6 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
-        Log.d("UpdateFavorite02-d", delete_position.toString())
-        Log.d("UpdateFavorite02", mFavoriteArray.size.toString())
-        if(delete_position != 100) {
-            listener.removeFavorite(item)
-            delete_position = 100
-        }
-
     }
 
 

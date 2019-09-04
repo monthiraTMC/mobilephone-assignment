@@ -59,7 +59,7 @@ class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, privat
             }
         }
         mThread.postTask(task)
-        this.getAllFavorite()
+//        this.getAllFavorite()
     }
 
     private var mSortType: String = "none"
