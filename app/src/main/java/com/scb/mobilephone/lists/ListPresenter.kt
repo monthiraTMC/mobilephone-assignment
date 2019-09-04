@@ -11,6 +11,7 @@ import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.extensions.showToast
+import com.scb.mobilephone.favorites.FavoriteInterface
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.main.MainPresenter
@@ -21,16 +22,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class ListPresenter(private val view: ListInterface.ListView, private val context: Context, private val mThread: CMWorkerThread,
-                    private val _view: SortListener) :
+                    private val listener: SortListener) :
     ListInterface.ListPresenter {
 
     override fun getSortType(sortType: String) {
         mSortType = sortType
-        _view.getSortList(mSortType, mMobileArray)
+        listener.getSortList(mSortType, mMobileArray)
     }
 
     override fun getAllFavorite() {
-
         val task = Runnable {
             mFavoriteArray.clear()
             val result = mDatabaseAdapter?.favoriteDao()?.queryFavoriteLists()
@@ -57,6 +57,7 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                 context.showToast("Add To Favorite Successfully")
                 Log.d("databaseAdd", item.toString())
             }
+
 
         }
         mThread.postTask(task)
@@ -90,7 +91,7 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
         _mobiles = mobiles
         mMobileArray.clear()
         mMobileArray.addAll(_mobiles)
-        _view.getSortList(mSortType, mMobileArray)
+        listener.getSortList(mSortType, mMobileArray)
     }
 
     override fun getApiMobileList() {
@@ -111,7 +112,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                     context.showToast("Successfully")
                     mReceiveArray.addAll(response.body()!!)
                     Log.d("mobile-feed", mReceiveArray.toString())
-//                    view.showAllMobiles(mReceiveArray)
                     view.showAllMobiles(mReceiveArray)
                 }
 
@@ -121,16 +121,15 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
 
     }
 
+
     private var mSortType: String = "none"
     private var mDatabaseAdapter:AppDatabase? = null
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
     private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
-    private var mSortArray: ArrayList<Mobiles> = ArrayList()
     private var _mobiles: List<Mobiles> = listOf()
 
     interface SortListener {
-//        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
         fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>)
     }
 }

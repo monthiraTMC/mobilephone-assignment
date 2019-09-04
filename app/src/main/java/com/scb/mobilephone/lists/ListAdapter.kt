@@ -52,13 +52,15 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         }
 
         holder.mBtnFavorite.setOnClickListener {
-            if (click_fav == true){
-                listener.removeFavorite(item)
-                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+            if (click_fav == false){
+                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
+                listener.addToFavorite(item)
+                click_fav = true
             }
             else {
-                listener.addToFavorite(item)
-                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
+                holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
+                listener.removeFavorite(item)
+                click_fav = false
             }
         }
     }

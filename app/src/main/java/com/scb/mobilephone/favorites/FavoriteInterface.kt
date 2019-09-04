@@ -5,11 +5,9 @@ import com.scb.mobilephone.model.Mobiles
 interface FavoriteInterface {
     interface FavoriteView {
 
-        fun showAllFavorite(mobileList: ArrayList<Mobiles>)
+        fun getAllFavorite(list: ArrayList<Mobiles>)
 
         fun submitList(list: ArrayList<Mobiles>)
-
-//        fun getSortType(sortType: String)
 
 
     }
@@ -19,6 +17,12 @@ interface FavoriteInterface {
         fun getType(sortType: String)
 
         fun submitList(list: ArrayList<Mobiles>)
+
+        fun getAllFavorite()
+
+        fun removeFavorite(item: Mobiles)
+
+        fun setupDatabase()
 
     }
 

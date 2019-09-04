@@ -6,18 +6,10 @@ interface MainInterface {
 //        fun getSortType(sortType:String)
     }
 
-    interface PresentToListView{
-        fun getSortType(sortType:String)
-    }
-
-    interface PresentToFavoriteView{
-        fun getSortType(sortType:String)
-    }
 
     interface MainPresenter {
         fun showDialog()
         fun getPosition(position: Int)
-//        fun getSortType(sortType:String)
     }
 }
 

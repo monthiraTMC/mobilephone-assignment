@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.item_favorite.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FavoriteAdapter(val context: Context) :
+class FavoriteAdapter(val context: Context, private val listener: FavoriteListener) :
     RecyclerView.Adapter<FavoriteHolder>(), CustomItemTouchHelperListener {
 
     var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
@@ -47,12 +47,14 @@ class FavoriteAdapter(val context: Context) :
 
     override fun onItemDismiss(position: Int) {
         mFavoriteArray.removeAt(position)
+        listener.removeFavorite(mFavoriteArray[position])
         Log.d("remove", mFavoriteArray.toString())
         notifyItemRemoved(position)
     }
 
-    interface RemoveListener {
+    interface FavoriteListener {
         fun removeFavorite(item: Mobiles)
+//        fun getAllFavorite(list: ArrayList<Mobiles>)
     }
 }
 

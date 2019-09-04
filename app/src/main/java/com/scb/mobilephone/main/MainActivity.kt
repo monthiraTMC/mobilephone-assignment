@@ -14,8 +14,6 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
 
     private lateinit var mMainPresenter: MainInterface.MainPresenter
     lateinit var sectionsPagerAdapter: SectionsPagerAdapter
-    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
-    private var mListFragment: ListFragment = ListFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,7 +23,7 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
-        mMainPresenter = MainPresenter(this, mListFragment, mFavoriteFragment)
+        mMainPresenter = MainPresenter(this, this@MainActivity, sectionsPagerAdapter)
         btnSort.setOnClickListener { mMainPresenter.showDialog() }
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {

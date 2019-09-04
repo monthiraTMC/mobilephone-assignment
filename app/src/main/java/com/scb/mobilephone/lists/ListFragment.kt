@@ -14,6 +14,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.helper.CMWorkerThread
+import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.helper.SortPresenter
 import com.scb.mobilephone.main.MainInterface
@@ -22,7 +23,7 @@ import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView, MainPresenter.ViewListener {
+class ListFragment : Fragment(), ListInterface.ListView, SortInterface {
     override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
         mDataArray = mobiles
         listPresenter.addToMobileList(mobiles)
@@ -48,7 +49,6 @@ class ListFragment : Fragment(), ListInterface.ListView, MainPresenter.ViewListe
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mThread: CMWorkerThread
-    private var mSortType: String = "none"
 
     companion object {
         lateinit var listPresenter: ListInterface.ListPresenter
@@ -96,7 +96,6 @@ class ListFragment : Fragment(), ListInterface.ListView, MainPresenter.ViewListe
         listPresenter = ListPresenter(this, context!!, mThread, object : ListPresenter.SortListener {
             override fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>) {
                 sortPresenter.sortMobileList(sortType, mobiles)
-                mobileListAdapter.notifyDataSetChanged()
                 Log.d("databaseFavSend", mobileListAdapter.mFavoriteArray.toString())
             }
 

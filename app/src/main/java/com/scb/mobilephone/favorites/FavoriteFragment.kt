@@ -8,14 +8,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
-import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
+import com.scb.mobilephone.extensions.THREAD_NAME
+import com.scb.mobilephone.helper.*
+import com.scb.mobilephone.lists.ListInterface
+import com.scb.mobilephone.lists.ListPresenter
 import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresenter.ViewListener{
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface {
+
+    override fun getAllFavorite(list: ArrayList<Mobiles>) {
+        mFavoriteAdapter.mFavoriteArray = list
+        mFavoriteAdapter.notifyDataSetChanged()
+    }
+
     override fun getSortType(sortType: String) {
-        Log.d("favArray", sortType.toString())
+        favoritePresenter.getType(sortType)
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -24,10 +33,13 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresent
     }
 
     private lateinit var rvFavoriteList: RecyclerView
+    private lateinit var mThread: CMWorkerThread
+    private lateinit var sortPresenter: SortPresenter
     companion object {
         lateinit var mFavoriteAdapter: FavoriteAdapter
         lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +52,12 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresent
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvFavoriteList = view.findViewById(R.id.recyclerViewFavorite)
-        mFavoriteAdapter = FavoriteAdapter(context!!)
+        mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener{
+            override fun removeFavorite(item: Mobiles) {
+                favoritePresenter.removeFavorite(item)
+            }
+
+        })
         rvFavoriteList.let {
             it.adapter = mFavoriteAdapter
             it.layoutManager = LinearLayoutManager(context)
@@ -48,16 +65,22 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, MainPresent
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
+        mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
+        sortPresenter = SortFavoriteList(this)
+        favoritePresenter = FavoritePresenter(this, context!!, mThread, object : FavoritePresenter.SortListener{
+            override fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>) {
+                sortPresenter.sortMobileList(sortType, mobiles)
+            }
 
-        favoritePresenter = FavoritePresenter(this)
+        })
+
+        favoritePresenter.setupDatabase()
+        favoritePresenter.getAllFavorite()
+
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
-    }
-
-    override fun showAllFavorite(mobileList: ArrayList<Mobiles>) {
-        favoritePresenter.submitList(mobileList)
     }
 
 
