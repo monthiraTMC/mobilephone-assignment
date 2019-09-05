@@ -50,7 +50,6 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
         mobileListAdapter.notifyDataSetChanged()
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
