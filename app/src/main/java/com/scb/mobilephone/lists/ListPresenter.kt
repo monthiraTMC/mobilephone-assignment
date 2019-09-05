@@ -2,23 +2,11 @@ package com.scb.mobilephone.lists
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat.finishAffinity
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.scb.mobilephone.database.AppDatabase
-import com.scb.mobilephone.database.DatabaseEntity
 import com.scb.mobilephone.datails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
-import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.extensions.showToast
-import com.scb.mobilephone.favorites.FavoriteInterface
-import com.scb.mobilephone.helper.CMWorkerThread
-import com.scb.mobilephone.helper.SortList
-import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
 import retrofit2.Call

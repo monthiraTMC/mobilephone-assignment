@@ -1,7 +1,6 @@
 package com.scb.mobilephone.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,13 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.database.DatabasePresenter
 import com.scb.mobilephone.extensions.THREAD_NAME
-import com.scb.mobilephone.helper.*
-import com.scb.mobilephone.lists.ListInterface
-import com.scb.mobilephone.lists.ListPresenter
-import com.scb.mobilephone.main.MainInterface
-import com.scb.mobilephone.main.MainPresenter
+import com.scb.mobilephone.helper.CMWorkerThread
+import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
+import com.scb.mobilephone.helper.SortInterface
+import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface.SortToView,
+class FavoriteFragment : Fragment(), SortInterface.SortToView,
     DatabaseInterface.DatabaseListener {
 
     override fun updateFavorite() {
@@ -26,14 +24,8 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
     }
 
     override fun getDBFavorite(list: ArrayList<Mobiles>) {
-//        activity?.runOnUiThread {
-            this.mFavoriteArray = list
-            sortPresenter.sortMobileList(mSortType, mFavoriteArray)
-//            mFavoriteAdapter.mFavoriteArray = mFavoriteArray
-//            mFavoriteAdapter.notifyDataSetChanged()
-//        }
-        Log.d("mSortTypeFav01", mSortType)
-        Log.d("mSortTypeFav01", mFavoriteArray.toString())
+        this.mFavoriteArray = list
+        sortPresenter.sortMobileList(mSortType, mFavoriteArray)
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -46,26 +38,12 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
     override fun getSortType(sortType: String) {
         mSortType = sortType
         sortPresenter.sortMobileList(mSortType, mFavoriteArray)
-        Log.d("mSortTypeFav02", mSortType)
-        Log.d("mSortTypeFav02", mFavoriteArray.toString())
     }
-
-    private var mSortType = "none"
-    private lateinit var rvFavoriteList: RecyclerView
-    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
-    private lateinit var mThread: CMWorkerThread
-    private lateinit var sortPresenter: SortInterface.SortPresenter
-
-    private lateinit var mFavoriteAdapter: FavoriteAdapter
-    private lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
-    private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val _view = inflater.inflate(R.layout.fragment_favorites, container, false)
         return _view
     }
@@ -98,5 +76,12 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
     }
 
+    private var mSortType = "none"
+    private lateinit var rvFavoriteList: RecyclerView
+    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
+    private lateinit var mThread: CMWorkerThread
+    private lateinit var sortPresenter: SortInterface.SortPresenter
+    private lateinit var mFavoriteAdapter: FavoriteAdapter
+    private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
 }
 

@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.scb.mobilephone.R
-import com.scb.mobilephone.favorites.FavoriteFragment
-import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainInterface.MainView {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var mMainPresenter: MainInterface.MainPresenter
     lateinit var sectionsPagerAdapter: SectionsPagerAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,7 +21,7 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
         val tabs: TabLayout = findViewById(R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
-        mMainPresenter = MainPresenter(this, this@MainActivity, sectionsPagerAdapter)
+        mMainPresenter = MainPresenter(this@MainActivity, sectionsPagerAdapter)
         btnSort.setOnClickListener { mMainPresenter.showDialog() }
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
@@ -33,12 +30,8 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
             override fun onPageSelected(position: Int) {
                 sectionsPagerAdapter.updateFavorite()
             }
-
         })
-
-
     }
-
 }
 
 

@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperListener) :
         ItemTouchHelper.Callback() {
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-
             val dragFlags = 0
             val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-            return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
+            return makeMovementFlags(dragFlags, swipeFlags)
         }
 
         override fun onMove(
@@ -25,11 +24,9 @@ class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperL
                 listener.onItemDismiss(viewHolder.adapterPosition)
             }
         }
-
     }
 
     interface CustomItemTouchHelperListener {
         fun onItemMove(fromPosition: Int, toPosition: Int): Boolean
-
         fun onItemDismiss(position: Int)
     }

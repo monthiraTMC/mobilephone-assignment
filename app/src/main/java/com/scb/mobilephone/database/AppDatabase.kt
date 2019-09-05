@@ -16,7 +16,6 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         private val TAG: String by lazy { AppDatabase::class.java.simpleName }
 
-        // For Singleton instantiation, visible to other threads.
         @Volatile
         private var instance: AppDatabase? = null
 
@@ -24,7 +23,6 @@ abstract class AppDatabase : RoomDatabase() {
             instance?.let {
                 return it
             }
-
             synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext,

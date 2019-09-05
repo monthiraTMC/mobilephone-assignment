@@ -13,8 +13,7 @@ interface FavoriteDAO{
 
     @Insert
     fun addToFavorite(favoriteEntity: DatabaseEntity)
-    @Update
-    fun updateToFavorite(favoriteEntity: DatabaseEntity)
+
     @Delete
     fun deleteFromFavorite(favoriteEntity: DatabaseEntity)
 }

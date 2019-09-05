@@ -16,7 +16,6 @@ interface ApiInterface {
 
     companion object Factory {
         private val BASE_URL = "https://scb-test-mobile.herokuapp.com/"
-        //private val BASE_URL = "https://jsonplaceholder.typicode.com/"
 
         private var retrofit: Retrofit? = null
 

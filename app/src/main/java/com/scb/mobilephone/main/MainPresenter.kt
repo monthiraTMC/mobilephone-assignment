@@ -7,7 +7,7 @@ import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 
 class MainPresenter(
-    private val context: Context, private val view: MainInterface.MainView,
+    private val context: Context,
     private val fragmentAdapter: SectionsPagerAdapter
 ) : MainInterface.MainPresenter {
 

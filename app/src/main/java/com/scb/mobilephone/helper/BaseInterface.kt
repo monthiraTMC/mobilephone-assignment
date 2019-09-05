@@ -1,6 +1,0 @@
-package com.scb.mobilephone.helper
-
-import com.scb.mobilephone.model.Mobiles
-
-
-

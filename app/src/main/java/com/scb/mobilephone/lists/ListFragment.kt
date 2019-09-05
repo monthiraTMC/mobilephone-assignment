@@ -50,18 +50,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
         mobileListAdapter.notifyDataSetChanged()
     }
 
-    private lateinit var rvMobileList: RecyclerView
-    private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
-    private lateinit var mobileListAdapter: ListAdapter
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var mThread: CMWorkerThread
-    private lateinit var listPresenter: ListInterface.ListPresenter
 
-
-    private lateinit var sortPresenter: SortInterface.SortPresenter
-    private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
-    private var mSortType = "none"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -101,11 +90,9 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
 
         sortPresenter = SortList(this)
         listPresenter = ListPresenter(this, context!!)
-
         databasePresenter.setupDatabase()
         databasePresenter.getAllFavorite()
         listPresenter.getApiMobileList()
-
         swipeRefresh.setOnRefreshListener {
             databasePresenter.setupDatabase()
             databasePresenter.getAllFavorite()
@@ -121,5 +108,15 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
         swipeRefreshLayout.setRefreshing(false)
     }
 
+    private lateinit var rvMobileList: RecyclerView
+    private var mMobileArray: ArrayList<Mobiles> = ArrayList()
+    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
+    private lateinit var mobileListAdapter: ListAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mThread: CMWorkerThread
+    private lateinit var listPresenter: ListInterface.ListPresenter
+    private lateinit var sortPresenter: SortInterface.SortPresenter
+    private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
+    private var mSortType = "none"
 }
 
