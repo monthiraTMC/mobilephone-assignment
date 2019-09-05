@@ -20,27 +20,34 @@ import com.scb.mobilephone.model.Mobiles
 
 class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface.SortToView,
     DatabaseInterface.DatabaseListener {
+
     override fun updateFavorite() {
         databasePresenter.getAllFavorite()
     }
 
     override fun getDBFavorite(list: ArrayList<Mobiles>) {
-        this.mFavoriteArray = list
-        mFavoriteAdapter.mFavoriteArray = mFavoriteArray
-        mFavoriteAdapter.notifyDataSetChanged()
-        Log.d("update02", list.toString())
+//        activity?.runOnUiThread {
+            this.mFavoriteArray = list
+            sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+//            mFavoriteAdapter.mFavoriteArray = mFavoriteArray
+//            mFavoriteAdapter.notifyDataSetChanged()
+//        }
+        Log.d("mSortTypeFav01", mSortType)
 
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
-        mFavoriteArray = list
-        mFavoriteAdapter.mFavoriteArray = mFavoriteArray
-        mFavoriteAdapter.notifyDataSetChanged()
+        activity?.runOnUiThread {
+            mFavoriteArray = list
+            mFavoriteAdapter.mFavoriteArray = mFavoriteArray
+            mFavoriteAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun getSortType(sortType: String) {
         mSortType = sortType
         sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+        Log.d("mSortTypeFav02", mSortType)
     }
 
     private var mSortType = "none"

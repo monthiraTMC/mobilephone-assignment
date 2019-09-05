@@ -20,8 +20,8 @@ private val TAB_TITLES = arrayOf("Mobile list", "Favolite list")
  */
 
 class SectionsPagerAdapter(
-    val fragmentManager: FragmentManager
-) : FragmentPagerAdapter(fragmentManager){
+    private val fragmentManager: FragmentManager
+) : FragmentPagerAdapter(fragmentManager) {
     fun getSortType(sortType: String) {
         val fragments = fragmentManager.fragments
         fragments.forEach {
@@ -32,12 +32,11 @@ class SectionsPagerAdapter(
     }
 
 
-
-    fun updateFavorite(){
+    fun updateFavorite() {
         val fragments = fragmentManager.fragments
         fragments.forEach {
             if (it is DatabaseInterface.DatabaseListener) {
-                return it.updateFavorite()
+                it.updateFavorite()
             }
         }
 
@@ -84,13 +83,14 @@ class SectionsPagerAdapter(
 //            }
 //        }
 //    }
-    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
-    private var mListFragment: ListFragment = ListFragment()
-    var mSortType = "none"
+//    private var mFavoriteFragment: FavoriteFragment = FavoriteFragment()
+//    private var mListFragment: ListFragment = ListFragment()
+//    var mSortType = "none"
+
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            1 -> mFavoriteFragment
-            else -> mListFragment
+            1 -> FavoriteFragment()
+            else -> ListFragment()
 
         }
     }
