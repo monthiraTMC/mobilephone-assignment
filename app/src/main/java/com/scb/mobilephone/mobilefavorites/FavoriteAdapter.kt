@@ -1,5 +1,6 @@
 package com.scb.mobilephone.mobilefavorites
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -27,8 +28,9 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         return mFavoriteArray.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
-        var item = mFavoriteArray[position]
+        val item = mFavoriteArray[position]
         holder.mTitle.text = item.name
         holder.mPrice.text = item.price.toString()
         holder.mRating.text = "Rating: " + item.rating.toString()
@@ -54,9 +56,9 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
 }
 
 class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val mImage = view.imageView
-    val mTitle = view.titleTextView
-    val mPrice = view.pricetextView
-    val mRating = view.ratingtextView
+    val mImage = view.imageView!!
+    val mTitle = view.titleTextView!!
+    val mPrice = view.pricetextView!!
+    val mRating = view.ratingtextView!!
 
 }

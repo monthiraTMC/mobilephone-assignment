@@ -54,8 +54,8 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortI
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val _view = inflater.inflate(R.layout.fragment_list, container, false)
-        return _view
+        val view = inflater.inflate(R.layout.fragment_list, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,7 +82,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortI
         rvMobileList.let {
             it.adapter = mobileListAdapter
             it.layoutManager = LinearLayoutManager(context)
-            it.itemAnimator = DefaultItemAnimator() as RecyclerView.ItemAnimator?
+            it.itemAnimator = DefaultItemAnimator()
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }

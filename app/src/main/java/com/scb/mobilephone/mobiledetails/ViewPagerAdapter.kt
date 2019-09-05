@@ -1,4 +1,4 @@
-package com.scb.mobilephone.mobiledatails
+package com.scb.mobilephone.mobiledetails
 
 import android.content.Context
 import android.view.View

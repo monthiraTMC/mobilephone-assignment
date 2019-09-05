@@ -1,4 +1,4 @@
-package com.scb.mobilephone.mobiledatails
+package com.scb.mobilephone.mobiledetails
 
 import android.os.Bundle
 import android.util.DisplayMetrics

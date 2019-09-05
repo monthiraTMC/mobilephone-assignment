@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import com.scb.mobilephone.mobiledatails.DetailActivity
+import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.ApiInterface

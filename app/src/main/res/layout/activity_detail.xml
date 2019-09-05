@@ -4,9 +4,15 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".mobiledatails.DetailActivity"
+        tools:context=".mobiledetails.DetailActivity"
         android:orientation="vertical">
 
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            tools:ignore="UselessLeaf">
+    </LinearLayout>
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/imageViewPager"
             android:layout_width="match_parent"
@@ -31,7 +37,8 @@
                         android:text="title"
                         android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText,RtlHardcoded"/>
                 <TextView
                         android:id="@+id/detailBrand"
                         android:layout_marginLeft="10dp"
@@ -40,7 +47,8 @@
                         android:text="brand"
                         android:layout_marginTop="20dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content"
+                        tools:ignore="HardcodedText,RtlHardcoded"/>
             </LinearLayout>
             <TextView
                     android:layout_marginLeft="20dp"
@@ -48,7 +56,8 @@
                     android:text="description"
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText,RtlHardcoded"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

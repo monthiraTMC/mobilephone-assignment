@@ -20,7 +20,7 @@ class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperL
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            viewHolder?.let {
+            viewHolder.let {
                 listener.onItemDismiss(viewHolder.adapterPosition)
             }
         }

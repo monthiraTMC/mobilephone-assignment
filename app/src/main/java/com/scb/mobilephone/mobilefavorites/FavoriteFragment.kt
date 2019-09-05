@@ -44,8 +44,8 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val _view = inflater.inflate(R.layout.fragment_favorites, container, false)
-        return _view
+        val view = inflater.inflate(R.layout.fragment_favorites, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools" android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
@@ -21,13 +21,15 @@
                     android:src="@drawable/ic_launcher_foreground"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    tools:ignore="ContentDescription"/>
 
             <LinearLayout
                     android:layout_marginLeft="10dp"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    tools:ignore="RtlHardcoded">
 
                 <RelativeLayout
                         android:layout_width="match_parent"
@@ -40,14 +42,16 @@
                             android:layout_height="wrap_content"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            android:textColor="#DC000000"/>
+                            android:textColor="#DC000000"
+                            tools:ignore="HardcodedText,RtlHardcoded"/>
                     <ImageButton
                             android:id="@+id/btnFavorite"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/ic_favorite_border_black_24dp"
                             android:background="#00FFFFFF"
                             android:layout_width="30dp"
-                            android:layout_height="30dp" />
+                            android:layout_height="30dp"
+                            tools:ignore="ContentDescription"/>
 
                 </RelativeLayout>
 
@@ -60,7 +64,8 @@
                         android:maxLines="2"
                         android:ellipsize="end"
                         android:textSize="16sp"
-                        android:textColor="#979797"/>
+                        android:textColor="#979797"
+                        tools:ignore="HardcodedText"/>
 
                 <RelativeLayout
                         android:layout_marginTop="15dp"
@@ -72,7 +77,8 @@
                             android:id="@+id/pricetextView"
                             android:text="Price:"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            tools:ignore="HardcodedText,RtlHardcoded"/>
                     <TextView
                             android:id="@+id/ratingtextView"
                             android:textColor="#979797"
@@ -80,7 +86,7 @@
                             android:text="Rating:"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                    />
+                            tools:ignore="HardcodedText,RtlHardcoded"/>
 
                 </RelativeLayout>
 

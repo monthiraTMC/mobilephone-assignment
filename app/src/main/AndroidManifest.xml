@@ -15,7 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:replace="android:allowBackup"
-            tools:ignore="GoogleAppIndexingWarning">
+            tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
         <activity
                 android:name=".main.MainActivity"
                 android:label="@string/app_name"
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:parentActivityName=".main.MainActivity" android:name=".mobiledatails.DetailActivity"/>
+        <activity android:parentActivityName=".main.MainActivity" android:name=".mobiledetails.DetailActivity"/>
     </application>
 
 </manifest>

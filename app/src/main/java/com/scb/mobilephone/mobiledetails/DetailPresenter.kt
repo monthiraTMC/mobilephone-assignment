@@ -1,4 +1,4 @@
-package com.scb.mobilephone.mobiledatails;
+package com.scb.mobilephone.mobiledetails;
 
 import android.content.Context
 import android.util.Log
@@ -18,7 +18,7 @@ class DetailPresenter(_view : DetailInterface.DetailView, context: Context):
     private var context = context
 
     override fun getDetail(mobile_id:Int) {
-        val call = mobile_id?.let { ApiInterface.getClient().getImage(it.toString()) }
+        val call = mobile_id.let { ApiInterface.getClient().getImage(it.toString()) }
         //check request
         Log.d("MOBILE_IMAGE", call.request().url().toString())
         call.enqueue(object : Callback<List<MobileDetail>> {
