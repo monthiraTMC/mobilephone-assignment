@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.favorites.FavoriteFragment
 import com.scb.mobilephone.helper.SortInterface
-import com.scb.mobilephone.helper.UpdateInterface
 import com.scb.mobilephone.lists.ListFragment
 import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.model.Mobiles
@@ -31,15 +31,17 @@ class SectionsPagerAdapter(
         }
     }
 
-    fun getAllFavorite():ArrayList<Mobiles>? {
-        val fragments = fragmentManager.fragments
-        fragments.forEach {
-            if (it is ListFragment) {
-                return it.getUpdateFavorite()
-            }
-        }
-        return null
-    }
+
+
+//    fun getAllFavorite():ArrayList<Mobiles>? {
+//        val fragments = fragmentManager.fragments
+//        fragments.forEach {
+//            if (it is ListFragment) {
+//                return it.getUpdateFavorite()
+//            }
+//        }
+//        return null
+//    }
 
 
 //    fun setFavoriteMobile(){
@@ -52,26 +54,26 @@ class SectionsPagerAdapter(
 //        }
 //    }
 
-    fun setToUpdateFavorite():ArrayList<Mobiles>? {
-        val fragments = fragmentManager.fragments
-        fragments.forEach {
-            if (it is UpdateInterface) {
-                return it.getUpdateFavorite()
-            }
+//    fun setToUpdateFavorite():ArrayList<Mobiles>? {
+//        val fragments = fragmentManager.fragments
+//        fragments.forEach {
+//            if (it is UpdateInterface) {
+//                return it.getUpdateFavorite()
+//            }
+//
+//        }
+//        return null
+//    }
 
-        }
-        return null
-    }
-
-    fun updateFavorite(){
-        val favoriteList = setToUpdateFavorite()
-        val fragments = fragmentManager.fragments
-        fragments.forEach {
-            if (it is UpdateInterface) {
-                it.updateToFavorite(favoriteList!!)
-            }
-        }
-    }
+//    fun updateFavorite(){
+//        val favoriteList = setToUpdateFavorite()
+//        val fragments = fragmentManager.fragments
+//        fragments.forEach {
+//            if (it is UpdateInterface) {
+//                it.updateToFavorite(favoriteList!!)
+//            }
+//        }
+//    }
 //
 //    fun setUnFavoriteMobile(){
 //        val unFavoriteMobile = getUnFavoriteMobile()

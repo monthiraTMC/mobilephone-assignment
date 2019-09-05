@@ -25,64 +25,12 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(private val view: ListInterface.ListView, private val context: Context, private val mThread: CMWorkerThread,
-                    private val listener: SortListener) :
+class ListPresenter(private val view: ListInterface.ListView, private val context: Context) :
     ListInterface.ListPresenter {
 
     override fun getSortType(sortType: String) {
         mSortType = sortType
-        listener.getSortList(mSortType, mMobileArray)
-    }
-
-    override fun getAllFavorite() {
-        val task = Runnable {
-            mFavoriteArray.clear()
-            val result = mDatabaseAdapter?.favoriteDao()?.queryFavoriteLists()
-            val gson = Gson()
-            val json = gson.toJson(result)
-            val data = gson.fromJson<List<Mobiles>>(json,object : TypeToken<List<Mobiles>>() {}.type)
-            Log.d("getAllFavorite", data.toString())
-            mFavoriteArray.addAll(data)
-            view.getAllFavorite(mFavoriteArray)
-        }
-        mThread.postTask(task)
-    }
-
-    override fun addToFavorite(item: Mobiles) {
-        val task = Runnable {
-            val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            if (result == null) {
-                mDatabaseAdapter?.favoriteDao()?.addToFavorite(
-                    DatabaseEntity(item.id, item.name, item.description, item.brand,
-                        item.price, item.rating, item.thumbImageURL)
-                )
-                context.showToast("Add To Favorite Successfully")
-                Log.d("databaseAdd", item.toString())
-                this.getAllFavorite()
-            }
-
-
-        }
-        mThread.postTask(task)
-    }
-
-    override fun removeFavorite(item: Mobiles) {
-        Log.d("databaseRemove", item.toString())
-        val task = Runnable {
-            val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            if (result != null) {
-                mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-                context.showToast("Remove Favorite Successfully")
-            }
-            this.getAllFavorite()
-        }
-        mThread.postTask(task)
-    }
-
-    override fun setupDatabase() {
-        mDatabaseAdapter = AppDatabase.getInstance(context).also {
-            it.openHelper.readableDatabase
-        }
+//        listener.getSortList(mSortType, mMobileArray)
     }
 
     override fun gotoDetailPage(item: Mobiles) {
@@ -91,11 +39,13 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
         context.startActivity(intent)
     }
 
-    override fun addToMobileList(mobiles: ArrayList<Mobiles>) {
+    override fun addToMobileList(mobiles: ArrayList<Mobiles>): ArrayList<Mobiles> {
         _mobiles = mobiles
         mMobileArray.clear()
         mMobileArray.addAll(_mobiles)
-        listener.getSortList(mSortType, mMobileArray)
+//        view.submitList(mobiles)
+//        listener.getSortList(mSortType, mMobileArray)
+        return mMobileArray
     }
 
     override fun getApiMobileList() {
@@ -134,10 +84,8 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
 
 
     private var mSortType: String = "none"
-    private var mDatabaseAdapter:AppDatabase? = null
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
     private var _mobiles: List<Mobiles> = listOf()
 
     interface SortListener {

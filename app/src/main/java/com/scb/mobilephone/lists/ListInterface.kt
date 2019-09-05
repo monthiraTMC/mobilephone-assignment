@@ -13,19 +13,19 @@ interface ListInterface {
 
         fun showAllMobiles(mobiles: ArrayList<Mobiles>)
 
-        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
+//        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
 
     }
 
     interface ListPresenter {
         fun getApiMobileList()
         fun getSortType(sortType: String)
-        fun addToMobileList(mobiles: ArrayList<Mobiles>)
+        fun addToMobileList(mobiles: ArrayList<Mobiles>): ArrayList<Mobiles>
         fun gotoDetailPage(item: Mobiles)
-        fun addToFavorite(item: Mobiles)
-        fun removeFavorite(item: Mobiles)
-        fun getAllFavorite()
-        fun setupDatabase()
+//        fun addToFavorite(item: Mobiles)
+//        fun removeFavorite(item: Mobiles)
+//        fun getAllFavorite()
+//        fun setupDatabase()
 
     }
 

@@ -12,13 +12,13 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
 
     override fun getPosition(position: Int) {
         this.positionTab = position
-        if (positionTab == 0){
-            fragmentAdapter.updateFavorite()
-        }
-        else {
-            fragmentAdapter.getSortType(mSortType)
-            fragmentAdapter.updateFavorite()
-        }
+//        if (positionTab == 0){
+//            fragmentAdapter.getSortType(mSortType)
+//        }
+//        else {
+//
+//            fragmentAdapter.getSortType(mSortType)
+//        }
     }
 
     private var positionTab = 0

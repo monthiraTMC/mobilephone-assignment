@@ -16,14 +16,14 @@ import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface, UpdateInterface {
-    override fun getUpdateFavorite(): ArrayList<Mobiles> {
-        return this.mFavoriteArray
-    }
-
-    override fun updateToFavorite(list: ArrayList<Mobiles>) {
-        this.getAllFavorite(list)
-    }
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface {
+//    override fun getUpdateFavorite(): ArrayList<Mobiles> {
+//        return this.mFavoriteArray
+//    }
+//
+//    override fun updateToFavorite(list: ArrayList<Mobiles>) {
+//        this.getAllFavorite(list)
+//    }
 
 
     override fun getAllFavorite(list: ArrayList<Mobiles>) {
