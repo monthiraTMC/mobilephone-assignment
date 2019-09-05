@@ -31,13 +31,11 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
         mFavoriteAdapter.mFavoriteArray = list
         rvFavoriteList.post { mFavoriteAdapter.notifyDataSetChanged()
             Log.d("updateFavorite", mFavoriteAdapter.mFavoriteArray.toString())}
-        sortPresenter.sortMobileList(mSortType, mFavoriteArray)
-        Log.d("mSortTypeFavM", mSortType.toString())
+
     }
 
     override fun getSortType(sortType: String) {
         favoritePresenter.getType(sortType)
-        mSortType = sortType
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -47,7 +45,6 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
 
     private lateinit var rvFavoriteList: RecyclerView
     private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
-    private var mSortType = "none"
     private lateinit var mThread: CMWorkerThread
     private lateinit var sortPresenter: SortPresenter
     companion object {
@@ -94,6 +91,7 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
 
         favoritePresenter.setupDatabase()
         favoritePresenter.getAllFavorite()
+
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)

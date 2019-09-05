@@ -31,7 +31,6 @@ class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, privat
     override fun getType(sortType: String) {
         mSortType = sortType
         listener.getSortList(mSortType, mFavoriteArray)
-        Log.d("mSortTypeFav", mFavoriteArray.toString())
     }
 
     override fun getAllFavorite() {

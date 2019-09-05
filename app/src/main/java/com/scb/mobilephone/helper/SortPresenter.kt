@@ -56,7 +56,7 @@ class SortFavoriteList(private val view: FavoriteInterface.FavoriteView): SortPr
                 mSortArray.addAll(_mobiles)
             }
         }
-        view.submitList(mSortArray)
+        view.getAllFavorite(mSortArray)
     }
 
 }
