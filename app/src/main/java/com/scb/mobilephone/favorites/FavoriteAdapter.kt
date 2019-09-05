@@ -1,7 +1,6 @@
 package com.scb.mobilephone.favorites
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +34,7 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
-        Log.d("UpdateFavorite02", mFavoriteArray.toString())
-        Log.d("UpdateFavorite02", mFavoriteArray.size.toString())
     }
-
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
         Collections.swap(mFavoriteArray, fromPosition, toPosition)
@@ -49,7 +45,6 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
     override fun onItemDismiss(position: Int) {
         listener.removeFavorite(mFavoriteArray[position])
         mFavoriteArray.removeAt(position)
-        Log.d("remove", position.toString())
         notifyItemRemoved(position)
     }
 
