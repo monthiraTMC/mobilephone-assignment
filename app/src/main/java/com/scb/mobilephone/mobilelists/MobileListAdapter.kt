@@ -1,4 +1,4 @@
-package com.scb.mobilephone.lists
+package com.scb.mobilephone.mobilelists
 
 import android.content.Context
 import android.view.LayoutInflater

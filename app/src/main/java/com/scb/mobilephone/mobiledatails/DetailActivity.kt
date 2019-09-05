@@ -1,13 +1,10 @@
-package com.scb.mobilephone.datails
+package com.scb.mobilephone.mobiledatails
 
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
-import com.ouattararomuald.slider.ImageSlider
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.model.Mobiles

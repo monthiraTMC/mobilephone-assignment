@@ -1,4 +1,4 @@
-package com.scb.mobilephone.favorites
+package com.scb.mobilephone.mobilefavorites
 
 import android.content.Context
 import android.view.LayoutInflater

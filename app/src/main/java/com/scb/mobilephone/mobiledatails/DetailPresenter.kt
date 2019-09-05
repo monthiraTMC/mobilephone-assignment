@@ -1,4 +1,4 @@
-package com.scb.mobilephone.datails;
+package com.scb.mobilephone.mobiledatails;
 
 import android.content.Context
 import android.util.Log

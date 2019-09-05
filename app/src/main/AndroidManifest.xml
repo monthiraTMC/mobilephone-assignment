@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:parentActivityName=".main.MainActivity" android:name=".datails.DetailActivity"/>
+        <activity android:parentActivityName=".main.MainActivity" android:name=".mobiledatails.DetailActivity"/>
     </application>
 
 </manifest>

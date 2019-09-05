@@ -1,4 +1,4 @@
-package com.scb.mobilephone.lists
+package com.scb.mobilephone.mobilelists
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToView, DatabaseInterface.DatabaseListener {
+class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortInterface.SortToView, DatabaseInterface.DatabaseListener {
     override fun updateFavorite() {
         databasePresenter.getAllFavorite()
     }
@@ -66,7 +66,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
         databasePresenter = DatabasePresenter(this, context!!, mThread)
         mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
-                listPresenter.gotoDetailPage(item)
+                mobileListPresenter.gotoDetailPage(item)
             }
 
             override fun addToFavorite(item: Mobiles) {
@@ -88,14 +88,14 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
         }
 
         sortPresenter = SortList(this)
-        listPresenter = ListPresenter(this, context!!)
+        mobileListPresenter = MobileListPresenter(this, context!!)
         databasePresenter.setupDatabase()
         databasePresenter.getAllFavorite()
-        listPresenter.getApiMobileList()
+        mobileListPresenter.getApiMobileList()
         swipeRefresh.setOnRefreshListener {
             databasePresenter.setupDatabase()
             databasePresenter.getAllFavorite()
-            listPresenter.getApiMobileList()
+            mobileListPresenter.getApiMobileList()
         }
     }
 
@@ -113,7 +113,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToVie
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mThread: CMWorkerThread
-    private lateinit var listPresenter: ListInterface.ListPresenter
+    private lateinit var mobileListPresenter: MobileListInterface.MobileListPresenter
     private lateinit var sortPresenter: SortInterface.SortPresenter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
     private var mSortType = "none"

@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.scb.mobilephone.database.DatabaseInterface
-import com.scb.mobilephone.favorites.FavoriteFragment
+import com.scb.mobilephone.mobilefavorites.FavoriteFragment
 import com.scb.mobilephone.helper.SortInterface
-import com.scb.mobilephone.lists.ListFragment
+import com.scb.mobilephone.mobilelists.MobileListFragment
 
 private val TAB_TITLES = arrayOf("Mobile list", "Favorite list")
 
@@ -34,7 +34,7 @@ class SectionsPagerAdapter(
     override fun getItem(position: Int): Fragment {
         return when (position) {
             1 -> FavoriteFragment()
-            else -> ListFragment()
+            else -> MobileListFragment()
 
         }
     }

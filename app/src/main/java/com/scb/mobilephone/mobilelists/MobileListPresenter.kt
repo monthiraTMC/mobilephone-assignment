@@ -1,10 +1,10 @@
-package com.scb.mobilephone.lists
+package com.scb.mobilephone.mobilelists
 
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import com.scb.mobilephone.datails.DetailActivity
+import com.scb.mobilephone.mobiledatails.DetailActivity
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.ApiInterface
@@ -13,8 +13,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ListPresenter(private val view: ListInterface.ListView, private val context: Context) :
-    ListInterface.ListPresenter {
+class MobileListPresenter(private val view: MobileListInterface.MobileListView, private val context: Context) :
+    MobileListInterface.MobileListPresenter {
 
     override fun gotoDetailPage(item: Mobiles) {
         val intent = Intent(context, DetailActivity::class.java)
