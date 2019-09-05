@@ -1,4 +1,4 @@
-package com.scb.mobilephone.mobiledetails;
+package com.scb.mobilephone.mobiledetails
 
 import android.content.Context
 import android.util.Log
@@ -10,12 +10,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailPresenter(_view : DetailInterface.DetailView, context: Context):
+class DetailPresenter(private val view: DetailInterface.DetailView, private var context: Context):
     DetailInterface.DetailPresenter {
-    private val view = _view
     private val mDetailArray : ArrayList<MobileDetail> = ArrayList()
     private var mImageArray: ArrayList<String> = arrayListOf()
-    private var context = context
 
     override fun getDetail(mobile_id:Int) {
         val call = mobile_id.let { ApiInterface.getClient().getImage(it.toString()) }
@@ -39,17 +37,11 @@ class DetailPresenter(_view : DetailInterface.DetailView, context: Context):
                 if (response.isSuccessful) {
                     mDetailArray.clear()
                     mDetailArray.addAll(response.body()!!)
-
-                    for (i in 0..mDetailArray.size - 1) {
+                    for (i in 0 until mDetailArray.size) {
                         var url = mDetailArray[i].url
-                        if (url.contains("http")) {
-                            url = url
-                        }
-                        else {
-                            url = "https://" + url
-                        }
+                        if (url.contains("http")) {}
+                        else url = "https://$url"
                         mImageArray.add(i, url)
-
                     }
                     view.showImageDetail(mImageArray)
                     context.showToast("Load image Successfully")

@@ -36,25 +36,23 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         holder.itemView.setTag(R.id.view_pager, item.id)
         holder.itemView.setOnClickListener { listener.gotoDetailPage(item) }
 
-        if (item in mFavoriteArray){
+        clickFav = if (item in mFavoriteArray){
             holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
-            clickFav = true
-        }
-        else {
+            true
+        } else {
             holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
-            clickFav = false
+            false
         }
 
         holder.mBtnFavorite.setOnClickListener {
-            if (clickFav == false){
+            clickFav = if (!clickFav){
                 holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)
                 listener.addToFavorite(item)
-                clickFav = true
-            }
-            else {
+                true
+            } else {
                 holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_border_black_24dp)
                 listener.removeFavorite(item)
-                clickFav = false
+                false
             }
         }
     }

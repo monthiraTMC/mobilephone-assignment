@@ -15,7 +15,7 @@ interface ApiInterface {
     fun getImage(@Path("mobile_id") mobile_id: String):Call<List<MobileDetail>>
 
     companion object Factory {
-        private val BASE_URL = "https://scb-test-mobile.herokuapp.com/"
+        private const val BASE_URL = "https://scb-test-mobile.herokuapp.com/"
         private var retrofit: Retrofit? = null
         fun getClient(): ApiInterface {
             if (retrofit == null) {

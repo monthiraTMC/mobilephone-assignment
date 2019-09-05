@@ -1,5 +1,4 @@
-package com.scb.mobilephone.main;
-
+package com.scb.mobilephone.main
 
 interface MainInterface {
     interface MainPresenter {

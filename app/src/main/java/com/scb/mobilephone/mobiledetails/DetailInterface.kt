@@ -1,4 +1,4 @@
-package com.scb.mobilephone.mobiledetails;
+package com.scb.mobilephone.mobiledetails
 
 interface DetailInterface {
     interface DetailView {

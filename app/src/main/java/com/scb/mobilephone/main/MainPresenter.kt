@@ -1,4 +1,4 @@
-package com.scb.mobilephone.main;
+package com.scb.mobilephone.main
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +17,7 @@ class MainPresenter(
         val mBuilder = AlertDialog.Builder(context)
         val listItems = context.getResources().getStringArray(R.array.sort_item)
         mBuilder.setSingleChoiceItems(listItems, checkedItem) { dialogInterface, i ->
-            var sortType = listItems[i]
+            val sortType = listItems[i]
             checkedItem = i
             fragmentAdapter.getSortType(sortType)
             context.showToast(listItems[i].toString())
