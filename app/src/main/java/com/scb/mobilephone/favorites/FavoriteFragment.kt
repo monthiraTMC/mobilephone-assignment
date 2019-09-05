@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
+import com.scb.mobilephone.database.DatabaseInterface
+import com.scb.mobilephone.database.DatabasePresenter
 import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.helper.*
 import com.scb.mobilephone.lists.ListInterface
@@ -16,41 +18,48 @@ import com.scb.mobilephone.main.MainInterface
 import com.scb.mobilephone.main.MainPresenter
 import com.scb.mobilephone.model.Mobiles
 
-class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface, UpdateInterface {
-    override fun getUpdateFavorite(): ArrayList<Mobiles> {
-        return this.mFavoriteArray
+class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterface.SortToView,
+    DatabaseInterface.DatabaseListener {
+
+    override fun updateFavorite() {
+        databasePresenter.getAllFavorite()
     }
 
-    override fun updateToFavorite(list: ArrayList<Mobiles>) {
-        this.getAllFavorite(list)
-    }
-
-
-    override fun getAllFavorite(list: ArrayList<Mobiles>) {
-        this.mFavoriteArray = list
-        mFavoriteAdapter.mFavoriteArray = list
-        rvFavoriteList.post { mFavoriteAdapter.notifyDataSetChanged()
-            Log.d("updateFavorite", mFavoriteAdapter.mFavoriteArray.toString())}
-
-    }
-
-    override fun getSortType(sortType: String) {
-        favoritePresenter.getType(sortType)
+    override fun getDBFavorite(list: ArrayList<Mobiles>) {
+//        activity?.runOnUiThread {
+            this.mFavoriteArray = list
+            sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+//            mFavoriteAdapter.mFavoriteArray = mFavoriteArray
+//            mFavoriteAdapter.notifyDataSetChanged()
+//        }
+        Log.d("mSortTypeFav01", mSortType)
+        Log.d("mSortTypeFav01", mFavoriteArray.toString())
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
-        mFavoriteAdapter.mFavoriteArray = list
-        mFavoriteAdapter.notifyDataSetChanged()
+        activity?.runOnUiThread {
+            mFavoriteAdapter.mFavoriteArray = list
+            mFavoriteAdapter.notifyDataSetChanged()
+        }
     }
 
+    override fun getSortType(sortType: String) {
+        mSortType = sortType
+        sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+        Log.d("mSortTypeFav02", mSortType)
+        Log.d("mSortTypeFav02", mFavoriteArray.toString())
+    }
+
+    private var mSortType = "none"
     private lateinit var rvFavoriteList: RecyclerView
     private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private lateinit var mThread: CMWorkerThread
-    private lateinit var sortPresenter: SortPresenter
-    companion object {
-        lateinit var mFavoriteAdapter: FavoriteAdapter
-        lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
-    }
+    private lateinit var sortPresenter: SortInterface.SortPresenter
+
+    private lateinit var mFavoriteAdapter: FavoriteAdapter
+    private lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
+    private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,14 +73,13 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvFavoriteList = view.findViewById(R.id.recyclerViewFavorite)
-        mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener{
+        mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
+        databasePresenter = DatabasePresenter(this, context!!, mThread)
+        mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener {
             override fun removeFavorite(item: Mobiles) {
-                favoritePresenter.removeFavorite(item)
+                databasePresenter.removeFavorite(item)
             }
 
-            override fun updateFavorite(list: ArrayList<Mobiles>) {
-                favoritePresenter.updateFavorite(list)
-            }
         })
         rvFavoriteList.let {
             it.adapter = mFavoriteAdapter
@@ -80,18 +88,10 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
-        mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
-        sortPresenter = SortFavoriteList(this)
-        favoritePresenter = FavoritePresenter(this, context!!, mThread, object : FavoritePresenter.SortListener{
-            override fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>) {
-                sortPresenter.sortMobileList(sortType, mobiles)
-            }
 
-        })
-
-        favoritePresenter.setupDatabase()
-        favoritePresenter.getAllFavorite()
-
+        sortPresenter = SortList(this)
+        databasePresenter.setupDatabase()
+        databasePresenter.getAllFavorite()
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)

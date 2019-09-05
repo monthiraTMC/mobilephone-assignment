@@ -6,20 +6,10 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 
-class MainPresenter(private val context: Context, private val view: MainInterface.MainView,
-                    private val fragmentAdapter: SectionsPagerAdapter) : MainInterface.MainPresenter{
-
-    override fun getPosition(position: Int) {
-        this.positionTab = position
-        if (positionTab == 0){
-            fragmentAdapter.updateFavorite()
-        }
-        else {
-            fragmentAdapter.updateFavorite()
-        }
-    }
-
-    private var positionTab = 0
+class MainPresenter(
+    private val context: Context, private val view: MainInterface.MainView,
+    private val fragmentAdapter: SectionsPagerAdapter
+) : MainInterface.MainPresenter {
 
 
     override fun showDialog() {
@@ -34,7 +24,7 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
         val mDialog = mBuilder.create()
         mDialog.show()
     }
-
+    
 }
 
 

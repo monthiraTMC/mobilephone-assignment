@@ -9,7 +9,6 @@ interface MainInterface {
 
     interface MainPresenter {
         fun showDialog()
-        fun getPosition(position: Int)
     }
 }
 

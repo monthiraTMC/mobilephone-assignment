@@ -39,8 +39,8 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
         holder.itemView.setOnClickListener { listener.gotoDetailPage(item) }
-        Log.d("UpdateFavorite01", mFavoriteArray.toString())
-        Log.d("UpdateFavorite01", mFavoriteArray.size.toString())
+//        Log.d("UpdateFavorite01", mFavoriteArray.toString())
+//        Log.d("UpdateFavorite01", mFavoriteArray.size.toString())
 
         if (item in mFavoriteArray){
             holder.mBtnFavorite.setImageResource(R.drawable.ic_favorite_fillcolor)

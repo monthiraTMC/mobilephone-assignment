@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
 
     private lateinit var mMainPresenter: MainInterface.MainPresenter
     lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
-                mMainPresenter.getPosition(position)
+                sectionsPagerAdapter.updateFavorite()
             }
 
         })
