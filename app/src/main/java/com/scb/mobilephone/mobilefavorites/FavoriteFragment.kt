@@ -56,6 +56,7 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
         mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener {
             override fun removeFavorite(item: Mobiles) {
                 databasePresenter.removeFavorite(item)
+                databasePresenter.getAllFavorite()
             }
 
         })
@@ -69,7 +70,6 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
 
         sortPresenter = SortList(this)
         databasePresenter.setupDatabase()
-        databasePresenter.getAllFavorite()
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)
