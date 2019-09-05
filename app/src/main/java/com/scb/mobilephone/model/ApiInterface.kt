@@ -16,9 +16,7 @@ interface ApiInterface {
 
     companion object Factory {
         private val BASE_URL = "https://scb-test-mobile.herokuapp.com/"
-
         private var retrofit: Retrofit? = null
-
         fun getClient(): ApiInterface {
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()
@@ -26,9 +24,7 @@ interface ApiInterface {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
             }
-
             return retrofit!!.create(ApiInterface::class.java)
         }
     }
-
 }
