@@ -2,6 +2,7 @@ package com.scb.mobilephone.datails;
 
 import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.MobileDetail
@@ -23,7 +24,14 @@ class DetailPresenter(_view : DetailInterface.DetailView, context: Context):
         call.enqueue(object : Callback<List<MobileDetail>> {
             override fun onFailure(call: Call<List<MobileDetail>>, t: Throwable) {
                 Log.d("MOBILE_IMAGE", t.message.toString())
-                context.showToast("Cannot load image " + t.message.toString())
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Error")
+                builder.setMessage(" Cannot call API ")
+                builder.setNeutralButton("OK"){_,_ ->
+                    context.showToast("Cannot load image " + t.message.toString())
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             }
 
             override fun onResponse(call: Call<List<MobileDetail>>, response: Response<List<MobileDetail>>) {
