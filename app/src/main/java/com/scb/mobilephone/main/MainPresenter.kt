@@ -1,6 +1,7 @@
 package com.scb.mobilephone.main;
 
 import android.content.Context
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.showToast
@@ -15,6 +16,7 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
             fragmentAdapter.updateFavorite()
         }
         else {
+            fragmentAdapter.getSortType(mSortType)
             fragmentAdapter.updateFavorite()
         }
     }
@@ -27,6 +29,7 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
         val listItems = context.getResources().getStringArray(R.array.sort_item)
         mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
             var sortType = listItems[i]
+            mSortType = sortType
             fragmentAdapter.getSortType(sortType)
             context.showToast(listItems[i].toString())
             dialogInterface.dismiss()
@@ -34,6 +37,8 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
         val mDialog = mBuilder.create()
         mDialog.show()
     }
+
+    private  var mSortType = "none"
 
 }
 
