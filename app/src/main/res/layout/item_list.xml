@@ -45,9 +45,9 @@
                             android:id="@+id/btnFavorite"
                             android:layout_alignParentRight="true"
                             android:src="@drawable/ic_favorite_border_black_24dp"
-                            android:background="@drawable/ic_favorite_btn"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp" />
+                            android:background="#00FFFFFF"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp" />
 
                 </RelativeLayout>
 
@@ -58,6 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
+                        android:ellipsize="end"
                         android:textSize="16sp"
                         android:textColor="#979797"/>
 
