@@ -98,7 +98,5 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
     }
 
-
-
 }
 

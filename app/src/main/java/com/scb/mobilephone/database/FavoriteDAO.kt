@@ -18,23 +18,3 @@ interface FavoriteDAO{
     @Delete
     fun deleteFromFavorite(favoriteEntity: DatabaseEntity)
 }
-
-//@Dao
-//interface UserDAO {
-//
-//    @Query("select * from user")
-//    fun queryUsers(): UserEntity?
-//
-//    @Query("select * from user where username = :username")
-//    fun queryUser(username: String): UserEntity
-//
-//    @Insert
-//    fun addUser(userEntity: UserEntity)
-//
-//    @Update
-//    fun updateUser(userEntity: UserEntity)
-//
-//    @Delete
-//    fun daleteUser(userEntity: UserEntity)
-//
-//}

@@ -16,11 +16,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <com.ouattararomuald.slider.ImageSlider
-                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:id="@+id/slider"
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp">
+                    android:layout_height="200dp" tools:layout_editor_absoluteY="10dp">
 
             </com.ouattararomuald.slider.ImageSlider>
 

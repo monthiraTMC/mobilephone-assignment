@@ -2,7 +2,11 @@ package com.scb.mobilephone.lists
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat.finishAffinity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.scb.mobilephone.database.AppDatabase
@@ -102,7 +106,14 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
                 Log.d("getApi", t.message.toString())
                 view.hideLoading()
-                context.showToast("Cannot load api " + t.message.toString())
+                val builder = AlertDialog.Builder(context)
+                builder.setTitle("Error")
+                builder.setMessage("Cannot load API")
+                builder.setNeutralButton("OK"){_,_ ->
+                    context.showToast("Cannot load API" + t.message.toString())
+                }
+                val dialog: AlertDialog = builder.create()
+                dialog.show()
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
