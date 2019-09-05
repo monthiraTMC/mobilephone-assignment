@@ -32,9 +32,9 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
                 view.hideLoading()
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Error")
-                builder.setMessage("Cannot load API")
+                builder.setMessage(" Cannot call API ")
                 builder.setNeutralButton("OK"){_,_ ->
-                    context.showToast("Cannot load API" + t.message.toString())
+                    context.showToast("Cannot call API " + t.message.toString())
                 }
                 val dialog: AlertDialog = builder.create()
                 dialog.show()

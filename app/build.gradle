@@ -1,5 +1,4 @@
 
-
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
@@ -45,6 +44,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.gsonVersion"
 
     // Image loading framework
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.ouattararomuald:slider-glide:2.0.0' // If you use Glide
     implementation 'com.ouattararomuald:slider-picasso:2.0.0' // If you use Picasso
     implementation 'io.github.ivanespitiac:imageslider:1.0.3'
