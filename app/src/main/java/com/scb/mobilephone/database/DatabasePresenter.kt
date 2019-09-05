@@ -33,7 +33,7 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
                     DatabaseEntity(item.id, item.name, item.description, item.brand,
                         item.price, item.rating, item.thumbImageURL)
                 )
-                context.showToast("Add To Favorite Successfully")
+                context.showToast("Added")
                 Log.d("databaseAdd", item.toString())
             }
         }
@@ -46,7 +46,7 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
             if (result != null) {
                 mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-                context.showToast("Remove Favorite Successfully")
+                context.showToast("Removed")
             }
         }
         mThread.postTask(task)
