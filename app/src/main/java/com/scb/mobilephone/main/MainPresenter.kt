@@ -11,12 +11,14 @@ class MainPresenter(
     private val fragmentAdapter: SectionsPagerAdapter
 ) : MainInterface.MainPresenter {
 
+    private var checkedItem = -1
 
     override fun showDialog() {
         val mBuilder = AlertDialog.Builder(context)
         val listItems = context.getResources().getStringArray(R.array.sort_item)
-        mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
+        mBuilder.setSingleChoiceItems(listItems, checkedItem) { dialogInterface, i ->
             var sortType = listItems[i]
+            checkedItem = i
             fragmentAdapter.getSortType(sortType)
             context.showToast(listItems[i].toString())
             dialogInterface.dismiss()

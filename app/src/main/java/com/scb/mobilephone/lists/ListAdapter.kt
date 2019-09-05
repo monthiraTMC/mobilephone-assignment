@@ -28,7 +28,7 @@ class ListAdapter(val context: Context, private val listener: MobileListListener
         var item = mMobileArray[position]
         holder.mTitle.text = item.name
         holder.mDescription.text = item.description
-        holder.mPrice.text = "Price: " + item.price.toString()
+        holder.mPrice.text = "Price: $" + item.price.toString()
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
