@@ -34,57 +34,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
         listener.getSortList(mSortType, mMobileArray)
     }
 
-    override fun getAllFavorite() {
-        val task = Runnable {
-            mFavoriteArray.clear()
-            val result = mDatabaseAdapter?.favoriteDao()?.queryFavoriteLists()
-            val gson = Gson()
-            val json = gson.toJson(result)
-            val data = gson.fromJson<List<Mobiles>>(json,object : TypeToken<List<Mobiles>>() {}.type)
-            Log.d("getAllFavorite", data.toString())
-            mFavoriteArray.addAll(data)
-            view.getAllFavorite(mFavoriteArray)
-        }
-        mThread.postTask(task)
-    }
-
-    override fun addToFavorite(item: Mobiles) {
-        val task = Runnable {
-            val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            if (result == null) {
-                mDatabaseAdapter?.favoriteDao()?.addToFavorite(
-                    DatabaseEntity(item.id, item.name, item.description, item.brand,
-                        item.price, item.rating, item.thumbImageURL)
-                )
-                context.showToast("Add To Favorite Successfully")
-                Log.d("databaseAdd", item.toString())
-                this.getAllFavorite()
-            }
-
-
-        }
-        mThread.postTask(task)
-    }
-
-    override fun removeFavorite(item: Mobiles) {
-        Log.d("databaseRemove", item.toString())
-        val task = Runnable {
-            val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            if (result != null) {
-                mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-                context.showToast("Remove Favorite Successfully")
-            }
-            this.getAllFavorite()
-        }
-        mThread.postTask(task)
-    }
-
-    override fun setupDatabase() {
-        mDatabaseAdapter = AppDatabase.getInstance(context).also {
-            it.openHelper.readableDatabase
-        }
-    }
-
     override fun gotoDetailPage(item: Mobiles) {
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra(MOBILE_LIST, item)
@@ -134,10 +83,8 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
 
 
     private var mSortType: String = "none"
-    private var mDatabaseAdapter:AppDatabase? = null
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
     private var _mobiles: List<Mobiles> = listOf()
 
     interface SortListener {
