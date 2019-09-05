@@ -5,7 +5,6 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             app:cardCornerRadius="5dp"
