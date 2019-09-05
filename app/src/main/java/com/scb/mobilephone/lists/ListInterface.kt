@@ -19,15 +19,7 @@ interface ListInterface {
 
     interface ListPresenter {
         fun getApiMobileList()
-        fun getSortType(sortType: String)
-        fun addToMobileList(mobiles: ArrayList<Mobiles>): ArrayList<Mobiles>
         fun gotoDetailPage(item: Mobiles)
-//        fun addToFavorite(item: Mobiles)
-//        fun removeFavorite(item: Mobiles)
-//        fun getAllFavorite()
-//        fun setupDatabase()
-
     }
-
 
 }

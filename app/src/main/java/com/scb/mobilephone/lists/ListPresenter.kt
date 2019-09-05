@@ -28,24 +28,10 @@ import retrofit2.Response
 class ListPresenter(private val view: ListInterface.ListView, private val context: Context) :
     ListInterface.ListPresenter {
 
-    override fun getSortType(sortType: String) {
-        mSortType = sortType
-//        listener.getSortList(mSortType, mMobileArray)
-    }
-
     override fun gotoDetailPage(item: Mobiles) {
         val intent = Intent(context, DetailActivity::class.java)
         intent.putExtra(MOBILE_LIST, item)
         context.startActivity(intent)
-    }
-
-    override fun addToMobileList(mobiles: ArrayList<Mobiles>): ArrayList<Mobiles> {
-        _mobiles = mobiles
-        mMobileArray.clear()
-        mMobileArray.addAll(_mobiles)
-//        view.submitList(mobiles)
-//        listener.getSortList(mSortType, mMobileArray)
-        return mMobileArray
     }
 
     override fun getApiMobileList() {
@@ -82,13 +68,6 @@ class ListPresenter(private val view: ListInterface.ListView, private val contex
 
     }
 
-
-    private var mSortType: String = "none"
     private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
-    private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var _mobiles: List<Mobiles> = listOf()
 
-    interface SortListener {
-        fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>)
-    }
 }

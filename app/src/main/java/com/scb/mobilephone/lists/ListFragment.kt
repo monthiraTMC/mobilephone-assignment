@@ -27,7 +27,6 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, Database
 
     override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
         mMobileArray = mobiles
-        listPresenter.addToMobileList(mobiles)
         sortPresenter.sortMobileList(mSortType, mMobileArray)
     }
 
@@ -48,10 +47,8 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, Database
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mThread: CMWorkerThread
+    private lateinit var listPresenter: ListInterface.ListPresenter
 
-    companion object {
-        lateinit var listPresenter: ListInterface.ListPresenter
-    }
 
     private lateinit var sortPresenter: SortPresenter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
@@ -60,7 +57,6 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, Database
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val _view = inflater.inflate(R.layout.fragment_list, container, false)
         return _view
     }
