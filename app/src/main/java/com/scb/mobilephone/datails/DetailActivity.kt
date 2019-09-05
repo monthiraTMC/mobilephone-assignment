@@ -2,8 +2,10 @@ package com.scb.mobilephone.datails
 
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager.widget.ViewPager
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
@@ -16,7 +18,8 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
 
-
+    private lateinit var viewPager:ViewPager
+    private lateinit var viewPagerAapter: ViewPagerAdapter
     private lateinit var mPresenterDetail : DetailInterface.DetailPresenter
     private var width:Int = 0
     private var height:Int = 0
@@ -26,10 +29,11 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        viewPager = findViewById(R.id.imageViewPager)
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
-        height = displayMetrics.heightPixels
+        height = (displayMetrics.heightPixels * 35) / 100
 
         mPresenterDetail = DetailPresenter(this, applicationContext!!)
         mMobileList = intent.extras?.getSerializable(MOBILE_LIST) as Mobiles
@@ -41,11 +45,10 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
     }
 
     override fun showImageDetail(imageURL: ArrayList<String>) {
-        imageSlider = findViewById(R.id.slider)
-        imageSlider.adapter = SliderAdapter(
-            applicationContext,
-            PicassoImageLoaderFactory(),
-            imageUrls = imageURL
-        )
+        viewPagerAapter = ViewPagerAdapter(this, imageURL, width, height)
+        viewPager.adapter = viewPagerAapter
+        viewPager.setAdapter(viewPagerAapter)
+
+
     }
 }
