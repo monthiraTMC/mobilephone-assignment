@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity(), MainInterface.MainView {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
                 sectionsPagerAdapter.updateFavorite()
-//                mMainPresenter.getPosition(position)
             }
 
         })

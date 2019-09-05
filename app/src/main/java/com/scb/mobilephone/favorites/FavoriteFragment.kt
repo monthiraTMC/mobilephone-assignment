@@ -33,13 +33,12 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
 //            mFavoriteAdapter.notifyDataSetChanged()
 //        }
         Log.d("mSortTypeFav01", mSortType)
-
+        Log.d("mSortTypeFav01", mFavoriteArray.toString())
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
         activity?.runOnUiThread {
-            mFavoriteArray = list
-            mFavoriteAdapter.mFavoriteArray = mFavoriteArray
+            mFavoriteAdapter.mFavoriteArray = list
             mFavoriteAdapter.notifyDataSetChanged()
         }
     }
@@ -48,6 +47,7 @@ class FavoriteFragment : Fragment(), FavoriteInterface.FavoriteView, SortInterfa
         mSortType = sortType
         sortPresenter.sortMobileList(mSortType, mFavoriteArray)
         Log.d("mSortTypeFav02", mSortType)
+        Log.d("mSortTypeFav02", mFavoriteArray.toString())
     }
 
     private var mSortType = "none"

@@ -11,25 +11,12 @@ class MainPresenter(
     private val fragmentAdapter: SectionsPagerAdapter
 ) : MainInterface.MainPresenter {
 
-    override fun getPosition(position: Int) {
-        fragmentAdapter.updateFavorite()
-//        this.positionTab = position
-//        if (position == 1) {
-//            fragmentAdapter.updateFavorite()
-//        } else {
-//            fragmentAdapter.updateFavorite()
-//        }
-    }
-
-    private var positionTab = 0
-
 
     override fun showDialog() {
         val mBuilder = AlertDialog.Builder(context)
         val listItems = context.getResources().getStringArray(R.array.sort_item)
         mBuilder.setSingleChoiceItems(listItems, -1) { dialogInterface, i ->
             var sortType = listItems[i]
-            mSortType = sortType
             fragmentAdapter.getSortType(sortType)
             context.showToast(listItems[i].toString())
             dialogInterface.dismiss()
