@@ -25,7 +25,7 @@ class SectionsPagerAdapter(
     fun getSortType(sortType: String) {
         val fragments = fragmentManager.fragments
         fragments.forEach {
-            if (it is SortInterface) {
+            if (it is SortInterface.SortToView) {
                 it.getSortType(sortType)
             }
         }
@@ -33,15 +33,15 @@ class SectionsPagerAdapter(
 
 
 
-//    fun getAllFavorite():ArrayList<Mobiles>? {
-//        val fragments = fragmentManager.fragments
-//        fragments.forEach {
-//            if (it is ListFragment) {
-//                return it.getUpdateFavorite()
-//            }
-//        }
-//        return null
-//    }
+    fun updateFavorite(){
+        val fragments = fragmentManager.fragments
+        fragments.forEach {
+            if (it is DatabaseInterface.DatabaseListener) {
+                return it.updateFavorite()
+            }
+        }
+
+    }
 
 
 //    fun setFavoriteMobile(){

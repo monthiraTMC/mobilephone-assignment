@@ -9,11 +9,9 @@ interface ListInterface {
 
         fun hideLoading()
 
-        fun submitList(list: ArrayList<Mobiles>)
+//        fun submitList(list: ArrayList<Mobiles>)
 
         fun showAllMobiles(mobiles: ArrayList<Mobiles>)
-
-//        fun getAllFavorite(mobiles: ArrayList<Mobiles>)
 
     }
 

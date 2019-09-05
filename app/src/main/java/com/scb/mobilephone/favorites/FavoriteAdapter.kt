@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scb.mobilephone.R
-import com.scb.mobilephone.favorites.FavoriteFragment.Companion.favoritePresenter
 import com.scb.mobilephone.helper.CustomItemTouchHelperListener
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_favorite.view.*
@@ -36,6 +35,8 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
+        Log.d("UpdateFavorite02", mFavoriteArray.toString())
+        Log.d("UpdateFavorite02", mFavoriteArray.size.toString())
     }
 
 
@@ -48,17 +49,14 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
     override fun onItemDismiss(position: Int) {
         listener.removeFavorite(mFavoriteArray[position])
         mFavoriteArray.removeAt(position)
-        listener.updateFavorite(mFavoriteArray)
         Log.d("remove", position.toString())
         notifyItemRemoved(position)
     }
 
     interface FavoriteListener {
-        fun updateFavorite(list: ArrayList<Mobiles>)
         fun removeFavorite(item : Mobiles)
     }
 }
-
 
 class FavoriteHolder(view: View) : RecyclerView.ViewHolder(view) {
     val mImage = view.imageView

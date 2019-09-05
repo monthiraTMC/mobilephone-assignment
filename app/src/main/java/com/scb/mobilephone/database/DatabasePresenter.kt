@@ -8,7 +8,9 @@ import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.model.Mobiles
 
-class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener,private val context: Context, private val mThread: CMWorkerThread): DatabaseInterface.DatabasePresenter {
+class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener,
+                        private val context: Context,
+                        private val mThread: CMWorkerThread): DatabaseInterface.DatabasePresenter {
     override fun getAllFavorite() {
         val task = Runnable {
             mFavoriteArray.clear()
@@ -33,10 +35,7 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
                 )
                 context.showToast("Add To Favorite Successfully")
                 Log.d("databaseAdd", item.toString())
-                this.getAllFavorite()
             }
-
-
         }
         mThread.postTask(task)
     }
@@ -49,7 +48,6 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
                 mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
                 context.showToast("Remove Favorite Successfully")
             }
-            this.getAllFavorite()
         }
         mThread.postTask(task)
     }

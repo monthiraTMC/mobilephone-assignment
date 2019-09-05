@@ -1,7 +1,6 @@
 package com.scb.mobilephone.lists
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +14,24 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.database.DatabasePresenter
 import com.scb.mobilephone.extensions.THREAD_NAME
-import com.scb.mobilephone.helper.*
+import com.scb.mobilephone.helper.CMWorkerThread
+import com.scb.mobilephone.helper.SortInterface
+import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.fragment_list.*
 
 
-class ListFragment : Fragment(), ListInterface.ListView, SortInterface, DatabaseInterface.DatabaseListener {
+class ListFragment : Fragment(), ListInterface.ListView, SortInterface.SortToView, DatabaseInterface.DatabaseListener {
+    override fun updateFavorite() {
+        databasePresenter.getAllFavorite()
+    }
+
     override fun getDBFavorite(list: ArrayList<Mobiles>) {
         this.mFavoriteArray = list
+        mobileListAdapter.mFavoriteArray = mFavoriteArray
+        rvMobileList.post {
+            mobileListAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
@@ -50,7 +59,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, Database
     private lateinit var listPresenter: ListInterface.ListPresenter
 
 
-    private lateinit var sortPresenter: SortPresenter
+    private lateinit var sortPresenter: SortInterface.SortPresenter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
     private var mSortType = "none"
     override fun onCreateView(
@@ -99,6 +108,7 @@ class ListFragment : Fragment(), ListInterface.ListView, SortInterface, Database
 
         swipeRefresh.setOnRefreshListener {
             databasePresenter.setupDatabase()
+            databasePresenter.getAllFavorite()
             listPresenter.getApiMobileList()
         }
     }

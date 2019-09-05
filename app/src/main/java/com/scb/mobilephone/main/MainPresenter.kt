@@ -1,7 +1,6 @@
 package com.scb.mobilephone.main;
 
 import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.showToast
@@ -12,13 +11,12 @@ class MainPresenter(private val context: Context, private val view: MainInterfac
 
     override fun getPosition(position: Int) {
         this.positionTab = position
-//        if (positionTab == 0){
-//            fragmentAdapter.getSortType(mSortType)
-//        }
-//        else {
-//
-//            fragmentAdapter.getSortType(mSortType)
-//        }
+           if (position == 1){
+                    fragmentAdapter.updateFavorite()
+                }
+                else{
+                    fragmentAdapter.updateFavorite()
+                }
     }
 
     private var positionTab = 0

@@ -13,60 +13,14 @@ import com.scb.mobilephone.lists.ListInterface
 import com.scb.mobilephone.model.Mobiles
 import kotlin.NullPointerException as NullPointerException1
 
-class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, private val context: Context,
-                        private val mThread: CMWorkerThread,
-                        private val listener: SortListener) :
+class FavoritePresenter(private val view: FavoriteInterface.FavoriteView, private val context: Context) :
     FavoriteInterface.FavoritePresenter{
 
-    override fun updateFavorite(list: ArrayList<Mobiles>) {
-        view.getAllFavorite(list)
-    }
 
-    override fun setupDatabase() {
-        mDatabaseAdapter = AppDatabase.getInstance(context).also {
-            it.openHelper.readableDatabase
-        }
-    }
-
-    override fun getType(sortType: String) {
-        mSortType = sortType
-        listener.getSortList(mSortType, mFavoriteArray)
-    }
-
-    override fun getAllFavorite() {
-        val task = Runnable {
-            mFavoriteArray.clear()
-            val result = mDatabaseAdapter?.favoriteDao()?.queryFavoriteLists()
-            val gson = Gson()
-            val json = gson.toJson(result)
-            val data = gson.fromJson<List<Mobiles>>(json,object : TypeToken<List<Mobiles>>() {}.type)
-            Log.d("getAllFavorite", data.toString())
-            mFavoriteArray.addAll(data)
-            view.getAllFavorite(mFavoriteArray)
-            Log.d("databaseGetAll", mFavoriteArray.toString())
-            Log.d("databaseGetAll", mFavoriteArray.size.toString())
-        }
-        mThread.postTask(task)
-    }
-
-    override fun removeFavorite(item: Mobiles) {
-        Log.d("databaseRemove", item.toString())
-        val task = Runnable {
-            val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
-            if (result != null) {
-                mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-                context.showToast("Remove Favorite Successfully")
-            }
-        }
-        mThread.postTask(task)
-//        this.getAllFavorite()
-    }
 
     private var mSortType: String = "none"
     private var mDatabaseAdapter: AppDatabase? = null
     private var mFavoriteArray: ArrayList<Mobiles> = arrayListOf()
-    interface SortListener {
-        fun getSortList(sortType: String, mobiles: ArrayList<Mobiles>)
-    }
+
 
 }
