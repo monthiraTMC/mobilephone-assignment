@@ -28,6 +28,7 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
                 Log.d("getApi", t.message.toString())
                 view.hideLoading()
+                view.showDialog()
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {

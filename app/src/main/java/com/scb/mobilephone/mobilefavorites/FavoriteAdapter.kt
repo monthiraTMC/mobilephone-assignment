@@ -36,6 +36,9 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
         holder.mRating.text = "Rating: " + item.rating.toString()
         Glide.with(context).load(item.thumbImageURL).into(holder.mImage)
         holder.itemView.setTag(R.id.view_pager, item.id)
+        holder.itemView.setOnClickListener {
+            listener.gotoDetailPage(item)
+        }
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
@@ -52,6 +55,7 @@ class FavoriteAdapter(val context: Context, private val listener: FavoriteListen
 
     interface FavoriteListener {
         fun removeFavorite(item : Mobiles)
+        fun gotoDetailPage(item: Mobiles)
     }
 }
 

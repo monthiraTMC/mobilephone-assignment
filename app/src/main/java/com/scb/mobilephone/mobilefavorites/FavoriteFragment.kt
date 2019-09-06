@@ -1,5 +1,6 @@
 package com.scb.mobilephone.mobilefavorites
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,14 @@ import androidx.recyclerview.widget.*
 import com.scb.mobilephone.R
 import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.database.DatabasePresenter
+import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.THREAD_NAME
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
 import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.helper.SortList
+import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.model.Mobiles
 
 class FavoriteFragment : Fragment(), SortInterface.SortToView,
@@ -57,6 +60,12 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
         mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
         databasePresenter = DatabasePresenter(this, context!!, mThread)
         mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener {
+            override fun gotoDetailPage(item: Mobiles) {
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra(MOBILE_LIST, item)
+                startActivity(intent)
+            }
+
             override fun removeFavorite(item: Mobiles) {
                 databasePresenter.removeFavorite(item)
                 databasePresenter.getAllFavorite()
