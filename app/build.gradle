@@ -50,5 +50,10 @@ dependencies {
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+
+    //test
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    testImplementation 'org.mockito:mockito-core:2.8.47'
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:1.5.0"
 }
 
