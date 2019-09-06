@@ -1,9 +1,11 @@
 package com.scb.mobilephone.mobilelists
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,18 +15,39 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.database.DatabasePresenter
+import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.THREAD_NAME
+import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.helper.SortList
+import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.model.Mobiles
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_mobilelist.*
 
 
-class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortInterface.SortToView, DatabaseInterface.DatabaseListener {
-    override fun closeApp() {
-        activity?.finishAffinity()
+class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
+    SortInterface.SortToView, DatabaseInterface.DatabaseListener {
+    override fun showDialog() {
+        val builder = AlertDialog.Builder(context!!)
+        builder.let {
+            it.setTitle("Error")
+            it.setMessage(" Cannot call API, Try again?")
+            it.setPositiveButton("YES"){_, _->
+                mobileListPresenter.getApiMobileList()
+            }
+            it.setNegativeButton("NO"){_, _->
+                activity?.finishAffinity()
+            }
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
+
+    override fun showToastMessage(message: String) {
+        context?.showToast(message)
+    }
+
     override fun updateFavorite() {
         databasePresenter.getAllFavorite()
     }
@@ -57,7 +80,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortI
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_mobilelist, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,7 +91,9 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortI
         databasePresenter = DatabasePresenter(this, context!!, mThread)
         mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
-                mobileListPresenter.gotoDetailPage(item)
+                val intent = Intent(context, DetailActivity::class.java)
+                intent.putExtra(MOBILE_LIST, item)
+                startActivity(intent)
             }
 
             override fun addToFavorite(item: Mobiles) {
@@ -90,7 +115,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortI
         }
 
         sortPresenter = SortList(this)
-        mobileListPresenter = MobileListPresenter(this, context!!)
+        mobileListPresenter = MobileListPresenter(this, this)
         databasePresenter.setupDatabase()
         databasePresenter.getAllFavorite()
         mobileListPresenter.getApiMobileList()

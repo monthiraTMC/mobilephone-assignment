@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.model.Mobiles
 
@@ -18,7 +17,6 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
             val gson = Gson()
             val json = gson.toJson(result)
             val data = gson.fromJson<List<Mobiles>>(json,object : TypeToken<List<Mobiles>>() {}.type)
-            Log.d("getAllFavorite", data.toString())
             mFavoriteArray.addAll(data)
             listener.getDBFavorite(mFavoriteArray)
         }
@@ -33,7 +31,7 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
                     DatabaseEntity(item.id, item.name, item.description, item.brand,
                         item.price, item.rating, item.thumbImageURL)
                 )
-                context.showToast("Added")
+                listener.showToastMessage("Added")
                 Log.d("databaseAdd", item.toString())
             }
         }
@@ -46,7 +44,7 @@ class DatabasePresenter(private val listener: DatabaseInterface.DatabaseListener
             val result = mDatabaseAdapter!!.favoriteDao().queryFavoriteLists(item.id)
             if (result != null) {
                 mDatabaseAdapter?.favoriteDao()?.deleteFromFavorite(result)
-                context.showToast("Removed")
+                listener.showToastMessage("Removed")
             }
         }
         mThread.postTask(task)

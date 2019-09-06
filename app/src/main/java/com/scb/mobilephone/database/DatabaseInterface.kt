@@ -6,6 +6,7 @@ interface DatabaseInterface {
     interface DatabaseListener{
         fun getDBFavorite(list: ArrayList<Mobiles>)
         fun updateFavorite()
+        fun showToastMessage(message:String)
     }
     interface DatabasePresenter{
         fun addToFavorite(item: Mobiles)

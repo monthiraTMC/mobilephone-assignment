@@ -7,11 +7,10 @@ interface MobileListInterface {
         fun showLoading()
         fun hideLoading()
         fun showAllMobiles(mobiles: ArrayList<Mobiles>)
-        fun closeApp()
+        fun showDialog()
     }
 
     interface MobileListPresenter {
         fun getApiMobileList()
-        fun gotoDetailPage(item: Mobiles)
     }
 }
