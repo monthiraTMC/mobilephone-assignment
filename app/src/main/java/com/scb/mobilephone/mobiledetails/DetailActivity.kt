@@ -28,7 +28,7 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
         width = displayMetrics.widthPixels
         height = (displayMetrics.heightPixels * 35) / 100
 
-        mPresenterDetail = DetailPresenter(this, applicationContext!!)
+        mPresenterDetail = DetailPresenter(this, this@DetailActivity)
         mMobileList = intent.extras?.getSerializable(MOBILE_LIST) as Mobiles
         mPresenterDetail.getDetail(mMobileList.id)
 
