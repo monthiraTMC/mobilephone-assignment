@@ -24,9 +24,13 @@ class DetailPresenter(private val view: DetailInterface.DetailView, private var 
                 Log.d("MOBILE_IMAGE", t.message.toString())
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("Error")
-                builder.setMessage(" Cannot call API ")
-                builder.setNeutralButton("OK"){_,_ ->
-                    context.showToast("Cannot load image " + t.message.toString())
+                builder.setMessage(" Cannot call API, Try again?")
+                builder.setPositiveButton("YES"){_, _->
+                    getDetail(mobile_id)
+                }
+
+                builder.setNegativeButton("NO"){_, _->
+                    view.closeApp()
                 }
                 val dialog: AlertDialog = builder.create()
                 dialog.show()

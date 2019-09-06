@@ -44,4 +44,9 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
         viewPager.adapter = viewPagerAapter
         viewPager.setAdapter(viewPagerAapter)
     }
+
+    override fun closeApp() {
+        finishAffinity()
+    }
+
 }

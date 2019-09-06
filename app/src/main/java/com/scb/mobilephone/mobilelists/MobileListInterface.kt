@@ -7,6 +7,7 @@ interface MobileListInterface {
         fun showLoading()
         fun hideLoading()
         fun showAllMobiles(mobiles: ArrayList<Mobiles>)
+        fun closeApp()
     }
 
     interface MobileListPresenter {

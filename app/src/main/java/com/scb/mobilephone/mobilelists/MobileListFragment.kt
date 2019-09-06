@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.fragment_list.*
 
 
 class MobileListFragment : Fragment(), MobileListInterface.MobileListView, SortInterface.SortToView, DatabaseInterface.DatabaseListener {
+    override fun closeApp() {
+        activity?.finishAffinity()
+    }
     override fun updateFavorite() {
         databasePresenter.getAllFavorite()
     }
