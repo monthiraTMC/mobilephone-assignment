@@ -6,11 +6,16 @@ interface MobileListInterface {
     interface MobileListView {
         fun showLoading()
         fun hideLoading()
-        fun showAllMobiles(mobiles: ArrayList<Mobiles>)
+        fun getAllMobiles(mobiles: ArrayList<Mobiles>)
         fun showDialog()
+        fun showToastMessage(message:String)
+        fun notifyFavoriteChange(list: ArrayList<Mobiles>)
     }
 
     interface MobileListPresenter {
         fun getApiMobileList()
+        fun showAllMobile(list: ArrayList<Mobiles>)
+        fun getFavorite(list: ArrayList<Mobiles>)
+        fun getSortType(sortType:String)
     }
 }

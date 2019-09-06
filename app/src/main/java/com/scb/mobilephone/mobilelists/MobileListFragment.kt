@@ -27,7 +27,15 @@ import kotlinx.android.synthetic.main.fragment_mobilelist.*
 
 
 class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
-    SortInterface.SortToView, DatabaseInterface.DatabaseListener {
+    SortInterface.SortToView, DatabaseInterface.DatabaseListener{
+
+    override fun notifyFavoriteChange(list: ArrayList<Mobiles>) {
+        mobileListAdapter.mFavoriteArray = list
+        rvMobileList.post {
+            mobileListAdapter.notifyDataSetChanged()
+        }
+    }
+
     override fun showDialog() {
         val builder = AlertDialog.Builder(context!!)
         builder.let {
@@ -53,25 +61,18 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
     }
 
     override fun getDBFavorite(list: ArrayList<Mobiles>) {
-        this.mFavoriteArray = list
-        mobileListAdapter.mFavoriteArray = mFavoriteArray
-        rvMobileList.post {
-            mobileListAdapter.notifyDataSetChanged()
-        }
+        mobileListPresenter.getFavorite(list)
     }
 
-    override fun showAllMobiles(mobiles: ArrayList<Mobiles>) {
-        mMobileArray = mobiles
-        sortPresenter.sortMobileList(mSortType, mMobileArray)
+    override fun getAllMobiles(mobiles: ArrayList<Mobiles>) {
+        mobileListPresenter.showAllMobile(mobiles)
     }
 
     override fun getSortType(sortType: String) {
-        mSortType = sortType
-        sortPresenter.sortMobileList(mSortType, mMobileArray)
+        mobileListPresenter.getSortType(sortType)
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
-        mobileListAdapter.mFavoriteArray = mFavoriteArray
         mobileListAdapter.mMobileArray = list
         mobileListAdapter.notifyDataSetChanged()
     }
@@ -115,7 +116,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
         }
 
         sortPresenter = SortList(this)
-        mobileListPresenter = MobileListPresenter(this, this)
+        mobileListPresenter = MobileListPresenter(this, sortPresenter)
         databasePresenter.setupDatabase()
         databasePresenter.getAllFavorite()
         mobileListPresenter.getApiMobileList()
@@ -135,14 +136,12 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
     }
 
     private lateinit var rvMobileList: RecyclerView
-    private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private lateinit var mobileListAdapter: ListAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private lateinit var mThread: CMWorkerThread
     private lateinit var mobileListPresenter: MobileListInterface.MobileListPresenter
     private lateinit var sortPresenter: SortInterface.SortPresenter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
-    private var mSortType = "none"
+
 }
 
