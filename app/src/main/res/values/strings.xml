@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">MobilePhone</string>
-    <string name="tab_text_1">Mobile list</string>
-    <string name="tab_text_2">Favorite list</string>
     <string-array name="sort_item">
         <item>Price low to high</item>
         <item>Price high to low</item>

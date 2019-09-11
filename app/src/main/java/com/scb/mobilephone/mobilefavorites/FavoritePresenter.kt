@@ -4,7 +4,7 @@ import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.model.Mobiles
 
-class FavoritePresenter(private val view: SortInterface.SortToView): FavoriteInterface.FavoritePresenter {
+class FavoritePresenter(view: SortInterface.SortToView): FavoriteInterface.FavoritePresenter {
     override fun getType(sortType: String) {
         this.mSortType = sortType
         sortPresenter.sortMobileList(mSortType, mFavoriteArray)

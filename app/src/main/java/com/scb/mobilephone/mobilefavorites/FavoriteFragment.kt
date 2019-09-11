@@ -16,7 +16,6 @@ import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.CMWorkerThread
 import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
 import com.scb.mobilephone.helper.SortInterface
-import com.scb.mobilephone.helper.SortList
 import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.model.Mobiles
 
