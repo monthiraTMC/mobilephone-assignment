@@ -1,8 +1,6 @@
 package com.scb.mobilephone.mobiledetails
 
-import android.content.Context
 import android.util.Log
-import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.MobileDetail
 import retrofit2.Call
