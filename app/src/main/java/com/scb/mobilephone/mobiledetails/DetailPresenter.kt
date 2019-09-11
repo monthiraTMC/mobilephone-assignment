@@ -2,7 +2,6 @@ package com.scb.mobilephone.mobiledetails
 
 import android.content.Context
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.MobileDetail
@@ -10,7 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailPresenter(private val view: DetailInterface.DetailView, private var context: Context):
+class DetailPresenter(private val view: DetailInterface.DetailView):
     DetailInterface.DetailPresenter {
     private val mDetailArray : ArrayList<MobileDetail> = ArrayList()
     private var mImageArray: ArrayList<String> = arrayListOf()
@@ -22,18 +21,7 @@ class DetailPresenter(private val view: DetailInterface.DetailView, private var 
         call.enqueue(object : Callback<List<MobileDetail>> {
             override fun onFailure(call: Call<List<MobileDetail>>, t: Throwable) {
                 Log.d("MOBILE_IMAGE", t.message.toString())
-                val builder = AlertDialog.Builder(context)
-                builder.setTitle("Error")
-                builder.setMessage(" Cannot call API, Try again?")
-                builder.setPositiveButton("YES"){_, _->
-                    getDetail(mobile_id)
-                }
-
-                builder.setNegativeButton("NO"){_, _->
-                    view.closeApp()
-                }
-                val dialog: AlertDialog = builder.create()
-                dialog.show()
+                view.showDialog()
             }
 
             override fun onResponse(call: Call<List<MobileDetail>>, response: Response<List<MobileDetail>>) {
@@ -48,7 +36,7 @@ class DetailPresenter(private val view: DetailInterface.DetailView, private var 
                         mImageArray.add(i, url)
                     }
                     view.showImageDetail(mImageArray)
-                    context.showToast("Load image Successfully")
+                    view.showToastMessage("Load image Successfully")
                 }
             }
         })
