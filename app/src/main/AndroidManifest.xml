@@ -30,6 +30,7 @@
         <activity
                 android:parentActivityName=".main.MainActivity"
                 android:name=".mobiledetails.DetailActivity"/>
+
     </application>
 
 </manifest>

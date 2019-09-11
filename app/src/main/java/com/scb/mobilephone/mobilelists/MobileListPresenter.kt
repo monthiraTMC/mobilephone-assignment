@@ -1,15 +1,7 @@
 package com.scb.mobilephone.mobilelists
 
-import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.appcompat.app.AlertDialog
-import com.scb.mobilephone.database.DatabaseInterface
-import com.scb.mobilephone.extensions.MOBILE_LIST
-import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.helper.SortInterface
-import com.scb.mobilephone.helper.SortList
-import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
 import retrofit2.Call
@@ -26,7 +18,7 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
     }
 
     override fun getFavorite(list: ArrayList<Mobiles>) {
-        view.notifyFavoriteChange(list)
+        view.notifyFavoriteChanged(list)
     }
 
     override fun getSortType(sortType: String) {
@@ -55,11 +47,8 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
                     Log.d("mobile-feed", mReceiveArray.toString())
                     view.getAllMobiles(mReceiveArray)
                 }
-
             }
-
         })
-
     }
 
     private var mSortType = "none"

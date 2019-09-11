@@ -29,31 +29,11 @@ import kotlinx.android.synthetic.main.fragment_mobilelist.*
 class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
     SortInterface.SortToView, DatabaseInterface.DatabaseListener{
 
-    override fun notifyFavoriteChange(list: ArrayList<Mobiles>) {
+    override fun notifyFavoriteChanged(list: ArrayList<Mobiles>) {
         mobileListAdapter.mFavoriteArray = list
         rvMobileList.post {
             mobileListAdapter.notifyDataSetChanged()
         }
-    }
-
-    override fun showDialog() {
-        val builder = AlertDialog.Builder(context!!)
-        builder.let {
-            it.setTitle("Error")
-            it.setMessage(" Cannot call API, Try again?")
-            it.setPositiveButton("YES"){_, _->
-                mobileListPresenter.getApiMobileList()
-            }
-            it.setNegativeButton("NO"){_, _->
-                activity?.finishAffinity()
-            }
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    override fun showToastMessage(message: String) {
-        context?.showToast(message)
     }
 
     override fun updateFavorite() {
@@ -125,6 +105,26 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
             databasePresenter.getAllFavorite()
             mobileListPresenter.getApiMobileList()
         }
+    }
+
+    override fun showDialog() {
+        val builder = AlertDialog.Builder(context!!)
+        builder.let {
+            it.setTitle("Error")
+            it.setMessage(" Cannot call API, Try again?")
+            it.setPositiveButton("YES"){_, _->
+                mobileListPresenter.getApiMobileList()
+            }
+            it.setNegativeButton("NO"){_, _->
+                activity?.finishAffinity()
+            }
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    override fun showToastMessage(message: String) {
+        context?.showToast(message)
     }
 
     override fun showLoading() {

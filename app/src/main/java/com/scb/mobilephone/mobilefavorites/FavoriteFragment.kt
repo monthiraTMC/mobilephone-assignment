@@ -31,8 +31,7 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
     }
 
     override fun getDBFavorite(list: ArrayList<Mobiles>) {
-        this.mFavoriteArray = list
-        sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+        favoritePresenter.getFavorite(list)
     }
 
     override fun submitList(list: ArrayList<Mobiles>) {
@@ -43,8 +42,7 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
     }
 
     override fun getSortType(sortType: String) {
-        mSortType = sortType
-        sortPresenter.sortMobileList(mSortType, mFavoriteArray)
+       favoritePresenter.getType(sortType)
     }
 
     override fun onCreateView(
@@ -80,7 +78,7 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
             it.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
         }
 
-        sortPresenter = SortList(this)
+        favoritePresenter = FavoritePresenter(this)
         databasePresenter.setupDatabase()
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
@@ -88,11 +86,9 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
         itemTouchHelper.attachToRecyclerView(rvFavoriteList)
     }
 
-    private var mSortType = "none"
+    private lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
     private lateinit var rvFavoriteList: RecyclerView
-    private var mFavoriteArray: ArrayList<Mobiles> = ArrayList()
     private lateinit var mThread: CMWorkerThread
-    private lateinit var sortPresenter: SortInterface.SortPresenter
     private lateinit var mFavoriteAdapter: FavoriteAdapter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
 }

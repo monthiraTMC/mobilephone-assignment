@@ -9,7 +9,7 @@ interface MobileListInterface {
         fun getAllMobiles(mobiles: ArrayList<Mobiles>)
         fun showDialog()
         fun showToastMessage(message:String)
-        fun notifyFavoriteChange(list: ArrayList<Mobiles>)
+        fun notifyFavoriteChanged(list: ArrayList<Mobiles>)
     }
 
     interface MobileListPresenter {
