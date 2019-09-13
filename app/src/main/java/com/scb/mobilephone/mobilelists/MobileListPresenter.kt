@@ -28,7 +28,7 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
 
     override fun getApiMobileList() {
         view.showLoading()
-        var mReceiveArray = arrayListOf<Mobiles>()
+        val mReceiveArray = arrayListOf<Mobiles>()
         val call = ApiInterface.getClient().getMobileList()
 
         call.enqueue(
