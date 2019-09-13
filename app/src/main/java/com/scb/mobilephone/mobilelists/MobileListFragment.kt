@@ -31,7 +31,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
 
     override fun notifyFavoriteChanged(list: ArrayList<Mobiles>) {
         mobileListAdapter.mFavoriteArray = list
-        rvMobileList.post {
+        recyclerViewList.post {
             mobileListAdapter.notifyDataSetChanged()
         }
     }
@@ -66,11 +66,9 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvMobileList = view.findViewById(R.id.recyclerViewList)
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
         mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
         databasePresenter = DatabasePresenter(this, context!!, mThread)
-        mobileListAdapter = ListAdapter(context!!, object : ListAdapter.MobileListListener {
+        mobileListAdapter = MobileListAdapter(context!!, object : MobileListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
                 val intent = Intent(context, DetailActivity::class.java)
                 intent.putExtra(MOBILE_LIST, item)
@@ -87,7 +85,7 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
 
         })
 
-        rvMobileList.let {
+        recyclerViewList?.let {
             it.adapter = mobileListAdapter
             it.layoutManager = LinearLayoutManager(context)
             it.itemAnimator = DefaultItemAnimator()
@@ -97,12 +95,19 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
 
         sortPresenter = SortList(this)
         mobileListPresenter = MobileListPresenter(this, sortPresenter)
-        databasePresenter.setupDatabase()
-        databasePresenter.getAllFavorite()
+
+        databasePresenter.let {
+            it.setupDatabase()
+            it.getAllFavorite()
+        }
+
         mobileListPresenter.getApiMobileList()
+
         swipeRefresh.setOnRefreshListener {
-            databasePresenter.setupDatabase()
-            databasePresenter.getAllFavorite()
+            databasePresenter.let {
+                it.setupDatabase()
+                it.getAllFavorite()
+            }
             mobileListPresenter.getApiMobileList()
         }
     }
@@ -128,16 +133,14 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
     }
 
     override fun showLoading() {
-        swipeRefreshLayout.setRefreshing(true)
+        swipeRefresh.setRefreshing(true)
     }
 
     override fun hideLoading() {
-        swipeRefreshLayout.setRefreshing(false)
+        swipeRefresh.setRefreshing(false)
     }
 
-    private lateinit var rvMobileList: RecyclerView
-    private lateinit var mobileListAdapter: ListAdapter
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var mobileListAdapter: MobileListAdapter
     private lateinit var mThread: CMWorkerThread
     private lateinit var mobileListPresenter: MobileListInterface.MobileListPresenter
     private lateinit var sortPresenter: SortInterface.SortPresenter

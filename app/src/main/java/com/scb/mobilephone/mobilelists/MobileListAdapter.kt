@@ -11,7 +11,7 @@ import com.scb.mobilephone.R
 import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.item_list.view.*
 
-class ListAdapter(val context: Context, private val listener: MobileListListener): RecyclerView.Adapter<ListHolder>() {
+class MobileListAdapter(val context: Context, private val listener: MobileListListener): RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteArray: List<Mobiles> = listOf()
     private var clickFav = false

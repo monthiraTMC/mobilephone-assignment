@@ -17,24 +17,14 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         sectionsPagerAdapter = SectionsPagerAdapter( supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.view_pager)
-        viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        tabs.setupWithViewPager(viewPager)
+        view_pager.adapter = sectionsPagerAdapter
+        tabs.setupWithViewPager(view_pager)
+
         btnSort.setOnClickListener {
-            val mBuilder = AlertDialog.Builder(this)
-            val listItems = this.getResources().getStringArray(R.array.sort_item)
-            mBuilder.setSingleChoiceItems(listItems, checkedItem) { dialogInterface, i ->
-                val sortType = listItems[i]
-                checkedItem = i
-                sectionsPagerAdapter.getSortType(sortType)
-                this.showToast(listItems[i].toString())
-                dialogInterface.dismiss()
-            }
-            val mDialog = mBuilder.create()
-            mDialog.show()
+            showDialog()
         }
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+
+        view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
             override fun onPageSelected(position: Int) {
@@ -42,6 +32,20 @@ class MainActivity : AppCompatActivity(){
             }
         })
 
+    }
+
+    private fun showDialog() {
+        val mBuilder = AlertDialog.Builder(this)
+        val listItems = this.getResources().getStringArray(R.array.sort_item)
+        mBuilder.setSingleChoiceItems(listItems, checkedItem) { dialogInterface, i ->
+            val sortType = listItems[i]
+            checkedItem = i
+            sectionsPagerAdapter.getSortType(sortType)
+            this.showToast(listItems[i].toString())
+            dialogInterface.dismiss()
+        }
+        val mDialog = mBuilder.create()
+        mDialog.show()
     }
 }
 

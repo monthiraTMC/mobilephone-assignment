@@ -1,6 +1,5 @@
 package com.scb.mobilephone.mobilelists
 
-import android.util.Log
 import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.Mobiles
@@ -28,23 +27,20 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
 
     override fun getApiMobileList() {
         view.showLoading()
-        mReceiveArray.clear()
+        var mReceiveArray = arrayListOf<Mobiles>()
         val call = ApiInterface.getClient().getMobileList()
         call.enqueue(
             object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {
-                Log.d("getApi", t.message.toString())
                 view.hideLoading()
                 view.showDialog()
             }
 
             override fun onResponse(call: Call<List<Mobiles>>, response: Response<List<Mobiles>>) {
-                Log.d("mobile-feed", response.toString())
                 if (response.isSuccessful) {
                     view.hideLoading()
                     view.showToastMessage("Successfully")
                     mReceiveArray.addAll(response.body()!!)
-                    Log.d("mobile-feed", mReceiveArray.toString())
                     view.getAllMobiles(mReceiveArray)
                 }
             }
@@ -53,6 +49,4 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
 
     private var mSortType = "none"
     private var mMobileArray: ArrayList<Mobiles> = ArrayList()
-    private var mReceiveArray: ArrayList<Mobiles> = ArrayList()
-
 }
