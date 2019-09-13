@@ -5,7 +5,6 @@ import android.util.DisplayMetrics
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.MOBILE_LIST
 import com.scb.mobilephone.extensions.showToast
@@ -13,9 +12,11 @@ import com.scb.mobilephone.model.Mobiles
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
+
     override fun showToastMessage(message: String) {
         this.showToast(message)
     }
+
     override fun showDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Error")
@@ -34,7 +35,7 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        viewPager = findViewById(R.id.imageViewPager)
+
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         width = displayMetrics.widthPixels
@@ -50,15 +51,13 @@ class DetailActivity : AppCompatActivity(), DetailInterface.DetailView {
     }
 
     override fun showImageDetail(imageURL: ArrayList<String>) {
-        viewPagerAapter = ViewPagerAdapter(this, imageURL, width, height)
+        val viewPagerAapter = ViewPagerAdapter(this, imageURL, width, height)
         val params = LinearLayout.LayoutParams(width, height)
-        viewPager.setLayoutParams(params)
-        viewPager.adapter = viewPagerAapter
-        viewPager.setAdapter(viewPagerAapter)
+        imageViewPager.setLayoutParams(params)
+        imageViewPager.adapter = viewPagerAapter
+        imageViewPager.setAdapter(viewPagerAapter)
     }
 
-    private lateinit var viewPager: ViewPager
-    private lateinit var viewPagerAapter: ViewPagerAdapter
     private lateinit var mPresenterDetail: DetailInterface.DetailPresenter
     private var width: Int = 0
     private var height: Int = 0

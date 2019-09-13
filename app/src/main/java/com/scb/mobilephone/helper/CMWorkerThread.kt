@@ -4,7 +4,9 @@ import android.os.Handler
 import android.os.HandlerThread
 
 class CMWorkerThread(threadName: String) : HandlerThread(threadName) {
+
     private lateinit var mWorkerHandler: Handler
+
     override fun onLooperPrepared() {
         super.onLooperPrepared()
         mWorkerHandler = Handler(looper)

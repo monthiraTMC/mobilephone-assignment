@@ -14,8 +14,10 @@ interface SortInterface {
     }
 }
 class SortList(private val view: SortInterface.SortToView): SortInterface.SortPresenter {
+
     private var mSortArray: ArrayList<Mobiles> = ArrayList()
     private var _mobiles: List<Mobiles> = listOf()
+
     override fun sortMobileList(sortType: String, list: ArrayList<Mobiles>) {
         _mobiles = list
         mSortArray.clear()
