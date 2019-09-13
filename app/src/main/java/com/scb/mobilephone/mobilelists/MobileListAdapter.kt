@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.item_list.view.*
 class MobileListAdapter(val context: Context, private val listener: MobileListListener): RecyclerView.Adapter<ListHolder>() {
     var mMobileArray: ArrayList<Mobiles> = ArrayList()
     var mFavoriteArray: List<Mobiles> = listOf()
-    private var clickFav = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_list, parent, false)
@@ -27,6 +26,7 @@ class MobileListAdapter(val context: Context, private val listener: MobileListLi
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListHolder, position: Int) {
+        var clickFav = false
         val item = mMobileArray[position]
         holder.mTitle.text = item.name
         holder.mDescription.text = item.description

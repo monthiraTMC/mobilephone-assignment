@@ -11,9 +11,10 @@ import retrofit2.Response
 class MobileListPresenter(private val view: MobileListInterface.MobileListView,
                           private val sortPresenter: SortInterface.SortPresenter) :
     MobileListInterface.MobileListPresenter {
+
     override fun showAllMobile(list: ArrayList<Mobiles>) {
         this.mMobileArray = list
-        sortPresenter.sortMobileList(mSortType, list)
+        sortPresenter.sortMobileList(mSortType, mMobileArray)
     }
 
     override fun getFavorite(list: ArrayList<Mobiles>) {
@@ -29,6 +30,7 @@ class MobileListPresenter(private val view: MobileListInterface.MobileListView,
         view.showLoading()
         var mReceiveArray = arrayListOf<Mobiles>()
         val call = ApiInterface.getClient().getMobileList()
+
         call.enqueue(
             object : Callback<List<Mobiles>> {
             override fun onFailure(call: Call<List<Mobiles>>, t: Throwable) {

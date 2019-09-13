@@ -18,9 +18,11 @@ import com.scb.mobilephone.helper.CustomItemTouchHelperCallback
 import com.scb.mobilephone.helper.SortInterface
 import com.scb.mobilephone.mobiledetails.DetailActivity
 import com.scb.mobilephone.model.Mobiles
+import kotlinx.android.synthetic.main.fragment_favorites.*
 
 class FavoriteFragment : Fragment(), SortInterface.SortToView,
     DatabaseInterface.DatabaseListener {
+
     override fun showToastMessage(message: String) {
         context?.showToast(message)
     }
@@ -53,8 +55,9 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvFavoriteList = view.findViewById(R.id.recyclerViewFavorite)
-        mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
+
+        val mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
+
         databasePresenter = DatabasePresenter(this, context!!, mThread)
         mFavoriteAdapter = FavoriteAdapter(context!!, object : FavoriteAdapter.FavoriteListener {
             override fun gotoDetailPage(item: Mobiles) {
@@ -69,7 +72,7 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
             }
 
         })
-        rvFavoriteList.let {
+        recyclerViewFavorite.let {
             it.adapter = mFavoriteAdapter
             it.layoutManager = LinearLayoutManager(context)
             it.itemAnimator = DefaultItemAnimator()
@@ -82,12 +85,10 @@ class FavoriteFragment : Fragment(), SortInterface.SortToView,
 
         val callback = CustomItemTouchHelperCallback(mFavoriteAdapter)
         val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(rvFavoriteList)
+        itemTouchHelper.attachToRecyclerView(recyclerViewFavorite)
     }
 
     private lateinit var favoritePresenter: FavoriteInterface.FavoritePresenter
-    private lateinit var rvFavoriteList: RecyclerView
-    private lateinit var mThread: CMWorkerThread
     private lateinit var mFavoriteAdapter: FavoriteAdapter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter
 }

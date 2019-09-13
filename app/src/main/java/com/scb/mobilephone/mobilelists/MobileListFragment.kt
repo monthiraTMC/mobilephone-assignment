@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.database.DatabaseInterface
 import com.scb.mobilephone.database.DatabasePresenter
@@ -66,8 +64,9 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
+        val mThread = CMWorkerThread(THREAD_NAME).also { it.start() }
         databasePresenter = DatabasePresenter(this, context!!, mThread)
+
         mobileListAdapter = MobileListAdapter(context!!, object : MobileListAdapter.MobileListListener {
             override fun gotoDetailPage(item: Mobiles) {
                 val intent = Intent(context, DetailActivity::class.java)
@@ -141,7 +140,6 @@ class MobileListFragment : Fragment(), MobileListInterface.MobileListView,
     }
 
     private lateinit var mobileListAdapter: MobileListAdapter
-    private lateinit var mThread: CMWorkerThread
     private lateinit var mobileListPresenter: MobileListInterface.MobileListPresenter
     private lateinit var sortPresenter: SortInterface.SortPresenter
     private lateinit var databasePresenter: DatabaseInterface.DatabasePresenter

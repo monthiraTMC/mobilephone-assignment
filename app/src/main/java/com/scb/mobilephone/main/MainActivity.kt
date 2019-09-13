@@ -4,18 +4,20 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.scb.mobilephone.R
 import com.scb.mobilephone.extensions.showToast
 import com.scb.mobilephone.ui.main.SectionsPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
+
     private var checkedItem = -1
     lateinit var sectionsPagerAdapter: SectionsPagerAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         sectionsPagerAdapter = SectionsPagerAdapter( supportFragmentManager)
         view_pager.adapter = sectionsPagerAdapter
         tabs.setupWithViewPager(view_pager)
@@ -35,8 +37,10 @@ class MainActivity : AppCompatActivity(){
     }
 
     private fun showDialog() {
+
         val mBuilder = AlertDialog.Builder(this)
         val listItems = this.getResources().getStringArray(R.array.sort_item)
+
         mBuilder.setSingleChoiceItems(listItems, checkedItem) { dialogInterface, i ->
             val sortType = listItems[i]
             checkedItem = i
