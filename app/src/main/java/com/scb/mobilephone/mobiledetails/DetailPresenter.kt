@@ -1,6 +1,5 @@
 package com.scb.mobilephone.mobiledetails
 
-import android.util.Log
 import com.scb.mobilephone.model.ApiInterface
 import com.scb.mobilephone.model.MobileDetail
 import retrofit2.Call
@@ -15,15 +14,12 @@ class DetailPresenter(private val view: DetailInterface.DetailView):
     override fun getDetail(mobile_id:Int) {
         val call = mobile_id.let { ApiInterface.getClient().getImage(it.toString()) }
         //check request
-        Log.d("MOBILE_IMAGE", call.request().url().toString())
         call.enqueue(object : Callback<List<MobileDetail>> {
             override fun onFailure(call: Call<List<MobileDetail>>, t: Throwable) {
-                Log.d("MOBILE_IMAGE", t.message.toString())
                 view.showDialog()
             }
 
             override fun onResponse(call: Call<List<MobileDetail>>, response: Response<List<MobileDetail>>) {
-                Log.d("MOBILE_IMAGE", response.body().toString())
                 if (response.isSuccessful) {
                     mDetailArray.clear()
                     mDetailArray.addAll(response.body()!!)
